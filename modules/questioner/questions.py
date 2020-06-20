@@ -149,7 +149,7 @@ def question_manager(self):
         inquirer.List(
             'root_id',
             message=self.trad('Select root partition'),
-            choices=partition_list_updater,
+            choices=lambda user: partition_list_updater(self, user),
             carousel=True,
             ignore=lambda user:
                 user['drive'] is not None or self.partition_list is None),
@@ -158,7 +158,7 @@ def question_manager(self):
         inquirer.List(
             'swap_id',
             message=self.trad('Select swap partition'),
-            choices=partition_list_updater,
+            choices=lambda user: partition_list_updater(self, user),
             carousel=True,
             ignore=lambda user:
                 user['drive'] is not None
@@ -168,7 +168,7 @@ def question_manager(self):
         inquirer.List(
             'home_id',
             message=self.trad('Select home partition'),
-            choices=partition_list_updater,
+            choices=lambda user: partition_list_updater(self, user),
             carousel=True,
             ignore=lambda user:
                 user['drive'] is not None
@@ -187,38 +187,44 @@ def question_manager(self):
         inquirer.Text(
             'timezone',
             message=self.trad('Enter desired timezone'),
-            validate=timezone_validator,
+            validate=lambda user,response:
+                timezone_validator(self, user, response),
             ignore=lambda user: user['timezone'] is not None),
 
         # Language code
         inquirer.Text(
             'language',
             message=self.trad('Enter language code'),
-            validate=language_validator),
+            validate=lambda user,response:
+                language_validator(self, user, response)),
 
         # Hostname
         inquirer.Text(
             'hostname',
             message=self.trad('Enter hostname'),
-            validate=hostname_validator),
+            validate=lambda user,response:
+                hostname_validator(self, user, response)),
 
         # Root passwd
         inquirer.Password(
             'root_passwd',
             message=self.trad('Enter password for root'),
-            validate=passwd_validator),
+            validate=lambda user,response:
+                passwd_validator(self, user, response)),
 
         # Username
         inquirer.Text(
             'username',
             message=self.trad('Enter username'),
-            validate=username_validator),
+            validate=lambda user,response:
+                username_validator(self, user, response)),
 
         # User passwd
         inquirer.Password(
             'user_passwd',
             message=self.trad('Enter password for user {username}'),
-            validate=passwd_validator),
+            validate=lambda user,response:
+                passwd_validator(self, user, response)),
 
         # Kernel
         inquirer.List(
@@ -248,7 +254,7 @@ def question_manager(self):
         # Desktop extras
         inquirer.Confirm(
             'desktop_extra',
-            message=desktop_extra_assigner,
+            message=lambda user: desktop_extra_assigner(self, user),
             ignore=lambda user:
                 user['desktop'] is None
                 or user['desktop'] not in [0, 1, 2, 3, 4]),
