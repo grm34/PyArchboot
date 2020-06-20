@@ -23,7 +23,7 @@ from inquirer.themes import load_theme_from_dict
 from modules.app import banner, helper, logger, traductor
 from modules.questioner.questions import question_manager
 from modules.system import get_settings
-from modules.unix_command import api_json_ouput, command_output, load_json_file
+from modules.unix_command import command_output, load_json_file
 
 
 class PyArchboot(object):

@@ -29,20 +29,20 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
     """Subprocess Popen with console output.
 
     Arguments:
-        cmd {string} -- string of a shell command
+        cmd -- String containing the shell command to run
 
     Keyword Arguments:
-        args {array} -- list of arguments to pipe (default: {None}),
-        exit_on_error {bool} -- exit on exception (default: {False})
+        args -- Array of the arguments to pipe (default: {None}),
+        exit_on_error {boolean} -- Exit on exception (default: {False})
 
     Modules:
-        subprocess -- connect to input/output/error pipes, and obtain return,
-        shlex -- analyzer class for simple shell-like syntaxes,
-        logging -- logging package for python,
-        sys -- access to some objects used or maintained by the interpreter
+        subprocess -- Connect to input/output/error pipes and obtain return,
+        shlex -- Analyzer class for simple shell-like syntaxes,
+        logging -- Event logging system for applications and libraries,
+        sys -- Access to some objects used or maintained by the interpreter
 
     Returns:
-        output -- run command and print output to console
+        output -- Run command and print the output to console
     """
     try:
         if args is not None:
@@ -80,20 +80,20 @@ def command_output(cmd, exit_on_error=False, error=None, timeout=None):
     """Subprocess check_output with return codes.
 
     Arguments:
-        cmd {string} -- of a shell command
+        cmd -- String containing the shell command to run
 
     Keyword Arguments:
-        exit_on_error {bool} -- exit on exception (default: {False}),
-        error {string} -- set custom error message (default: {None}),
-        timeout {int} -- set timeout expired exception (default: {None})
+        exit_on_error {boolean} -- Exit on exception (default: {False}),
+        error -- String to set custom error message (default: {None}),
+        timeout -- Integer to set timeout expired exception (default: {None})
 
     Modules:
-        subprocess -- connect to input/output/error pipes, and obtain return,
-        logging -- logging package for python,
-        sys -- access to some objects used or maintained by the interpreter
+        subprocess -- Connect to input/output/error pipes and obtain return,
+        logging -- Event logging system for applications and libraries,
+        sys -- Access to some objects used or maintained by the interpreter
 
     Returns:
-        output -- run command and return its output
+        output -- Run command and return its output
     """
     try:
         output = check_output(cmd, shell=True, encoding='utf-8',
@@ -118,15 +118,15 @@ def api_json_ouput(url, exit_on_error=False, error=None, timeout=None):
     """JSON API url parser.
 
     Arguments:
-        url {string} -- url of the API to call
+        url -- String containing the url to parse
 
     Keyword Arguments:
-        exit_on_error {bool} -- exit on exception (default: {False}),
-        error {string} -- custom error message (default: {None}),
-        timeout {int} -- set timeout expired exception (default: {None})
+        exit_on_error {boolean} -- Exit on exception (default: {False}),
+        error -- String to set custom error message (default: {None}),
+        timeout -- Integer to set timeout expired exception (default: {None})
 
     Returns:
-        output -- json dictionary
+        output -- Dictionary containing the json output
     """
     try:
         output = get(url, timeout=timeout).json()
@@ -146,14 +146,15 @@ def load_json_file(file):
     """JSON file parser.
 
     Arguments:
-        file {string} -- desired file from json folder
+        file -- String containing the desired file to parse
+                (should be in json folder)
 
     Modules:
         json -- JavaScript syntax data interchange format,
-        os -- export all functions from posix
+        os -- Export all functions from posix
 
     Returns:
-        output -- json dictionary
+        output -- Dictionary containing the json file
     """
     with open('{path}/json/{file}'.format(
             path=os.getcwd(), file=file), 'r', encoding='utf-8') as output:

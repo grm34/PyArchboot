@@ -20,7 +20,7 @@ def partition_list_updater(self, user):
     """Delete previous partition to display an updated array after selection.
 
     Arguments:
-        user -- Dictionary containing the answers of the user
+        user -- Dictionary containing user's answers
 
     Returns:
         partition_list -- Array of the remaining partitions
@@ -37,7 +37,7 @@ def desktop_extra_assigner(self, user):
     """Assign the extra packages name of the selected desktop.
 
     Arguments:
-        user -- Dictionary containing the answers of the user
+        user -- Dictionary containing user's answers
 
     Returns:
         desktop_choice -- String containing the question for the desktop

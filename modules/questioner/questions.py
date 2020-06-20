@@ -28,8 +28,21 @@ def question_manager(self):
     Modules:
         inquirer -- Common interactive command line user interfaces
 
+    Submodules:
+        desktop_extra_assigner -- Assign the extra packages name of the
+                                  selected desktop,
+        partition_list_updater -- Delete previous partition to display an
+                                  updated array after selection,
+        hostname_validator -- Match UNIX hostname regex,
+        language_validator -- Match language code in libraries/locale,
+        passwd_validator -- Match UNIX password regex,
+        size_validator -- Match regex, current partition min/max size and
+                          remaining disk space,
+        timezone_validator -- Match timezone code in libraries/timezone,
+        username_validator -- Match UNIX username regex
+
     Returns:
-        questions -- Dictionary containing the answers of the user
+        questions -- Dictionary containing user's answers
     """
     self.logging.info(self.trad('use arrow keys to select an option'))
     self.logging.warning(self.trad('all data will be lost !'))

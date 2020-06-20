@@ -51,17 +51,18 @@ def logger(self):
     Writes to logs/PyArchboot.log and display output to terminal.
 
     Modules:
-        logging -- logging package for python,
-        coloredlogs -- colored terminal output
+        os -- Export all functions from posix
+        logging -- Event logging system for applications and libraries,
+        coloredlogs -- Colored terminal output
 
     SubModules:
-        command_output -- get the output of a shell command
+        command_output -- Get the output of a shell command
 
     Requirements:
         Update the system clock before creating the logger
 
     Returns:
-        logging {object} -- application logger
+        logging -- application object logger
     """
     set_time = command_output('/usr/bin/timedatectl set-ntp true', timeout=1)
 
@@ -95,14 +96,14 @@ def helper(self):
     """Argument handler for parsing command line strings.
 
     Modules:
-        argparse -- optparse-inspired command-line parsing library,
+        argparse -- Optparse-inspired command-line parsing library,
         termcolor -- ANSII Color formatting for output in terminal
 
     Options:
-        -h, --help -- display usage and exit,
-        -l, --lang -- installer language selection,
-        -k, --key  -- keyboard layout selection,
-        -f, --file -- install additional packages from file
+        -h, --help -- Display usage and exit,
+        -l, --lang -- Installer language selection,
+        -k, --key  -- Keyboard layout selection,
+        -f, --file -- Install additional packages from file
 
     Returns:
         args {tuple} -- command line options from sys.argv
@@ -117,13 +118,13 @@ def helper(self):
 
     parser.add_argument('-l', '--lang', nargs=1,
                         choices=['de', 'en', 'es', 'fr', 'ru'],
-                        help='installer language selection')
+                        help='Installer language selection')
 
     parser.add_argument('-k', '--key', nargs=1,
-                        help='keyboard layout selection')
+                        help='Keyboard layout selection')
 
     # parser.add_argument('-f', '--file', nargs=1,
-    #                     help='install additional packages from file')
+    #                     help='Install additional packages from file')
 
     args = parser.parse_args()
     return args
@@ -133,13 +134,13 @@ def traductor(lang):
     """Interface to the GNU gettext message catalog library.
 
     Arguments:
-        lang {string} -- desired language
+        lang -- String containing application language
 
     Modules:
-        gettext -- internationalization and localization support
+        gettext -- Internationalization and localization support
 
     Returns:
-        trad {function} -- translate string
+        trad -- Function to translate string
     """
     language = gettext.translation('PyArchboot', localedir='locales',
                                    languages=['{lang}'.format(lang=lang)])

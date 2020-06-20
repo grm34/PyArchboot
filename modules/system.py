@@ -14,7 +14,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import json
 import os
 import re
 from shlex import quote
@@ -23,10 +22,21 @@ from .unix_command import command_output, api_json_ouput
 
 
 class get_settings:
-    """Get required user settings."""
+    """Class to get user's system settings."""
 
     def drive(self, trad):
-        """Get available drives."""
+        """Get user's available drives.
+
+        Arguments:
+            trad -- Function to translate string
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- Array containing the available drives plus an option
+                      to select already formatted partitions
+        """
         cmd = 'lsblk -I 8 -d -p -o NAME,SIZE,MODEL | grep -v NAME'
         output = command_output(cmd, exit_on_error=True)
         if output is not False:
@@ -36,7 +46,14 @@ class get_settings:
         return output
 
     def partition(self):
-        """Get available partitions."""
+        """Get user's available partitions.
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- Array containing the available partitions
+        """
         cmd = 'lsblk -p -l -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL'
         pipe = 'grep part | sed "s/part //g"'
         cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
@@ -47,7 +64,17 @@ class get_settings:
         return output
 
     def processor(self):
-        """Get the processor."""
+        """Get user's processor.
+
+        Modules:
+            re -- Regular expression matching operations
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- String containing the processor model name
+        """
         cmd = 'cat /proc/cpuinfo | grep "model name" | uniq'
         output = command_output(cmd, exit_on_error=True)
         if output is not False:
@@ -57,7 +84,14 @@ class get_settings:
         return output
 
     def vga_controller(self):
-        """Get available VGA controllers."""
+        """Get user's available VGA controllers.
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- Array containing the available VGA controllers
+        """
         cmd = 'lspci | grep -e VGA -e 3D'
         pipe = 'sed "s/.*: //g" | sed "s/Graphics Controller //g"'
         cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
@@ -68,7 +102,21 @@ class get_settings:
         return output
 
     def filesystem(self, trad, arg):
-        """Check for ntfs - lvm - luks."""
+        """Check if a filesystem is used by a volume or a partition.
+
+        Used to check if user as ntfs, lvm or encrypted volumes to get thoses
+        volumes supported by the system (by installing the required packages)
+
+        Arguments:
+            trad -- Function to translate string,
+            arg -- String containing the filesystem to check
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- Boolean (True or False)
+        """
         msg_error = trad('No existing {arg} volume detected'.format(arg=arg))
         output = command_output('lsblk -f | grep {arg}'
                                 .format(arg=arg, error=msg_error))
@@ -78,7 +126,14 @@ class get_settings:
         return output
 
     def firmware(self):
-        """Get the system firmware."""
+        """Get user's system firmware.
+
+        Modules:
+            os -- Export all functions from posix
+
+        Returns:
+            efi, firmware -- Strings containing system firmware type
+        """
         if os.path.isdir('/sys/firmware/efi/efivars'):
             firmware = 'uefi'
             if '64' in open('/sys/firmware/efi/fw_platform_size').read():
@@ -92,14 +147,34 @@ class get_settings:
         return efi, firmware
 
     def ipinfo(self):
-        """Get user IP adress data."""
+        """Get user's IP address data.
+
+        Submodules:
+            api_json_output -- JSON API url parser
+
+        Returns:
+            output -- Dictionary containing IP address data
+        """
         output = api_json_ouput('https://ipinfo.io?token=26d03faada92e8',
                                 exit_on_error=True,
                                 error='no internet connection !', timeout=2)
         return output
 
     def mirrorlist(self, country):
-        """Get user country mirrorlist."""
+        """Get user's fastest mirrors (corresponding to country).
+
+        Arguments:
+            country -- String containing user's country
+
+        Modules:
+            shlex.quote -- Return a shell-escaped version of the string
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- String containing the list of the mirrors
+        """
         url_base = 'https://www.archlinux.org/mirrorlist/'
         url_args = 'country={code}&use_mirror_status=on'.format(code=country)
         url = '{base}?{args}'.format(base=url_base, args=url_args)
