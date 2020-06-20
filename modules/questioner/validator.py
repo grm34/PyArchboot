@@ -22,7 +22,18 @@ from inquirer.errors import ValidationError
 
 
 def size_counter(user):
-    """Calculate disk space usage."""
+    """Calculate disk space usage.
+
+    Arguments:
+        user -- Dictionary containing the answers of the user
+
+    Modules:
+        humanfriendly.parse_size -- Parse a human readable data size and
+                                    return the number of bytes
+
+    Returns:
+        counter -- Integer of the current disk space usage
+    """
     counter = 0
     size_list = ['boot_size', 'root_size', 'swap_size', 'home_size']
 
@@ -34,7 +45,14 @@ def size_counter(user):
 
 
 def size_index(user):
-    """Set partition index."""
+    """Set the index of the current partition.
+
+    Arguments:
+        user -- Dictionary containing the answers of the user
+
+    Returns:
+        index -- Integer of the current partition index
+    """
     index = 0
     if 'swap_size' in user:
         index = 3
@@ -47,7 +65,32 @@ def size_index(user):
 
 
 def size_validator(self, user, response):
-    """Validate partition sizes."""
+    """Validate partition sizes.
+
+    Match regex, current partition min/max size and remaining disk space.
+
+    Arguments:
+        user -- Dictionary containing the answers of the user,
+        response -- String containing current answer
+
+    Modules:
+        re -- regular expression matching operations,
+        humanfriendly.parse_size -- Parse a human readable data size and
+                                    return the number of bytes,
+        humanfriendly.format_size -- Format a byte count as a human readable
+                                     file size,
+        inquirer.errors -- Common base class for all non-exit exceptions
+
+    Functions:
+        size_counter -- Returns integer of the current disk space usage,
+        size_index -- Returns integer of the current partition index
+
+    Raises:
+        ValidationError: display a short description with available formats
+
+    Returns:
+        boolean -- True
+    """
     name = ['boot', 'root', 'swap', 'home']
     min_size = ['100M', '5G', '1G', '4G']
     max_size = ['2G', '16T', '32G', '16T']
@@ -76,7 +119,18 @@ def size_validator(self, user, response):
 
 
 def timezone_validator(self, user, response):
-    """Match timezone code in libraries/timezone."""
+    """Match timezone code in libraries/timezone.
+
+    Arguments:
+        user -- Dictionary containing the answers of the user,
+        response -- String containing current answer
+
+    Raises:
+        ValidationError: display a short description with available formats
+
+    Returns:
+        boolean -- True
+    """
     timezone_list = open(
         '{path}/libraries/timezone'.format(path=os.getcwd())).read()
 
@@ -91,9 +145,20 @@ def timezone_validator(self, user, response):
 
 
 def language_validator(self, user, response):
-    """Match language code in libraries/language."""
+    """Match language code in libraries/locale.
+
+    Arguments:
+        user -- Dictionary containing the answers of the user,
+        response -- String containing current answer
+
+    Raises:
+        ValidationError: display a short description with available formats
+
+    Returns:
+        boolean -- True
+    """
     language_list = open(
-        '{path}/libraries/language'.format(path=os.getcwd())).read()
+        '{path}/libraries/locale'.format(path=os.getcwd())).read()
 
     if ('{response}\n'.format(response=response) not in language_list) or \
             (response == ''):
@@ -106,7 +171,18 @@ def language_validator(self, user, response):
 
 
 def hostname_validator(self, user, response):
-    """Match UNIX hostname regex."""
+    """Match UNIX hostname regex.
+
+    Arguments:
+        user -- Dictionary containing the answers of the user,
+        response -- String containing current answer
+
+    Raises:
+        ValidationError: display a short description with available formats
+
+    Returns:
+        boolean -- True
+    """
     if not re.match(r'^[a-zA-Z0-9][-a-zA-Z0-9_]{1,31}$', response):
 
         raise ValidationError('', reason=self.trad(
@@ -117,7 +193,18 @@ def hostname_validator(self, user, response):
 
 
 def passwd_validator(self, user, response):
-    """Match UNIX password regex."""
+    """Match UNIX password regex.
+
+    Arguments:
+        user -- Dictionary containing the answers of the user,
+        response -- String containing current answer
+
+    Raises:
+        ValidationError: display a short description with available formats
+
+    Returns:
+        boolean -- True
+    """
     if not re.match(r'^(?=.*[A-Za-z])(?=.*\d)[\S]{8,}$', response):
 
         raise ValidationError('', reason=self.trad(
@@ -128,7 +215,18 @@ one letter and one digit !'))
 
 
 def username_validator(self, user, response):
-    """Match UNIX username regex."""
+    """Match UNIX username regex.
+
+    Arguments:
+        user -- Dictionary containing the answers of the user,
+        response -- String containing current answer
+
+    Raises:
+        ValidationError: display a short description with available formats
+
+    Returns:
+        boolean -- True
+    """
     if not re.match(r'^[a-z_]{1}[a-z0-9_-]{1,31}$', response):
 
         raise ValidationError('', reason=self.trad(

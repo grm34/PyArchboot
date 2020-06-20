@@ -17,10 +17,13 @@ limitations under the License.
 
 
 def partition_list_updater(self, user):
-    """Del selected partition to display an updated array after selection.
+    """Delete previous partition to display an updated array after selection.
+
+    Arguments:
+        user -- Dictionary containing the answers of the user
 
     Returns:
-        partition_list {array} -- remaining partitions
+        partition_list -- Array of the remaining partitions
     """
     for partition in ['boot_id', 'root_id', 'swap_id']:
         if (partition in user) and \
@@ -33,11 +36,15 @@ def partition_list_updater(self, user):
 def desktop_extra_assigner(self, user):
     """Assign the extra packages name of the selected desktop.
 
+    Arguments:
+        user -- Dictionary containing the answers of the user
+
     Returns:
-        desktop_choice {string} -- question for desktop environment extra
+        desktop_choice -- String containing the question for the desktop
+                          environment extra packages
     """
     choice = ['Gnome extra', 'KDE applications', 'Deepin extra',
-            'Mate extra', 'XFCE goodies']
+              'Mate extra', 'XFCE goodies']
 
     desktop_choice = self.trad('Do you wish to install {extra}').format(
         extra=choice[user['desktop']])
