@@ -16,7 +16,6 @@ limitations under the License.
 """
 import argparse
 import gettext
-import os
 
 from termcolor import colored, cprint
 
@@ -79,15 +78,12 @@ def helper(self):
     return args
 
 
-def traductor(lang):
+def translator(lang):
     """Interface to the GNU gettext message catalog library.
-
     Arguments:
         lang -- String containing application language
-
     Modules:
         gettext -- Internationalization and localization support
-
     Returns:
         trad -- Function to translate string
     """

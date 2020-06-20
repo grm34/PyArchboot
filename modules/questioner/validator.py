@@ -94,8 +94,9 @@ def size_validator(self, user, response):
     max_size = ['2G', '16T', '32G', '16T']
     eq_size = ['512M', '25G', '2G', '100G']
     valid_size = r'^[1-9]{1}[0-9]{0,2}((,|\.)[0-9]{1,2}){0,1}(M|G|T){1}$'
-    msg_error = 'Invalid size for {name}: {response} (e.q., {eq})'
-    msg_status = 'Minimum [{min}] Maximum [{max}] Remaining [{free}]'
+    msg_error = self.trad('Invalid size for {name}: {response} (e.q., {eq})')
+    msg_status = self.trad(
+        'Minimum [{min}] Maximum [{max}] Remaining [{free}]')
     error = '{msg} {status}'.format(msg=msg_error, status=msg_status)
 
     if (not re.match(valid_size, response)) or \
@@ -106,12 +107,12 @@ def size_validator(self, user, response):
             (parse_size(response.replace(',', '.')) >
              parse_size(max_size[size_index(user)])):
 
-        raise ValidationError('', reason=self.trad(error.format(
+        raise ValidationError('', reason=error.format(
             name=name[size_index(user)], response=response,
             eq=eq_size[size_index(user)], min=min_size[size_index(user)],
             max=max_size[size_index(user)], free=format_size(
                 parse_size(user['drive'].split()[1].replace(',', '.')) -
-                size_counter(user)))))
+                size_counter(user))))
 
     return True
 

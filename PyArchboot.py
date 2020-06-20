@@ -22,7 +22,7 @@ import coloredlogs
 import inquirer
 from inquirer.themes import load_theme_from_dict
 
-from modules.app import banner, helper, traductor
+from modules.app import banner, helper, translator
 from modules.questioner.questions import question_manager
 from modules.system import get_settings
 from modules.unix_command import command_output, load_json_file
@@ -66,15 +66,15 @@ class PyArchboot(object):
         self.app = load_json_file('app.json')
         self.packages = load_json_file('packages.json')
         self.theme = load_json_file('theme.json')
-        display_banner = banner(self)
+        self.display_banner = banner(self)
         self.args = helper(self)
         self.ipinfo = get_settings().ipinfo()
         self.mirrorlist = get_settings().mirrorlist(
             self.ipinfo['country'].lower())
-        lang = self.ipinfo['country'].lower()
+        self.language = self.ipinfo['country'].lower()
         if self.args.lang:
-            lang = self.args.lang[0].strip()
-        self.trad = traductor(lang)
+            self.language = self.args.lang[0].strip()
+        self.trad = translator(self.language)
         self.efi, self.firmware = get_settings().firmware()
         self.drive_list = get_settings().drive(self.trad)
         self.lvm = get_settings().filesystem(self.trad, 'lvm')
@@ -90,7 +90,7 @@ class PyArchboot(object):
             cmd = command_output('loadkeys {key}'
                                  .format(key=quote(self.args.key[0].strip())),
                                  exit_on_error=True, timeout=1,
-                                 error='invalid keyboard layout !')
+                                 error=self.trad('invalid keyboard layout !'))
 
         # Ask questions to the user
         user = inquirer.prompt(question_manager(self),

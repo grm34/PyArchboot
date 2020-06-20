@@ -18,7 +18,7 @@ import os
 import re
 from shlex import quote
 
-from .unix_command import command_output, api_json_ouput
+from .unix_command import api_json_ouput, command_output
 
 
 class get_settings:
