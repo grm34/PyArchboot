@@ -20,14 +20,14 @@ import gettext
 from termcolor import colored, cprint
 
 
-def banner(self):
+def app_banner(self):
     """Display ASCII banner of the application.
 
     Modules:
         termcolor -- ANSII Color formatting for output in terminal
 
     Returns:
-        print elements -- Title with a short description of the application
+        Title with a short description of the application
     """
     for key in range(4):
         cprint(self.app['ascii{key}'.format(key=key)], 'blue', attrs=['bold'])
@@ -40,21 +40,21 @@ def banner(self):
     cprint(self.app['separator'], 'blue', attrs=['bold'])
 
 
-def helper(self):
+def app_helper(self):
     """Argument handler for parsing command line strings.
 
     Modules:
-        argparse -- Optparse-inspired command-line parsing library,
+        argparse -- Optparse-inspired command-line parsing library;
         termcolor -- ANSII Color formatting for output in terminal
 
     Options:
-        -h, --help -- Display usage and exit,
-        -l, --lang -- Installer language selection,
-        -k, --key  -- Keyboard layout selection,
+        -h, --help -- Display usage and exit;
+        -l, --lang -- Installer language selection;
+        -k, --key  -- Keyboard layout selection;
         -f, --file -- Install additional packages from file
 
     Returns:
-        args {tuple} -- command line options from sys.argv
+        args -- Tuple containing command line options from sys.argv
     """
     parser = argparse.ArgumentParser(
         prog=colored(self.app['name'], 'green', attrs=['bold']),
@@ -78,12 +78,15 @@ def helper(self):
     return args
 
 
-def translator(lang):
+def app_translator(lang):
     """Interface to the GNU gettext message catalog library.
+
     Arguments:
         lang -- String containing application language
+
     Modules:
         gettext -- Internationalization and localization support
+
     Returns:
         trad -- Function to translate string
     """

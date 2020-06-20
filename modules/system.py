@@ -21,10 +21,10 @@ from shlex import quote
 from .unix_command import api_json_ouput, command_output
 
 
-class get_settings:
+class GetSettings:
     """Class to get user's system settings."""
 
-    def drive(self, trad):
+    def _drive(self, trad):
         """Get user's available drives.
 
         Arguments:
@@ -45,7 +45,7 @@ class get_settings:
 
         return output
 
-    def partition(self):
+    def _partition(self):
         """Get user's available partitions.
 
         Submodules:
@@ -63,7 +63,7 @@ class get_settings:
 
         return output
 
-    def processor(self):
+    def _processor(self):
         """Get user's processor.
 
         Modules:
@@ -83,7 +83,7 @@ class get_settings:
 
         return output
 
-    def vga_controller(self):
+    def _vga_controller(self):
         """Get user's available VGA controllers.
 
         Submodules:
@@ -101,14 +101,14 @@ class get_settings:
 
         return output
 
-    def filesystem(self, trad, arg):
+    def _filesystem(self, trad, arg):
         """Check if a filesystem is used by a volume or a partition.
 
         Used to check if user as ntfs, lvm or encrypted volumes to get thoses
         volumes supported by the system (by installing the required packages)
 
         Arguments:
-            trad -- Function to translate string,
+            trad -- Function to translate string;
             arg -- String containing the filesystem to check
 
         Submodules:
@@ -125,7 +125,7 @@ class get_settings:
 
         return output
 
-    def firmware(self):
+    def _firmware(self):
         """Get user's system firmware.
 
         Modules:
@@ -146,7 +146,7 @@ class get_settings:
 
         return efi, firmware
 
-    def ipinfo(self):
+    def _ipinfo(self):
         """Get user's IP address data.
 
         Submodules:
@@ -160,7 +160,7 @@ class get_settings:
                                 error='no internet connection !', timeout=2)
         return output
 
-    def mirrorlist(self, country):
+    def _mirrorlist(self, country):
         """Get user's fastest mirrors (corresponding to country).
 
         Arguments:

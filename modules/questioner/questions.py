@@ -32,15 +32,15 @@ def question_manager(self):
 
     Submodules:
         desktop_extra_assigner -- Assign the extra packages name of the
-                                  selected desktop,
+                                  selected desktop;
         partition_list_updater -- Delete previous partition to display an
-                                  updated array after selection,
-        hostname_validator -- Match UNIX hostname regex,
-        language_validator -- Match language code in libraries/locale,
-        passwd_validator -- Match UNIX password regex,
+                                  updated array after selection;
+        hostname_validator -- Match UNIX hostname regex;
+        language_validator -- Match language code in libraries/locale;
+        passwd_validator -- Match UNIX password regex;
         size_validator -- Match regex, current partition min/max size and
-                          remaining disk space,
-        timezone_validator -- Match timezone code in libraries/timezone,
+                          remaining disk space;
+        timezone_validator -- Match timezone code in libraries/timezone;
         username_validator -- Match UNIX username regex
 
     Returns:

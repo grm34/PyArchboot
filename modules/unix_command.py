@@ -32,13 +32,13 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
         cmd -- String containing the shell command to run
 
     Keyword Arguments:
-        args -- Array of the arguments to pipe (default: {None}),
+        args -- Array of the arguments to pipe (default: {None});
         exit_on_error {boolean} -- Exit on exception (default: {False})
 
     Modules:
-        subprocess -- Connect to input/output/error pipes and obtain return,
-        shlex -- Analyzer class for simple shell-like syntaxes,
-        logging -- Event logging system for applications and libraries,
+        subprocess -- Connect to input/output/error pipes and obtain return;
+        shlex -- Analyzer class for simple shell-like syntaxes;
+        logging -- Event logging system for applications and libraries;
         sys -- Access to some objects used or maintained by the interpreter
 
     Returns:
@@ -83,13 +83,13 @@ def command_output(cmd, exit_on_error=False, error=None, timeout=None):
         cmd -- String containing the shell command to run
 
     Keyword Arguments:
-        exit_on_error {boolean} -- Exit on exception (default: {False}),
-        error -- String to set custom error message (default: {None}),
+        exit_on_error {boolean} -- Exit on exception (default: {False});
+        error -- String to set custom error message (default: {None});
         timeout -- Integer to set timeout expired exception (default: {None})
 
     Modules:
-        subprocess -- Connect to input/output/error pipes and obtain return,
-        logging -- Event logging system for applications and libraries,
+        subprocess -- Connect to input/output/error pipes and obtain return;
+        logging -- Event logging system for applications and libraries;
         sys -- Access to some objects used or maintained by the interpreter
 
     Returns:
@@ -121,8 +121,8 @@ def api_json_ouput(url, exit_on_error=False, error=None, timeout=None):
         url -- String containing the url to parse
 
     Keyword Arguments:
-        exit_on_error {boolean} -- Exit on exception (default: {False}),
-        error -- String to set custom error message (default: {None}),
+        exit_on_error {boolean} -- Exit on exception (default: {False});
+        error -- String to set custom error message (default: {None});
         timeout -- Integer to set timeout expired exception (default: {None})
 
     Returns:
@@ -150,7 +150,7 @@ def load_json_file(file):
                 (should be in json folder)
 
     Modules:
-        json -- JavaScript syntax data interchange format,
+        json -- JavaScript syntax data interchange format;
         os -- Export all functions from posix
 
     Returns:

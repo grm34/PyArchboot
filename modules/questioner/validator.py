@@ -68,19 +68,19 @@ def size_validator(self, user, response):
     """Match regex, current partition min/max size and remaining disk space.
 
     Arguments:
-        user -- Dictionary containing user's answers,
+        user -- Dictionary containing user's answers;
         response -- String containing current answer
 
     Modules:
-        re -- Regular expression matching operations,
+        re -- Regular expression matching operations;
         humanfriendly.parse_size -- Parse a human readable data size and
-                                    return the number of bytes,
+                                    return the number of bytes;
         humanfriendly.format_size -- Format a byte count as a human readable
-                                     file size,
+                                     file size;
         inquirer.errors -- Common base class for all non-exit exceptions
 
     Functions:
-        size_counter -- Returns integer of the current disk space usage,
+        size_counter -- Returns integer of the current disk space usage;
         size_index -- Returns integer of the current partition index
 
     Raises:
@@ -121,7 +121,7 @@ def timezone_validator(self, user, response):
     """Match timezone code in libraries/timezone.
 
     Arguments:
-        user -- Dictionary containing user's answers,
+        user -- Dictionary containing user's answers;
         response -- String containing current answer
 
     Modules:
@@ -150,7 +150,7 @@ def language_validator(self, user, response):
     """Match language code in libraries/locale.
 
     Arguments:
-        user -- Dictionary containing user's answers,
+        user -- Dictionary containing user's answers;
         response -- String containing current answer
 
     Raises:
@@ -176,7 +176,7 @@ def hostname_validator(self, user, response):
     """Match UNIX hostname regex.
 
     Arguments:
-        user -- Dictionary containing user's answers,
+        user -- Dictionary containing user's answers;
         response -- String containing current answer
 
     Raises:
@@ -198,7 +198,7 @@ def passwd_validator(self, user, response):
     """Match UNIX password regex.
 
     Arguments:
-        user -- Dictionary containing user's answers,
+        user -- Dictionary containing user's answers;
         response -- String containing current answer
 
     Raises:
@@ -220,7 +220,7 @@ def username_validator(self, user, response):
     """Match UNIX username regex.
 
     Arguments:
-        user -- Dictionary containing user's answers,
+        user -- Dictionary containing user's answers;
         response -- String containing current answer
 
     Raises:
