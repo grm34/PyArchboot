@@ -68,7 +68,7 @@ def logger(self):
 
     # Create a StreamHandler wich write to sys.stderr
     pre = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
-    message = '{pre} %(message)s'.format(pre=pre)
+    message = '{level} %(message)s'.format(level=pre)
     logging.basicConfig(filename='{path}/logs/{appname}.log'.format(
                         path=os.getcwd(), appname=self.app['name']),
                         level=logging.DEBUG, filemode='w', format=message)

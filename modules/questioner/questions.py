@@ -100,7 +100,8 @@ def question_manager(self):
             'root_size',
             message=self.trad('Enter desired size for root partition'),
             default=None,
-            validate=size_validator,
+            validate=lambda user, response:
+                size_validator(self, user, response),
             ignore=lambda user:
                 user['drive'] is None or user['root_freespace'] is True),
 
@@ -109,7 +110,8 @@ def question_manager(self):
             'swap_size',
             message=self.trad('Enter desired size for swap partition'),
             default=None,
-            validate=size_validator,
+            validate=lambda user, response:
+                size_validator(self, user, response),
             ignore=lambda user:
                 user['drive'] is None
                 or 'Swap' not in user['optional_partitions']),
@@ -127,7 +129,8 @@ def question_manager(self):
         inquirer.Text(
             'home_size',
             message=self.trad('Enter desired size for home partition'),
-            validate=size_validator,
+            validate=lambda user, response:
+                size_validator(self, user, response),
             ignore=lambda user:
                 user['drive'] is None
                 or 'Home' not in user['optional_partitions']
