@@ -14,16 +14,41 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import logging
 import os
 from shlex import quote
 
+import coloredlogs
 import inquirer
 from inquirer.themes import load_theme_from_dict
 
-from modules.app import banner, helper, logger, traductor
+from modules.app import banner, helper, traductor
 from modules.questioner.questions import question_manager
 from modules.system import get_settings
 from modules.unix_command import command_output, load_json_file
+
+# Update system clock
+update_clock = command_output('/usr/bin/timedatectl set-ntp true', timeout=1)
+
+# Create a StreamHandler wich write to sys.stderr
+level = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
+message = '{level} %(message)s'.format(level=level)
+logging.basicConfig(filename='{path}/logs/{appname}.log'
+                    .format(path=os.getcwd(), appname='PyArchboot'),
+                    level=logging.DEBUG, filemode='w', format=message)
+
+# Create a logger for terminal output
+console = logging.getLogger()
+coloredlogs.install(
+    level='INFO', logger=console, datefmt='%H:%M:%S',
+    fmt='[%(asctime)s] %(levelname)s > %(message)s',
+    level_styles={'critical': {'bold': True, 'color': 'red'},
+                  'debug': {'color': 'green'},
+                  'error': {'color': 'red'},
+                  'info': {'color': 'cyan'},
+                  'warning': {'color': 'yellow', 'bold': True}},
+    field_styles={'levelname': {'bold': True, 'color': 'green'},
+                  'asctime': {'color': 'yellow'}})
 
 
 class PyArchboot(object):
@@ -42,7 +67,6 @@ class PyArchboot(object):
         self.packages = load_json_file('packages.json')
         self.theme = load_json_file('theme.json')
         display_banner = banner(self)
-        self.logging = logger(self)
         self.args = helper(self)
         self.ipinfo = get_settings().ipinfo()
         self.mirrorlist = get_settings().mirrorlist(

@@ -14,6 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import logging
+
 import inquirer
 
 from .updater import desktop_extra_assigner, partition_list_updater
@@ -44,8 +46,8 @@ def question_manager(self):
     Returns:
         questions -- Dictionary containing user's answers
     """
-    self.logging.info(self.trad('use arrow keys to select an option'))
-    self.logging.warning(self.trad('all data will be lost !'))
+    logging.info(self.trad('use arrow keys to select an option'))
+    logging.warning(self.trad('all data will be lost !'))
 
     questions = [
 

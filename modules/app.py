@@ -16,13 +16,9 @@ limitations under the License.
 """
 import argparse
 import gettext
-import logging
 import os
 
-import coloredlogs
 from termcolor import colored, cprint
-
-from .unix_command import command_output
 
 
 def banner(self):
@@ -43,53 +39,6 @@ def banner(self):
         cprint(self.app['description{key}'.format(key=key)], 'white')
 
     cprint(self.app['separator'], 'blue', attrs=['bold'])
-
-
-def logger(self):
-    """Logging handler wich can be used in modules.
-
-    Writes to logs/PyArchboot.log and display output to terminal.
-
-    Modules:
-        os -- Export all functions from posix
-        logging -- Event logging system for applications and libraries,
-        coloredlogs -- Colored terminal output
-
-    SubModules:
-        command_output -- Get the output of a shell command
-
-    Requirements:
-        Update the system clock before creating the logger
-
-    Returns:
-        logging -- application object logger
-    """
-    set_time = command_output('/usr/bin/timedatectl set-ntp true', timeout=1)
-
-    # Create a StreamHandler wich write to sys.stderr
-    pre = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
-    message = '{level} %(message)s'.format(level=pre)
-    logging.basicConfig(filename='{path}/logs/{appname}.log'.format(
-                        path=os.getcwd(), appname=self.app['name']),
-                        level=logging.DEBUG, filemode='w', format=message)
-
-    # Create a logger for terminal output
-    console = logging.getLogger()
-
-    # Set colored terminal output
-    coloredlogs.install(
-        level='INFO', logger=console, datefmt='%H:%M:%S',
-        fmt='[%(asctime)s] %(levelname)s > %(message)s',
-        level_styles={'critical': {'bold': True, 'color': 'red'},
-                      'debug': {'color': 'green'},
-                      'error': {'color': 'red'},
-                      'info': {'color': 'cyan'},
-                      'warning': {'color': 'yellow', 'bold': True}},
-        field_styles={'levelname': {'bold': True, 'color': 'green'},
-                      'asctime': {'color': 'yellow'}})
-
-    # Return handler wich can be used in modules
-    return logging
 
 
 def helper(self):
