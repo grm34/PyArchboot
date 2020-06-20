@@ -69,6 +69,8 @@ class PyArchboot(object):
                                  error='invalid keyboard layout !')
 
         # Ask questions to the user
+        self.logging.info(self.trad('use arrow keys to select an option'))
+        self.logging.warning(self.trad('all data will be lost !'))
         user = inquirer.prompt(question_manager(self),
                                theme=load_theme_from_dict(self.theme))
 

@@ -30,8 +30,6 @@ from .validator import (hostname_validator, language_validator,
 def question_manager(self):
     """[summary]
     """
-    self.logging.info(self.trad('use arrow keys to select an option'))
-    self.logging.warning(self.trad('all data will be lost !'))
     questions = [
 
         # Drive
