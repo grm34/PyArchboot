@@ -1,0 +1,4 @@
+inquirer
+termcolor
+coloredlogs
+passlib

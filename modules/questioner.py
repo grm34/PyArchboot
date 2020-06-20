@@ -1,0 +1,384 @@
+# -*- coding: utf-8 -*-
+
+"""Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
+
+import os
+import re
+
+import inquirer
+from humanfriendly import format_size, parse_size
+from inquirer.errors import ValidationError
+
+
+def question_manager(self):
+    """[summary]
+    """
+
+    def partition_list_updater(user):
+        """Del selected partition to display an updated array after selection.
+
+        Returns:
+            partition_list {array} -- remaining partitions
+        """
+        for partition in ['boot_id', 'root_id', 'swap_id']:
+            if (partition in user) and \
+                    (user[partition] in self.partition_list):
+                self.partition_list.remove(user[partition])
+
+        return self.partition_list
+
+    def desktop_extra_assigner(user):
+        """Assign the extra packages name of the selected desktop.
+
+        Returns:
+            desktop_choice {string} -- question for desktop environment extra
+        """
+        choice = ['Gnome extra', 'KDE applications', 'Deepin extra',
+                'Mate extra', 'XFCE goodies']
+
+        desktop_choice = self.trad('Do you wish to install {extra}').format(
+            extra=choice[user['desktop']])
+
+        return desktop_choice
+
+    def size_counter(user):
+        """Calculate disk space usage."""
+        counter = 0
+        size_list = ['boot_size', 'root_size', 'swap_size', 'home_size']
+
+        for size in size_list:
+            if (size in user) and (user[size] is not None):
+                counter += parse_size(user[size].replace(',', '.'))
+
+        return counter
+
+    def index_counter(user):
+        """Define partitions index."""
+        index = 0
+        if 'swap_size' in user:
+            index = 3
+        elif 'root_size' in user:
+            index = 2
+        elif 'boot_size' in user:
+            index = 1
+
+        return index
+
+    def size_validator(user, response):
+        """Validate partition sizes."""
+        name = ['boot', 'root', 'swap', 'home']
+        min_size = ['100M', '5G', '1G', '4G']
+        max_size = ['2G', '16T', '32G', '16T']
+        eq_size = ['512M', '25G', '2G', '100G']
+        valid_size = r'^[1-9]{1}[0-9]{0,2}((,|\.)[0-9]{1,2}){0,1}(M|G|T){1}$'
+
+        if (not re.match(valid_size, response)) \
+                or ((size_counter(user) + parse_size(response
+                                                    .replace(',', '.'))) >
+                    parse_size(user['drive'].split()[1].replace(',', '.'))) \
+                or (parse_size(response.replace(',', '.')) <
+                    parse_size(min_size[index_counter(user)])) \
+                or (parse_size(response.replace(',', '.')) >
+                    parse_size(max_size[index_counter(user)])):
+
+            raise ValidationError('', reason=self.trad('Invalid size for {name}: \
+    {response} (e.q., {eq}) Minimum [{min}] Maximum [{max}] \
+    Remaining [{free}]'.format(
+                name=name[index_counter(user)],
+                response=response, eq=eq_size[index_counter(user)],
+                min=min_size[index_counter(user)],
+                max=max_size[index_counter(user)],
+                free=format_size(
+                    parse_size(user['drive'].split()[1].replace(',', '.')) -
+                    size_counter(user)))))
+
+        return True
+
+    # Create an array of questions
+    self.logging.info(self.trad('use arrow keys to select an option'))
+    self.logging.warning(self.trad('all data will be lost !'))
+    questions = [
+
+        # Drive
+        inquirer.List(
+            'drive',
+            message=self.trad('Select the drive to use'),
+            choices=self.drive_list,
+            carousel=True),
+
+        # Lvm
+        inquirer.Confirm(
+            'lvm',
+            message=self.trad(
+                'Do you wish to use Logical Volume Manager (LVM)'),
+            ignore=lambda user:
+                user['drive'] is None or self.firmware == 'bios'),
+
+        # Luks
+        inquirer.Confirm(
+            'luks',
+            message=self.trad(
+                'Do you wish to encrypt the drive (LVM on LUKS)'),
+            ignore=lambda user: user['lvm'] is False),
+
+        # Optional partitions
+        inquirer.Checkbox(
+            'optional_partitions',
+            message=self.trad('Select optional partitions'),
+            choices=['Swap', 'Home'],
+            default=None),
+
+        # Boot size
+        inquirer.Text(
+            'boot_size',
+            message=self.trad('Enter desired size for boot partition'),
+            validate=size_validator,
+            ignore=lambda user: user['drive'] is None),
+
+        # Root freespace
+        inquirer.Confirm(
+            'root_freespace',
+            message=self.trad(
+                'Do you wish use free space for root partition'),
+            ignore=lambda user:
+                user['drive'] is None
+                or 'Home' in user['optional_partitions']),
+
+        # Root size
+        inquirer.Text(
+            'root_size',
+            message=self.trad('Enter desired size for root partition'),
+            default=None,
+            validate=size_validator,
+            ignore=lambda user:
+                user['drive'] is None or user['root_freespace'] is True),
+
+        # Swap size
+        inquirer.Text(
+            'swap_size',
+            message=self.trad('Enter desired size for swap partition'),
+            default=None,
+            validate=size_validator,
+            ignore=lambda user:
+                user['drive'] is None
+                or 'Swap' not in user['optional_partitions']),
+
+        # Home freespace
+        inquirer.Confirm(
+            'home_freespace',
+            message=self.trad(
+                'Do you wish use free space for home partition'),
+            ignore=lambda user:
+                user['drive'] is None
+                or 'Home' not in user['optional_partitions']),
+
+        # Home size
+        inquirer.Text(
+            'home_size',
+            message=self.trad('Enter desired size for home partition'),
+            validate=size_validator,
+            ignore=lambda user:
+                user['drive'] is None
+                or 'Home' not in user['optional_partitions']
+                or user['home_freespace'] is True),
+
+        # Boot drive ID
+        inquirer.List(
+            'boot_id',
+            message=self.trad('Select boot partition'),
+            choices=self.partition_list,
+            carousel=True,
+            ignore=lambda user:
+                user['drive'] is not None or self.partition_list is None),
+
+        # Root drive ID
+        inquirer.List(
+            'root_id',
+            message=self.trad('Select root partition'),
+            choices=partition_list_updater,
+            carousel=True,
+            ignore=lambda user:
+                user['drive'] is not None or self.partition_list is None),
+
+        # Swap drive ID
+        inquirer.List(
+            'swap_id',
+            message=self.trad('Select swap partition'),
+            choices=partition_list_updater,
+            carousel=True,
+            ignore=lambda user:
+                user['drive'] is not None
+                or 'Swap' not in user['optional_partitions']),
+
+        # Home drive ID
+        inquirer.List(
+            'home_id',
+            message=self.trad('Select home partition'),
+            choices=partition_list_updater,
+            carousel=True,
+            ignore=lambda user:
+                user['drive'] is not None
+                or 'Home' not in user['optional_partitions']),
+
+        # Timezone selection
+        inquirer.List(
+            'timezone',
+            message=self.trad('Select timezone'),
+            choices=[self.ipinfo['timezone'],
+                     (self.trad('Custom timezone'), None)],
+            default=self.ipinfo['timezone'],
+            carousel=True),
+
+        # Custom timezone
+        inquirer.Text(
+            'timezone',
+            message=self.trad('Enter desired timezone'),
+            validate=timezone_validator,
+            ignore=lambda user: user['timezone'] is not None),
+
+        # Language code
+        inquirer.Text(
+            'language',
+            message=self.trad('Enter language code'),
+            validate=language_validator),
+
+        # Hostname
+        inquirer.Text(
+            'hostname',
+            message=self.trad('Enter hostname'),
+            validate=hostname_validator),
+
+        # Root passwd
+        inquirer.Password(
+            'root_passwd',
+            message=self.trad('Enter password for root'),
+            validate=passwd_validator),
+
+        # Username
+        inquirer.Text(
+            'username',
+            message=self.trad('Enter username'),
+            validate=username_validator),
+
+        # User passwd
+        inquirer.Password(
+            'user_passwd',
+            message=self.trad('Enter password for user {username}'),
+            validate=passwd_validator),
+
+        # Kernel
+        inquirer.List(
+            'kernel',
+            message=self.trad('Select Linux Kernel'),
+            choices=[('Linux Stable', 0), ('Linux Hardened', 1),
+                     ('Linux LTS', 2), ('Linux ZEN', 3)],
+            carousel=True),
+
+        # Firmware drivers
+        inquirer.Confirm(
+            'firmware',
+            message=self.trad('Do you wish to install Linux Firmware'),
+            default=True),
+
+        # Desktop environment
+        inquirer.List(
+            'desktop',
+            message=self.trad('Select Desktop Environment'),
+            choices=[None, ('Gnome', 0), ('KDE', 1), ('Deepin', 2), ('Mate', 3),
+                     ('XFCE', 4), ('LXQT', 5), ('LXDE', 6), ('Cinnamon', 7),
+                     ('Budgie', 8), ('Enlightenment', 9), ('Awesome', 10),
+                     ('Xmonad', 11), ('i3', 12)],
+            carousel=True),
+
+        # Desktop extras
+        inquirer.Confirm(
+            'desktop_extra',
+            message=desktop_extra_assigner,
+            ignore=lambda user:
+                user['desktop'] is None
+                or user['desktop'] not in [0, 1, 2, 3, 4]),
+
+        # Display manager
+        inquirer.List(
+            'display',
+            message=self.trad('Select Display Manager'),
+            choices=[('Gdm', 0), ('LightDM', 1), ('Sddm', 2),
+                     ('Lxdm', 3), ('Xdm', 4)],
+            carousel=True,
+            ignore=lambda user: user['desktop'] is None),
+
+        # LightDM greeter
+        inquirer.List(
+            'greeter',
+            message=self.trad('Select LightDM Greeter'),
+            choices=[('Gtk', 0), ('Pantheon', 1), ('Deepin', 2),
+                     ('Webkit', 3), ('Litarvan', 4)],
+            carousel=True,
+            ignore=lambda user:
+                user['desktop'] is None or user['display'] != 1),
+
+        # GPU Driver
+        inquirer.Confirm(
+            'gpu_driver',
+            message=self.trad('Do you wish to install GPU driver'),
+            ignore=lambda user:
+                user['desktop'] is None or self.gpu_list == ['']
+                or self.gpu_list is False),
+
+        # VGA Controller selection
+        inquirer.List(
+            'vga_controller',
+            message=self.trad('Select GPU Controller'),
+            choices=self.gpu_list,
+            carousel=True,
+            ignore=lambda user: user['gpu_driver'] is False),
+
+        # Hardware video acceleration
+        inquirer.Confirm(
+            'hardvideo',
+            message=self.trad(
+                'Do you wish to install Hardware video acceleration'),
+            ignore=lambda user: user['gpu_driver'] is False),
+
+        # Proprietary drivers
+        inquirer.Confirm(
+            'gpu_proprietary',
+            message=self.trad('Do you wish to install proprietary drivers'),
+            ignore=lambda user:
+                user['gpu_driver'] is False
+                or 'nvidia' not in user['vga_controller'].lower()),
+
+        # AUR Helper
+        inquirer.List(
+            'aur_helper',
+            message=self.trad('Select AUR Helper'),
+            choices=[None, 'Yay', 'Pamac-aur', 'Trizen',
+                     'Pacaur', 'Pakku', 'Pikaur'],
+            carousel=True),
+
+        # User groups
+        inquirer.Confirm(
+            'power',
+            message=self.trad(
+                'Do you wish add to all groups user {username}'),
+            default=True)
+    ]
+
+    return questions
+
+
+# PyArchboot - Python Arch Linux Installer by grm34 under Apache License 2.0
+##############################################################################

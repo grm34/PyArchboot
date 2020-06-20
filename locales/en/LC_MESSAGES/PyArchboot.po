@@ -1,0 +1,444 @@
+# Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyArchboot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-04 18:34+0200\n"
+"PO-Revision-Date: 2020-06-04 18:36+0200\n"
+"Last-Translator: Jeremy Pardo jerem.pardo@tutanota.com\n"
+"Language-Team: PyArchboot\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+#: PyArchboot.py:136
+msgid "use arrow keys to select an option"
+msgstr "use arrow keys to select an option"
+
+#: PyArchboot.py:137
+msgid "all data on the selected drive will be lost !"
+msgstr "all data on the selected drive will be lost !"
+
+#: PyArchboot.py:147
+msgid "installation successfull"
+msgstr "installation successfull"
+
+#: PyArchboot.py:149
+msgid "Do you wish to reboot your computer now"
+msgstr "Do you wish to reboot your computer now"
+
+#: modules/installer.py:58
+msgid "update mirrorlist"
+msgstr "update mirrorlist"
+
+#: modules/installer.py:64
+msgid "install Arch Linux base system"
+msgstr "install Arch Linux base system"
+
+#: modules/installer.py:77
+msgid "create file system table"
+msgstr "create file system table"
+
+#: modules/installer.py:84
+#, python-brace-format
+msgid "set timezone [{timezone}]"
+msgstr "set timezone [{timezone}]"
+
+#: modules/installer.py:93
+#, python-brace-format
+msgid "set locale [{locale}]"
+msgstr "set locale [{locale}]"
+
+#: modules/installer.py:107
+#, python-brace-format
+msgid "set virtual console [{keymap}]"
+msgstr "set virtual console [{keymap}]"
+
+#: modules/installer.py:114
+#, python-brace-format
+msgid "set hostname [{hostname}]"
+msgstr "set hostname [{hostname}]"
+
+#: modules/installer.py:120
+msgid "set root password"
+msgstr "set root password"
+
+#: modules/installer.py:131
+#, python-brace-format
+msgid "create user {user}"
+msgstr "create user {user}"
+
+#: modules/installer.py:140
+#, python-brace-format
+msgid "set password for user {user}"
+msgstr "set password for user {user}"
+
+#: modules/installer.py:151
+msgid "install network"
+msgstr "install network"
+
+#: modules/installer.py:162
+msgid "install grub bootloader"
+msgstr "install grub bootloader"
+
+#: modules/installer.py:181
+#, python-brace-format
+msgid "install {name}"
+msgstr "install {name}"
+
+#: modules/installer.py:193
+msgid "configure bootloader [systemd-boot]"
+msgstr "configure bootloader [systemd-boot]"
+
+#: modules/installer.py:251
+msgid "configure bootloader [grub2]"
+msgstr "configure bootloader [grub2]"
+
+#: modules/installer.py:285
+#, python-brace-format
+msgid "configure {desktop}"
+msgstr "configure {desktop}"
+
+#: modules/installer.py:317
+#, python-brace-format
+msgid "configure {display}"
+msgstr "configure {display}"
+
+#: modules/installer.py:410
+#, python-brace-format
+msgid "give root privilege to the user {user}"
+msgstr "give root privilege to the user {user}"
+
+#: modules/installer.py:419
+#, python-brace-format
+msgid "add user {user} to all groups"
+msgstr "add user {user} to all groups"
+
+#: modules/installer.py:438
+#, python-brace-format
+msgid "install {aur} AUR Helper"
+msgstr "install {aur} AUR Helper"
+
+#: modules/installer.py:489
+msgid "clean pacman cache and delete unused dependencies"
+msgstr "clean pacman cache and delete unused dependencies"
+
+#: modules/manager.py:100
+msgid "Use already formatted partitions"
+msgstr "Use already formatted partitions"
+
+#: modules/manager.py:102
+msgid "no drive detected !"
+msgstr "no drive detected !"
+
+#: modules/manager.py:121
+msgid "unreconized CPU !"
+msgstr "unreconized CPU !"
+
+#: modules/manager.py:202
+#, python-brace-format
+msgid ""
+"Invalid size for BOOT: {response} (e.q., 512M) Minimum [100M] Maximum [2G] "
+"Remaining [{drive_size}]"
+msgstr ""
+"Invalid size for BOOT: {response} (e.q., 512M) Minimum [100M] Maximum [2G] "
+"Remaining [{drive_size}]"
+
+#: modules/manager.py:216
+#, python-brace-format
+msgid ""
+"Invalid size for ROOT: {response} (e.q., 25G) Minimum [5G] Maximum [16T] "
+"Remaining [{available}]"
+msgstr ""
+"Invalid size for ROOT: {response} (e.q., 25G) Minimum [5G] Maximum [16T] "
+"Remaining [{available}]"
+
+#: modules/manager.py:233
+#, python-brace-format
+msgid ""
+"Invalid size for SWAP: {response} (e.q., 2G) Minimum [1G] Maximum [32G] "
+"Remaining [{available}]"
+msgstr ""
+"Invalid size for SWAP: {response} (e.q., 2G) Minimum [1G] Maximum [32G] "
+"Remaining [{available}]"
+
+#: modules/manager.py:252
+#, python-brace-format
+msgid ""
+"Invalid size for HOME: {response} (e.q., 100G) Minimum [4G] Maximum [16T] "
+"Remaining [{available}]"
+msgstr ""
+"Invalid size for HOME: {response} (e.q., 100G) Minimum [4G] Maximum [16T] "
+"Remaining [{available}]"
+
+#: modules/manager.py:269
+#, python-brace-format
+msgid "Invalid timezone: {response} (e.q., Europe/Paris)"
+msgstr "Invalid timezone: {response} (e.q., Europe/Paris)"
+
+#: modules/manager.py:280
+#, python-brace-format
+msgid "Invalid language code: {response} (e.q., fr_FR)"
+msgstr "Invalid language code: {response} (e.q., fr_FR)"
+
+#: modules/manager.py:288
+#, python-brace-format
+msgid "Invalid hostname: {response} (e.q., my-computer)"
+msgstr "Invalid hostname: {response} (e.q., my-computer)"
+
+#: modules/manager.py:296
+msgid ""
+"Password should be at least 8 chars long with one letter and one digit !"
+msgstr ""
+"Password should be at least 8 chars long with one letter and one digit !"
+
+#: modules/manager.py:304
+#, python-brace-format
+msgid "Invalid username: {response} (e.q., JohnDoe)"
+msgstr "Invalid username: {response} (e.q., JohnDoe)"
+
+#: modules/manager.py:365
+msgid "no partition detected !"
+msgstr "no partition detected !"
+
+#: modules/manager.py:487
+#, python-brace-format
+msgid "Do you wish to install {extra}"
+msgstr "Do you wish to install {extra}"
+
+#: modules/manager.py:509
+msgid "Select the drive to use"
+msgstr "Select the drive to use"
+
+#: modules/manager.py:514
+msgid "Do you wish use Logical Volume Manager (LVM)"
+msgstr "Do you wish use Logical Volume Manager (LVM)"
+
+#: modules/manager.py:518
+msgid "Do you wish to encrypt the drive (LVM on LUKS)"
+msgstr "Do you wish to encrypt the drive (LVM on LUKS)"
+
+#: modules/manager.py:522
+msgid "Select optional partitions"
+msgstr "Select optional partitions"
+
+#: modules/manager.py:527
+msgid "Enter desired size for boot partition"
+msgstr "Enter desired size for boot partition"
+
+#: modules/manager.py:532
+msgid "Do you wish use free space for root partition"
+msgstr "Do you wish use free space for root partition"
+
+#: modules/manager.py:536
+msgid "Enter desired size for root partition"
+msgstr "Enter desired size for root partition"
+
+#: modules/manager.py:542
+msgid "Enter desired size for swap partition"
+msgstr "Enter desired size for swap partition"
+
+#: modules/manager.py:548
+msgid "Do you wish use free space for home partition"
+msgstr "Do you wish use free space for home partition"
+
+#: modules/manager.py:552
+msgid "Enter desired size for home partition"
+msgstr "Enter desired size for home partition"
+
+#: modules/manager.py:557
+msgid "Select boot partition"
+msgstr "Select boot partition"
+
+#: modules/manager.py:563
+msgid "Select root partition"
+msgstr "Select root partition"
+
+#: modules/manager.py:569
+msgid "Select swap partition"
+msgstr "Select swap partition"
+
+#: modules/manager.py:575
+msgid "Select home partition"
+msgstr "Select home partition"
+
+#: modules/manager.py:581
+msgid "Select timezone"
+msgstr "Select timezone"
+
+#: modules/manager.py:582
+msgid "Custom timezone"
+msgstr "Custom timezone"
+
+#: modules/manager.py:587
+msgid "Enter desired timezone"
+msgstr "Enter desired timezone"
+
+#: modules/manager.py:592
+msgid "Enter language code"
+msgstr "Enter language code"
+
+#: modules/manager.py:596
+msgid "Enter hostname"
+msgstr "Enter hostname"
+
+#: modules/manager.py:600
+msgid "Enter password for root"
+msgstr "Enter password for root"
+
+#: modules/manager.py:604
+msgid "Enter username"
+msgstr "Enter username"
+
+#: modules/manager.py:608
+#, python-brace-format
+msgid "Enter password for user {username}"
+msgstr "Enter password for user {username}"
+
+#: modules/manager.py:612
+msgid "Select Linux Kernel"
+msgstr "Select Linux Kernel"
+
+#: modules/manager.py:618
+msgid "Do you wish to install Linux Firmware"
+msgstr "Do you wish to install Linux Firmware"
+
+#: modules/manager.py:622
+msgid "Select Desktop Environment"
+msgstr "Select Desktop Environment"
+
+#: modules/manager.py:634
+msgid "Select Display Manager"
+msgstr "Select Display Manager"
+
+#: modules/manager.py:641
+msgid "Select LightDM Greeter"
+msgstr "Select LightDM Greeter"
+
+#: modules/manager.py:648
+msgid "Do you wish to install GPU driver"
+msgstr "Do you wish to install GPU driver"
+
+#: modules/manager.py:652
+msgid "Select GPU Controller"
+msgstr "Select GPU Controller"
+
+#: modules/manager.py:658
+msgid "Do you wish to install Hardware video acceleration"
+msgstr "Do you wish to install Hardware video acceleration"
+
+#: modules/manager.py:662
+msgid "Do you wish to install proprietary drivers"
+msgstr "Do you wish to install proprietary drivers"
+
+#: modules/manager.py:666
+msgid "Select AUR Helper"
+msgstr "Select AUR Helper"
+
+#: modules/manager.py:672
+#, python-brace-format
+msgid "Do you wish add to all groups user {username}"
+msgstr "Do you wish add to all groups user {username}"
+
+#: modules/manager.py:946
+msgid "this action cannot be canceled !"
+msgstr "this action cannot be canceled !"
+
+#: modules/manager.py:947
+msgid "Do you wish to install Arch Linux now"
+msgstr "Do you wish to install Arch Linux now"
+
+#: modules/partitioner.py:113
+#, python-brace-format
+msgid "deactivate swap partition [{swap}]"
+msgstr "deactivate swap partition [{swap}]"
+
+#: modules/partitioner.py:118
+#, python-brace-format
+msgid "umount {partition}"
+msgstr "umount {partition}"
+
+#: modules/partitioner.py:131
+#, python-brace-format
+msgid "delete {lv}"
+msgstr "delete {lv}"
+
+#: modules/partitioner.py:137
+#, python-brace-format
+msgid "delete {vg}"
+msgstr "delete {vg}"
+
+#: modules/partitioner.py:143
+#, python-brace-format
+msgid "delete {pv}"
+msgstr "delete {pv}"
+
+#: modules/partitioner.py:149
+#, python-brace-format
+msgid "delete {partition}"
+msgstr "delete {partition}"
+
+#: modules/partitioner.py:159
+#, python-brace-format
+msgid "format {drive} [{size}]"
+msgstr "format {drive} [{size}]"
+
+#: modules/partitioner.py:170
+#, python-brace-format
+msgid "create new {table} partition table on {drive}"
+msgstr "create new {table} partition table on {drive}"
+
+#: modules/partitioner.py:187
+#, python-brace-format
+msgid "create {partition} partition [{size}] on {drive}"
+msgstr "create {partition} partition [{size}] on {drive}"
+
+#: modules/partitioner.py:216
+#, python-brace-format
+msgid "set EFI partition type for boot partition [{drive_id}]"
+msgstr "set EFI partition type for boot partition [{drive_id}]"
+
+#: modules/partitioner.py:221
+#, python-brace-format
+msgid "set LVM partition type for root partition [{drive_id}]"
+msgstr "set LVM partition type for root partition [{drive_id}]"
+
+#: modules/partitioner.py:244
+#, python-brace-format
+msgid "create LVM on LUKS [{drive_id}]"
+msgstr "create LVM on LUKS [{drive_id}]"
+
+#: modules/partitioner.py:259
+#, python-brace-format
+msgid "create LVM Volume on [{drive_id}]"
+msgstr "create LVM Volume on [{drive_id}]"
+
+#: modules/partitioner.py:270
+#, python-brace-format
+msgid "create {partition} LVM partition [{size}]"
+msgstr "create {partition} LVM partition [{size}]"
+
+#: modules/partitioner.py:293
+#, python-brace-format
+msgid "format {partition} partition [{filesystem}] [{size}]"
+msgstr "format {partition} partition [{filesystem}] [{size}]"
+
+#: modules/partitioner.py:315
+#, python-brace-format
+msgid "mount {partition} partition [{drive_id}] on {mountpoint}"
+msgstr "mount {partition} partition [{drive_id}] on {mountpoint}"

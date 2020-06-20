@@ -1,0 +1,127 @@
+{
+    "base": "base sudo",
+    "devel": "base-devel",
+    "kernel": [
+        "linux",
+        "linux-hardened",
+        "linux-lts",
+        "linux-zen"
+    ],
+    "firmware": "linux-firmware",
+    "microcode": [
+        "intel-ucode",
+        "amd-ucode"
+    ],
+    "lvm": "lvm2",
+    "grub": {
+        "packages": "grub",
+        "extras": "os-prober"
+    },
+    "ntfs": "ntfs-3g",
+    "network": "networkmanager net-tools dhcpcd iw wpa_supplicant wireless_tools git",
+    "gpu_driver": [
+        "xf86-video-intel",
+        "xf86-video-ati xf86-video-amdgpu",
+        "xf86-video-nouveau",
+        "nvidia nvidia-settings",
+        "nvidia-lts nvidia-settings",
+        "nvidia-dkms nvidia-settings",
+        "xf86-video-vesa"
+    ],
+    "hardvideo": [
+        "mesa vulkan-intel libva-intel-driver intel-media-driver libvdpau-va-gl libva-utils vdpauinfo",
+        "mesa vulkan-radeon mesa-vdpau libva-mesa-driver libva-utils vdpauinfo",
+        "mesa libva-mesa-driver mesa-vdpau libva-utils vdpauinfo",
+        "nvidia-utils libva-utils vdpauinfo",
+        "mesa libva-vdpau-driver libvdpau-va-gl libva-utils vdpauinfo"
+    ],
+    "xorg": "xorg-server",
+    "xinit": "xorg-xinit",
+    "numlock": "numlockx",
+    "desktop": {
+        "name": [
+            "Gnome Desktop Environment",
+            "Kde Desktop Environment (plasma)",
+            "Deepin Desktop Environment",
+            "Mate Desktop Environment",
+            "Xfce Desktop Environment",
+            "Lxqt Desktop Environment",
+            "Lxde Desktop Environment",
+            "Cinnamon Desktop Environment",
+            "Budgie Desktop Environment",
+            "Enlightenment Desktop Environment",
+            "Awesome Window Manager",
+            "Xmonad Window Manager",
+            "i3 Window Manager"
+        ],
+        "packages": [
+            "gnome",
+            "plasma konsole",
+            "deepin deepin-terminal",
+            "mate mate-terminal",
+            "xfce4",
+            "lxqt breeze-icons",
+            "lxde",
+            "cinnamon gnome-terminal",
+            "budgie-desktop gnome-terminal",
+            "enlightenment terminology",
+            "awesome dmenu xterm",
+            "xmonad xmonad-contrib dmenu xterm",
+            "i3 dmenu xterm"
+        ],
+        "extras": [
+            "gnome-extra",
+            "kde-applications",
+            "deepin-extra",
+            "mate-extra",
+            "xfce-goodies"
+        ],
+        "startcmd": [
+            "/usr/bin/gnome-session",
+            "/usr/bin/startkde",
+            "/usr/bin/startdde",
+            "/usr/bin/mate-session",
+            "/usr/bin/startxfce4",
+            "/usr/bin/startlxqt",
+            "/usr/bin/startlxde",
+            "/usr/bin/cinnamon-session",
+            "/usr/bin/budgie-desktop",
+            "/usr/bin/enlightenment_start",
+            "~/.xinitrc",
+            "~/.xinitrc",
+            "~/.xinitrc"
+        ]
+    },
+    "display_manager": {
+        "name": [
+            "Gdm Display Manager",
+            "LightDM Display Manager",
+            "Sddm Display Manager",
+            "Lxdm Display Manager",
+            "Xdm Display Manager"
+        ],
+        "packages": [
+            "gdm",
+            "lightdm",
+            "sddm",
+            "lxdm",
+            "xorg-xdm xdm-archlinux"
+        ]
+    },
+    "greeter": {
+        "packages": [
+            "lightdm-gtk-greeter",
+            "lightdm-pantheon-greeter",
+            "lightdm-deepin-greeter",
+            "lightdm-webkit2-greeter",
+            "lightdm-webkit-theme-litarvan"
+        ],
+        "session": [
+            "lightdm-gtk-greeter",
+            "io.elementary.greeter",
+            "lightdm-deepin-greeter",
+            "lightdm-webkit2-greeter",
+            "lightdm-webkit2-greeter"
+        ]
+    }
+}

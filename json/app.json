@@ -1,0 +1,21 @@
+{
+    "name": "PyArchboot",
+    "version": "v0.0.1",
+    "author": "grm34",
+    "license": "Apache License 2.0",
+    "url": "https://www.archboot.org",
+    "usage": "python PyArchboot.py [options]",
+    "ascii0": "",
+    "ascii1": " ┌─┐┬ ┬┌─┐┬─┐┌─┐┬ ┬┌┐ ┌─┐┌─┐┌┬┐  ┌─┐┬─┐┌─┐┬ ┬  ┬┌┐┌┌─┐┌┬┐┌─┐┬  ┬  ┌─┐┬─┐",
+    "ascii2": " ├─┘└┬┘├─┤├┬┘│  ├─┤├┴┐│ ││ │ │   ├─┤├┬┘│  ├─┤  ││││└─┐ │ ├─┤│  │  ├┤ ├┬┘",
+    "ascii3": " ┴   ┴ ┴ ┴┴└─└─┘┴ ┴└─┘└─┘└─┘ ┴   ┴ ┴┴└─└─┘┴ ┴  ┴┘└┘└─┘ ┴ ┴ ┴┴─┘┴─┘└─┘┴└─",
+    "title": "  Python Arch Linux Installer v0.0.1 - Script made with love by @grm34",
+    "description0": "",
+    "description1": "    Arch Linux is a light and fast distribution, whose concept is to",
+    "description2": "    remain as simple as possible... In the same purpose and in order",
+    "description3": "    to give free choice to the users, this script performs a minimal",
+    "description4": "    arch installation, and only required packages will be installed.",
+    "description5": "    According to desired configuration, and in order to get complete",
+    "description6": "    support, additional packages may be required. Apache License 2.0",
+    "separator": "    ----------------------------------------------------------------\n"
+}
