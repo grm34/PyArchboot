@@ -180,6 +180,9 @@ class GetSettings:
         url_args = 'country={code}&use_mirror_status=on'.format(code=country)
         url = '{base}?{args}'.format(base=url_base, args=url_args)
         output = command_output('curl -s {url}'.format(url=quote(url)))
+
+        if 'DOCTYPE' in output:
+            output = False
         if output is not False:
             output = output.replace('#Server =', 'Server =')
 

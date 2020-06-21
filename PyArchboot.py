@@ -23,6 +23,9 @@ from inquirer.themes import load_theme_from_dict
 
 from modules.app import app_banner, app_helper, app_translator
 from modules.questioner.questions import question_manager
+from modules.session import (clean_session, desktop_session, display_session,
+                             drive_session, partition_session, system_session,
+                             vga_session)
 from modules.system_manager.settings import GetSettings
 from modules.system_manager.unix_command import load_json_file
 
@@ -65,7 +68,7 @@ class PyArchboot(object):
     """
 
     def __init__(self):
-        """Initialize application object parameters."""
+        """Initialize main class parameters."""
 
         # Application parameters
         self.app = load_json_file('app.json')
@@ -78,7 +81,7 @@ class PyArchboot(object):
         self.theme = themes['default']
         self.ipinfo = GetSettings()._ipinfo()
         self.mirrorlist = GetSettings()._mirrorlist(
-            self.ipinfo['country'].lower())
+            self.ipinfo['country'])
         language = self.ipinfo['country'].lower()
         if options.lang:
             language = self.options.lang[0].strip()
@@ -95,17 +98,30 @@ class PyArchboot(object):
         self.cpu = GetSettings()._processor()
         self.partition_list = GetSettings()._partition()
         self.gpu_list = GetSettings()._vga_controller()
+        self.user = {}
 
     def run(self):
         """Start the application."""
 
         # Ask questions to the user by running questioner module
-        user = inquirer.prompt(question_manager(self),
-                               theme=load_theme_from_dict(self.theme))
+        self.user = inquirer.prompt(question_manager(self),
+                                    theme=load_theme_from_dict(self.theme))
+
+        # Handle session parameters
+        session_manager = [drive_session(self),
+                           partition_session(self),
+                           vga_session(self),
+                           desktop_session(self),
+                           display_session(self),
+                           system_session(self),
+                           clean_session(self)]
+
+        for session in session_manager:
+            self.user = session
 
         # __TESTING__
         from pprint import pprint
-        pprint(user)
+        pprint(self.user)
 
 
 if __name__ == '__main__':
