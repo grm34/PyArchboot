@@ -63,13 +63,34 @@ class PyArchboot(object):
     required packages will be installed. According to desired configuration
     and in order to get complete support additional packages may be required.
 
+    Structure:
+        PyArchboot.py
+        |---- modules/
+        |     |---- questioner/
+        |     |     |---- __init__.py
+        |     |     |---- questions.py
+        |     |     |---- updater.py
+        |     |     |---- validator.py
+        |     |
+        |     |---- system_manager/
+        |     |     |---- __init__.py
+        |     |     |---- settings.py
+        |     |     |---- unix_command.py
+        |     |
+        |     |---- __init__.py
+        |     |---- app.py
+        |     |---- session.py
+
     Arguments:
         object -- base class of the class hierarchy
     """
 
     def __init__(self):
-        """Initialize main class parameters."""
+        """Main class instance.
 
+        Initialize:
+            Accessible attributes of the class
+        """
         # Application parameters
         self.app = load_json_file('app.json')
         display_banner = app_banner(self)
@@ -87,7 +108,7 @@ class PyArchboot(object):
             language = self.options.lang[0].strip()
         self.trad = app_translator(language)
         if options.theme:
-             self.theme = themes[options.theme[0].strip()]
+            self.theme = themes[options.theme[0].strip()]
 
         # Session parameters
         self.efi, self.firmware = GetSettings()._firmware()
@@ -101,8 +122,14 @@ class PyArchboot(object):
         self.user = {}
 
     def run(self):
-        """Start the application."""
+        """Start the application.
 
+        Actions:
+            1) Ask questions to the user.
+            2) Handle session parameters.
+            3) Partition the disk.
+            4) Install Arch Linux.
+        """
         # Ask questions to the user by running questioner module
         self.user = inquirer.prompt(question_manager(self),
                                     theme=load_theme_from_dict(self.theme))
