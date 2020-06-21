@@ -65,22 +65,28 @@ class PyArchboot(object):
     """
 
     def __init__(self):
-        """Initialize application settings."""
+        """Initialize application object parameters."""
+
+        # Application parameters
         self.app = load_json_file('app.json')
-        self.display_banner = app_banner(self)
-        self.options = app_helper(self)
+        display_banner = app_banner(self)
+        options = app_helper(self)
         self.packages = load_json_file('packages.json')
-        self.themes = load_json_file('themes.json')
-        self.theme = self.themes['default']
+        themes = load_json_file('themes.json')
+
+        # User parameters
+        self.theme = themes['default']
         self.ipinfo = GetSettings()._ipinfo()
         self.mirrorlist = GetSettings()._mirrorlist(
             self.ipinfo['country'].lower())
-        self.language = self.ipinfo['country'].lower()
-        if self.options.lang:
-            self.language = self.options.lang[0].strip()
-        self.trad = app_translator(self.language)
-        if self.options.theme:
-             self.theme = self.themes[self.options.theme[0].strip()]
+        language = self.ipinfo['country'].lower()
+        if options.lang:
+            language = self.options.lang[0].strip()
+        self.trad = app_translator(language)
+        if options.theme:
+             self.theme = themes[options.theme[0].strip()]
+
+        # Session parameters
         self.efi, self.firmware = GetSettings()._firmware()
         self.drive_list = GetSettings()._drive(self.trad)
         self.lvm = GetSettings()._filesystem(self.trad, 'lvm')
@@ -93,7 +99,7 @@ class PyArchboot(object):
     def run(self):
         """Start the application."""
 
-        # Ask questions to the user
+        # Ask questions to the user by running questioner module
         user = inquirer.prompt(question_manager(self),
                                theme=load_theme_from_dict(self.theme))
 
