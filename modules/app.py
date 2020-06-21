@@ -55,12 +55,13 @@ def app_helper(self):
         command_output -- Subprocess check_output with return codes
 
     Options:
-        -h, --help : Display usage and exit;
-        --lang : Installer language selection;
-        --keyboard : Keyboard layout selection;
-        --ntp : Update system clock to NTP;
-        --file : Install additional packages from file
-        --theme : Applcation theme selection
+        -h, --help = Display usage and exit;
+        --ntp = Update the system clock with NTP;
+        --time = Update the system clock manually;
+        --lang = Installer language selection;
+        --keyboard = Keyboard layout selection;
+        --file = Install additional packages from file;
+        --theme = Applcation theme selection
 
     Returns:
         options -- Tuple containing command line options from sys.argv
@@ -74,9 +75,16 @@ def app_helper(self):
             .format(url=colored(self.app['url'], 'cyan', attrs=['bold'])),
             'white', attrs=['bold']))
 
-    parser.add_argument('--ntp',
-                        action='store_true',
-                        help='Update system clock to NTP')
+    group = parser.add_mutually_exclusive_group()
+
+    group.add_argument('--ntp',
+                       action='store_false',
+                       help='Update the system clock with NTP')
+
+    group.add_argument('--time',
+                       nargs=1,
+                       metavar='{HH:MM:SS}',
+                       help='Update the system clock manually')
 
     parser.add_argument('--lang',
                         nargs=1,
@@ -95,7 +103,7 @@ def app_helper(self):
 
     parser.add_argument('--theme',
                         nargs=1,
-                        choices=['default','bacon', 'matrix'],
+                        choices=['default', 'bacon', 'matrix'],
                         help='Application theme selection')
 
     # Handle options
@@ -108,8 +116,14 @@ def app_helper(self):
                              error='invalid keyboard layout !')
 
     if options.ntp:
-        update_system_clock = command_output(
+        ntp_system_clock = command_output(
             '/usr/bin/timedatectl set-ntp true', timeout=1)
+
+    if options.time:
+        manual_system_clock = command_output(
+            '/usr/bin/timedatectl set-time {time}'
+            .format(time=quote(options.time[0].strip())),
+            timeout=1)
 
     return options
 
