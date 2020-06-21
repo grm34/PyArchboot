@@ -190,7 +190,7 @@ def question_manager(self):
         inquirer.Text(
             'timezone',
             message=self.trad('Enter desired timezone'),
-            validate=lambda user,response:
+            validate=lambda user, response:
                 timezone_validator(self, user, response),
             ignore=lambda user: user['timezone'] is not None),
 
@@ -198,35 +198,35 @@ def question_manager(self):
         inquirer.Text(
             'language',
             message=self.trad('Enter language code'),
-            validate=lambda user,response:
+            validate=lambda user, response:
                 language_validator(self, user, response)),
 
         # Hostname
         inquirer.Text(
             'hostname',
             message=self.trad('Enter hostname'),
-            validate=lambda user,response:
+            validate=lambda user, response:
                 hostname_validator(self, user, response)),
 
         # Root passwd
         inquirer.Password(
             'root_passwd',
             message=self.trad('Enter password for root'),
-            validate=lambda user,response:
+            validate=lambda user, response:
                 passwd_validator(self, user, response)),
 
         # Username
         inquirer.Text(
             'username',
             message=self.trad('Enter username'),
-            validate=lambda user,response:
+            validate=lambda user, response:
                 username_validator(self, user, response)),
 
         # User passwd
         inquirer.Password(
             'user_passwd',
             message=self.trad('Enter password for user {username}'),
-            validate=lambda user,response:
+            validate=lambda user, response:
                 passwd_validator(self, user, response)),
 
         # Kernel
