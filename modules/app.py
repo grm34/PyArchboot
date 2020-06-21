@@ -20,7 +20,7 @@ from shlex import quote
 
 from termcolor import colored, cprint
 
-from .unix_command import command_output
+from .system_manager.unix_command import command_output
 
 
 def app_banner(self):
@@ -55,13 +55,13 @@ def app_helper(self):
         command_output -- Subprocess check_output with return codes
 
     Options:
-        -h, --help = Display usage and exit;
-        --ntp = Update the system clock with NTP;
-        --time = Update the system clock manually;
-        --lang = Installer language selection;
-        --keyboard = Keyboard layout selection;
-        --file = Install additional packages from file;
-        --theme = Applcation theme selection
+        -h, --help > Display usage and exit;
+        --ntp > Update the system clock with NTP;
+        --time > Update the system clock manually;
+        --lang > Installer language selection;
+        --keyboard > Keyboard layout selection;
+        --file > Install additional packages from file;
+        --theme > Application theme selection
 
     Returns:
         options -- Tuple containing command line options from sys.argv
@@ -78,7 +78,7 @@ def app_helper(self):
     group = parser.add_mutually_exclusive_group()
 
     group.add_argument('--ntp',
-                       action='store_false',
+                       action='store_true',
                        help='Update the system clock with NTP')
 
     group.add_argument('--time',

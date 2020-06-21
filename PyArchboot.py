@@ -23,8 +23,8 @@ from inquirer.themes import load_theme_from_dict
 
 from modules.app import app_banner, app_helper, app_translator
 from modules.questioner.questions import question_manager
-from modules.system import GetSettings
-from modules.unix_command import load_json_file
+from modules.system_manager.settings import GetSettings
+from modules.system_manager.unix_command import load_json_file
 
 # Create a StreamHandler wich write to sys.stderr
 level = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
