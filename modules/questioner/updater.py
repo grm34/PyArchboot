@@ -43,8 +43,11 @@ def desktop_extra_assigner(self, user):
         desktop_choice -- String containing the question for the desktop
                           environment extra packages
     """
-    choice = ['Gnome extra', 'KDE applications', 'Deepin extra',
-              'Mate extra', 'XFCE goodies']
+    choice = ['Gnome extra',
+              'KDE applications',
+              'Deepin extra',
+              'Mate extra',
+              'XFCE goodies']
 
     desktop_choice = self.trad('Do you wish to install {extra}').format(
         extra=choice[user['desktop']])

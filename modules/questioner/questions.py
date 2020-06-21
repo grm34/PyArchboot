@@ -94,8 +94,8 @@ def question_manager(self):
             message=self.trad(
                 'Do you wish use free space for root partition'),
             ignore=lambda user:
-                user['drive'] is None
-                or 'Home' in user['optional_partitions']),
+                user['drive'] is None or
+                'Home' in user['optional_partitions']),
 
         # Root size
         inquirer.Text(
@@ -115,8 +115,8 @@ def question_manager(self):
             validate=lambda user, response:
                 size_validator(self, user, response),
             ignore=lambda user:
-                user['drive'] is None
-                or 'Swap' not in user['optional_partitions']),
+                user['drive'] is None or
+                'Swap' not in user['optional_partitions']),
 
         # Home freespace
         inquirer.Confirm(
@@ -124,8 +124,8 @@ def question_manager(self):
             message=self.trad(
                 'Do you wish use free space for home partition'),
             ignore=lambda user:
-                user['drive'] is None
-                or 'Home' not in user['optional_partitions']),
+                user['drive'] is None or
+                'Home' not in user['optional_partitions']),
 
         # Home size
         inquirer.Text(
@@ -134,9 +134,9 @@ def question_manager(self):
             validate=lambda user, response:
                 size_validator(self, user, response),
             ignore=lambda user:
-                user['drive'] is None
-                or 'Home' not in user['optional_partitions']
-                or user['home_freespace'] is True),
+                user['drive'] is None or
+                'Home' not in user['optional_partitions'] or
+                user['home_freespace'] is True),
 
         # Boot drive ID
         inquirer.List(
@@ -163,8 +163,8 @@ def question_manager(self):
             choices=lambda user: partition_list_updater(self, user),
             carousel=True,
             ignore=lambda user:
-                user['drive'] is not None
-                or 'Swap' not in user['optional_partitions']),
+                user['drive'] is not None or
+                'Swap' not in user['optional_partitions']),
 
         # Home drive ID
         inquirer.List(
@@ -173,15 +173,16 @@ def question_manager(self):
             choices=lambda user: partition_list_updater(self, user),
             carousel=True,
             ignore=lambda user:
-                user['drive'] is not None
-                or 'Home' not in user['optional_partitions']),
+                user['drive'] is not None or
+                'Home' not in user['optional_partitions']),
 
         # Timezone selection
         inquirer.List(
             'timezone',
             message=self.trad('Select timezone'),
             choices=[self.ipinfo['timezone'],
-                     (self.trad('Custom timezone'), None)],
+                     (self.trad('Custom timezone'),
+                      None)],
             default=self.ipinfo['timezone'],
             carousel=True),
 
@@ -232,8 +233,10 @@ def question_manager(self):
         inquirer.List(
             'kernel',
             message=self.trad('Select Linux Kernel'),
-            choices=[('Linux Stable', 0), ('Linux Hardened', 1),
-                     ('Linux LTS', 2), ('Linux ZEN', 3)],
+            choices=[('Linux Stable', 0),
+                     ('Linux Hardened', 1),
+                     ('Linux LTS', 2),
+                     ('Linux ZEN', 3)],
             carousel=True),
 
         # Firmware drivers
@@ -247,10 +250,19 @@ def question_manager(self):
             'desktop',
             message=self.trad('Select Desktop Environment'),
             choices=[None,
-                     ('Gnome', 0), ('KDE', 1), ('Deepin', 2), ('Mate', 3),
-                     ('XFCE', 4), ('LXQT', 5), ('LXDE', 6), ('Cinnamon', 7),
-                     ('Budgie', 8), ('Enlightenment', 9), ('Awesome', 10),
-                     ('Xmonad', 11), ('i3', 12)],
+                     ('Gnome', 0),
+                     ('KDE', 1),
+                     ('Deepin', 2),
+                     ('Mate', 3),
+                     ('XFCE', 4),
+                     ('LXQT', 5),
+                     ('LXDE', 6),
+                     ('Cinnamon', 7),
+                     ('Budgie', 8),
+                     ('Enlightenment', 9),
+                     ('Awesome', 10),
+                     ('Xmonad', 11),
+                     ('i3', 12)],
             carousel=True),
 
         # Desktop extras
@@ -258,15 +270,18 @@ def question_manager(self):
             'desktop_extra',
             message=lambda user: desktop_extra_assigner(self, user),
             ignore=lambda user:
-                user['desktop'] is None
-                or user['desktop'] not in [0, 1, 2, 3, 4]),
+                user['desktop'] is None or
+                user['desktop'] not in [0, 1, 2, 3, 4]),
 
         # Display manager
         inquirer.List(
             'display',
             message=self.trad('Select Display Manager'),
-            choices=[('Gdm', 0), ('LightDM', 1), ('Sddm', 2),
-                     ('Lxdm', 3), ('Xdm', 4)],
+            choices=[('Gdm', 0),
+                     ('LightDM', 1),
+                     ('Sddm', 2),
+                     ('Lxdm', 3),
+                     ('Xdm', 4)],
             carousel=True,
             ignore=lambda user: user['desktop'] is None),
 
@@ -274,8 +289,11 @@ def question_manager(self):
         inquirer.List(
             'greeter',
             message=self.trad('Select LightDM Greeter'),
-            choices=[('Gtk', 0), ('Pantheon', 1), ('Deepin', 2),
-                     ('Webkit', 3), ('Litarvan', 4)],
+            choices=[('Gtk', 0),
+                     ('Pantheon', 1),
+                     ('Deepin', 2),
+                     ('Webkit', 3),
+                     ('Litarvan', 4)],
             carousel=True,
             ignore=lambda user:
                 user['desktop'] is None or user['display'] != 1),
@@ -285,8 +303,9 @@ def question_manager(self):
             'gpu_driver',
             message=self.trad('Do you wish to install GPU driver'),
             ignore=lambda user:
-                user['desktop'] is None or self.gpu_list == ['']
-                or self.gpu_list is False),
+                user['desktop'] is None or
+                self.gpu_list == [''] or
+                self.gpu_list is False),
 
         # VGA Controller selection
         inquirer.List(
@@ -308,15 +327,20 @@ def question_manager(self):
             'gpu_proprietary',
             message=self.trad('Do you wish to install proprietary drivers'),
             ignore=lambda user:
-                user['gpu_driver'] is False
-                or 'nvidia' not in user['vga_controller'].lower()),
+                user['gpu_driver'] is False or
+                'nvidia' not in user['vga_controller'].lower()),
 
         # AUR Helper
         inquirer.List(
             'aur_helper',
             message=self.trad('Select AUR Helper'),
-            choices=[None, 'Yay', 'Pamac-aur', 'Trizen',
-                     'Pacaur', 'Pakku', 'Pikaur'],
+            choices=[None,
+                     'Yay',
+                     'Pamac-aur',
+                     'Trizen',
+                     'Pacaur',
+                     'Pakku',
+                     'Pikaur'],
             carousel=True),
 
         # User groups

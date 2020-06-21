@@ -47,11 +47,15 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
     try:
         if args is not None:
             pipe = Popen(args, stdout=PIPE)
-            command = Popen(shlex.split(cmd), stdin=pipe.stdout, stdout=PIPE,
+            command = Popen(shlex.split(cmd),
+                            stdin=pipe.stdout,
+                            stdout=PIPE,
                             encoding='utf-8')
             command = command.communicate()[0]
         else:
-            command = Popen(shlex.split(cmd), stdin=PIPE, stdout=PIPE,
+            command = Popen(shlex.split(cmd),
+                            stdin=PIPE,
+                            stdout=PIPE,
                             encoding='utf-8')
 
     except (SubprocessError, OSError, ValueError) as cmd_error:
@@ -96,7 +100,9 @@ def command_output(cmd, exit_on_error=False, error=None, timeout=None):
         output -- Run command and return its output
     """
     try:
-        output = check_output(cmd, shell=True, encoding='utf-8',
+        output = check_output(cmd,
+                              shell=True,
+                              encoding='utf-8',
                               timeout=timeout)
 
     except (TimeoutExpired, CalledProcessError) as cmd_error:

@@ -16,7 +16,6 @@ limitations under the License.
 """
 import logging
 import os
-from shlex import quote
 
 import coloredlogs
 import inquirer
@@ -25,22 +24,23 @@ from inquirer.themes import load_theme_from_dict
 from modules.app import app_banner, app_helper, app_translator
 from modules.questioner.questions import question_manager
 from modules.system import GetSettings
-from modules.unix_command import command_output, load_json_file
-
-# Update system clock
-update_clock = command_output('/usr/bin/timedatectl set-ntp true', timeout=1)
+from modules.unix_command import load_json_file
 
 # Create a StreamHandler wich write to sys.stderr
 level = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
 message = '{level} %(message)s'.format(level=level)
 logging.basicConfig(filename='{path}/logs/{appname}.log'
                     .format(path=os.getcwd(), appname='PyArchboot'),
-                    level=logging.DEBUG, filemode='w', format=message)
+                    level=logging.DEBUG,
+                    filemode='w',
+                    format=message)
 
 # Create a logger for terminal output
 console = logging.getLogger()
 coloredlogs.install(
-    level='INFO', logger=console, datefmt='%H:%M:%S',
+    level='INFO',
+    logger=console,
+    datefmt='%H:%M:%S',
     fmt='[%(asctime)s] %(levelname)s > %(message)s',
     level_styles={'critical': {'bold': True, 'color': 'red'},
                   'debug': {'color': 'green'},
@@ -64,16 +64,16 @@ class PyArchboot(object):
     def __init__(self):
         """Initialize application settings."""
         self.app = load_json_file('app.json')
+        self.display_banner = app_banner(self)
+        self.options = app_helper(self)
         self.packages = load_json_file('packages.json')
         self.theme = load_json_file('theme.json')
-        self.display_banner = app_banner(self)
-        self.args = app_helper(self)
         self.ipinfo = GetSettings()._ipinfo()
         self.mirrorlist = GetSettings()._mirrorlist(
             self.ipinfo['country'].lower())
         self.language = self.ipinfo['country'].lower()
-        if self.args.lang:
-            self.language = self.args.lang[0].strip()
+        if self.options.lang:
+            self.language = self.options.lang[0].strip()
         self.trad = app_translator(self.language)
         self.efi, self.firmware = GetSettings()._firmware()
         self.drive_list = GetSettings()._drive(self.trad)
@@ -86,11 +86,6 @@ class PyArchboot(object):
 
     def run(self):
         """Start the application."""
-        if self.args.key:
-            cmd = command_output('loadkeys {key}'
-                                 .format(key=quote(self.args.key[0].strip())),
-                                 exit_on_error=True, timeout=1,
-                                 error=self.trad('invalid keyboard layout !'))
 
         # Ask questions to the user
         user = inquirer.prompt(question_manager(self),

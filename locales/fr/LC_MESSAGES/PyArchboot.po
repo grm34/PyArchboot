@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyArchboot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-20 23:36+0200\n"
+"POT-Creation-Date: 2020-06-21 02:23+0200\n"
 "PO-Revision-Date: 2020-06-04 18:35+0200\n"
 "Last-Translator: Jeremy Pardo jerem.pardo@tutanota.com\n"
 "Language-Team: PyArchboot\n"
@@ -25,6 +25,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.3\n"
+
+#: modules/app.py:102
+msgid "invalid keyboard layout !"
+msgstr ""
 
 #: modules/system.py:44
 msgid "Use already formatted partitions"
@@ -109,77 +113,77 @@ msgstr "Sélectionnez le fuseau horaire"
 msgid "Custom timezone"
 msgstr "Fuseau horaire personnalisé"
 
-#: modules/questioner/questions.py:191
+#: modules/questioner/questions.py:192
 msgid "Enter desired timezone"
 msgstr "Entrez le fuseau horaire désiré"
 
-#: modules/questioner/questions.py:199
+#: modules/questioner/questions.py:200
 msgid "Enter language code"
 msgstr "Entrez votre code langue"
 
-#: modules/questioner/questions.py:206
+#: modules/questioner/questions.py:207
 msgid "Enter hostname"
 msgstr "Entrez un nom d'hôte"
 
-#: modules/questioner/questions.py:213
+#: modules/questioner/questions.py:214
 msgid "Enter password for root"
 msgstr "Entrez un mot de passe pour root"
 
-#: modules/questioner/questions.py:220
+#: modules/questioner/questions.py:221
 msgid "Enter username"
 msgstr "Entrez votre nom d'utilisateur"
 
-#: modules/questioner/questions.py:227
+#: modules/questioner/questions.py:228
 #, python-brace-format
 msgid "Enter password for user {username}"
 msgstr "Entrez un mot de passe pour l'utilisateur {username}"
 
-#: modules/questioner/questions.py:234
+#: modules/questioner/questions.py:235
 msgid "Select Linux Kernel"
 msgstr "Sélectionnez le kernel désiré"
 
-#: modules/questioner/questions.py:242
+#: modules/questioner/questions.py:245
 msgid "Do you wish to install Linux Firmware"
 msgstr "Voulez-vous installer Linux Firmware"
 
-#: modules/questioner/questions.py:248
+#: modules/questioner/questions.py:251
 msgid "Select Desktop Environment"
 msgstr "Sélectionnez un environnement de bureau"
 
-#: modules/questioner/questions.py:267
+#: modules/questioner/questions.py:279
 msgid "Select Display Manager"
 msgstr "Sélectionnez un gestionnaire de connexion"
 
-#: modules/questioner/questions.py:276
+#: modules/questioner/questions.py:291
 msgid "Select LightDM Greeter"
 msgstr "Sélectionnez un greeter pour LightDM"
 
-#: modules/questioner/questions.py:286
+#: modules/questioner/questions.py:304
 msgid "Do you wish to install GPU driver"
 msgstr "Voulez vous installer les drivers graphique"
 
-#: modules/questioner/questions.py:294
+#: modules/questioner/questions.py:313
 msgid "Select GPU Controller"
 msgstr "Sélectionnez votre carte graphique"
 
-#: modules/questioner/questions.py:303
+#: modules/questioner/questions.py:322
 msgid "Do you wish to install Hardware video acceleration"
 msgstr "Voulez-vous installer l'accéleration vidéo matérielle"
 
-#: modules/questioner/questions.py:309
+#: modules/questioner/questions.py:328
 msgid "Do you wish to install proprietary drivers"
 msgstr "Voulez-vous installer les drivers propiétaires"
 
-#: modules/questioner/questions.py:317
+#: modules/questioner/questions.py:336
 msgid "Select AUR Helper"
 msgstr "Sélectionnez un AUR Helper"
 
-#: modules/questioner/questions.py:326
+#: modules/questioner/questions.py:350
 #, python-brace-format
 msgid "Do you wish add to all groups user {username}"
 msgstr "Voulez-vous ajouter l'utilisateur {username} à tous les groupes"
 
-#: modules/questioner/updater.py:49
+#: modules/questioner/updater.py:52
 #, python-brace-format
 msgid "Do you wish to install {extra}"
 msgstr "Voulez-vous installer {extra}"
@@ -194,30 +198,29 @@ msgstr "Nom d'utilisateur invalide: {response} (ex: Johnny)"
 msgid "Minimum [{min}] Maximum [{max}] Remaining [{free}]"
 msgstr ""
 
-#: modules/questioner/validator.py:143
+#: modules/questioner/validator.py:146
 #, python-brace-format
 msgid "Invalid timezone: {response} (e.q., Europe/Paris)"
 msgstr "Fuseau horaire invalide: {response} (ex: Europe/Paris)"
 
-#: modules/questioner/validator.py:169
+#: modules/questioner/validator.py:172
 #, python-brace-format
 msgid "Invalid language code: {response} (e.q., fr_FR)"
 msgstr "Code langue invalide: {response} (ex: fr_FR)"
 
-#: modules/questioner/validator.py:191
+#: modules/questioner/validator.py:194
 #, python-brace-format
 msgid "Invalid hostname: {response} (e.q., my-computer)"
 msgstr "Nom d'hôte invalide: {response} (ex: mon-ordinateur)"
 
-#: modules/questioner/validator.py:213
-msgid ""
-"Password should be at least 8 chars long with one letter and one digit !"
-msgstr "Minimum 8 charactères avec au moins une lettre et un chiffre !"
-
-#: modules/questioner/validator.py:235
+#: modules/questioner/validator.py:238
 #, python-brace-format
 msgid "Invalid username: {response} (e.q., JohnDoe)"
 msgstr "Nom d'utilisateur invalide: {response} (ex: Johnny)"
+
+#~ msgid ""
+#~ "Password should be at least 8 chars long with one letter and one digit !"
+#~ msgstr "Minimum 8 charactères avec au moins une lettre et un chiffre !"
 
 #~ msgid "installation successfull"
 #~ msgstr "installation  réussie"

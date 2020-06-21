@@ -16,8 +16,11 @@ limitations under the License.
 """
 import argparse
 import gettext
+from shlex import quote
 
 from termcolor import colored, cprint
+
+from .unix_command import command_output
 
 
 def app_banner(self):
@@ -45,37 +48,64 @@ def app_helper(self):
 
     Modules:
         argparse -- Optparse-inspired command-line parsing library;
-        termcolor -- ANSII Color formatting for output in terminal
+        termcolor -- ANSII Color formatting for output in terminal;
+        shlex.quote -- Return a shell-escaped version of the string
+
+    Submodules:
+        command_output -- Subprocess check_output with return codes
 
     Options:
-        -h, --help -- Display usage and exit;
-        -l, --lang -- Installer language selection;
-        -k, --key  -- Keyboard layout selection;
-        -f, --file -- Install additional packages from file
+        -h, --help : Display usage and exit;
+        --lang : Installer language selection;
+        --keyboard : Keyboard layout selection;
+        --ntp : Update system clock to NTP;
+        --file : Install additional packages from file
 
     Returns:
-        args -- Tuple containing command line options from sys.argv
+        options -- Tuple containing command line options from sys.argv
     """
     parser = argparse.ArgumentParser(
         prog=colored(self.app['name'], 'green', attrs=['bold']),
         description=colored(self.app['title'], 'white', attrs=['bold']),
         usage=colored(self.app['usage'], 'grey', 'on_cyan'),
-        epilog=colored('More information at {url}'
-                       .format(url=colored(self.app['url'],
-                                           'cyan', attrs=['bold']))))
+        epilog=colored(
+            'More information at {url}'
+            .format(url=colored(self.app['url'], 'cyan', attrs=['bold'])),
+            'white', attrs=['bold']))
 
-    parser.add_argument('-l', '--lang', nargs=1,
+    parser.add_argument('--ntp',
+                        action='store_true',
+                        help='Update system clock to NTP')
+
+    parser.add_argument('--lang',
+                        nargs=1,
                         choices=['de', 'en', 'es', 'fr', 'ru'],
                         help='Installer language selection')
 
-    parser.add_argument('-k', '--key', nargs=1,
+    parser.add_argument('--keyboard',
+                        nargs=1,
+                        metavar='{keymap,lang,...}',
                         help='Keyboard layout selection')
 
-    # parser.add_argument('-f', '--file', nargs=1,
-    #                     help='Install additional packages from file')
+    parser.add_argument('--file',
+                        nargs=1,
+                        metavar='{file,list,...}',
+                        help='Install additional packages from file')
 
-    args = parser.parse_args()
-    return args
+    # Handle options
+    options = parser.parse_args()
+    if options.keyboard:
+        cmd = command_output('loadkeys {key}'
+                             .format(key=quote(options.key[0].strip())),
+                             exit_on_error=True,
+                             timeout=1,
+                             error=self.trad('invalid keyboard layout !'))
+
+    if options.ntp:
+        update_system_clock = command_output(
+            '/usr/bin/timedatectl set-ntp true', timeout=1)
+
+    return options
 
 
 def app_translator(lang):
@@ -90,7 +120,8 @@ def app_translator(lang):
     Returns:
         trad -- Function to translate string
     """
-    language = gettext.translation('PyArchboot', localedir='locales',
+    language = gettext.translation('PyArchboot',
+                                   localedir='locales',
                                    languages=['{lang}'.format(lang=lang)])
     trad = language.gettext
     return trad

@@ -108,9 +108,12 @@ def size_validator(self, user, response):
              parse_size(max_size[size_index(user)])):
 
         raise ValidationError('', reason=error.format(
-            name=name[size_index(user)], response=response,
-            eq=eq_size[size_index(user)], min=min_size[size_index(user)],
-            max=max_size[size_index(user)], free=format_size(
+            name=name[size_index(user)],
+            response=response,
+            eq=eq_size[size_index(user)],
+            min=min_size[size_index(user)],
+            max=max_size[size_index(user)],
+            free=format_size(
                 parse_size(user['drive'].split()[1].replace(',', '.')) -
                 size_counter(user))))
 
@@ -140,8 +143,8 @@ def timezone_validator(self, user, response):
             (response == ''):
 
         raise ValidationError('', reason=self.trad(
-            'Invalid timezone: {response} (e.q., Europe/Paris)'.format(
-                response=response)))
+            'Invalid timezone: {response} (e.q., Europe/Paris)'
+            .format(response=response)))
 
     return True
 
@@ -207,11 +210,11 @@ def passwd_validator(self, user, response):
     Returns:
         boolean -- True
     """
+    info = 'Password should be at least'
+    valid = '8 chars long with one letter and one digit !'
+    message = '{info} {valid}'.format(info=info, valid=valid)
     if not re.match(r'^(?=.*[A-Za-z])(?=.*\d)[\S]{8,}$', response):
-
-        raise ValidationError('', reason=self.trad(
-            'Password should be at least 8 chars long with \
-one letter and one digit !'))
+        raise ValidationError('', reason=message)
 
     return True
 

@@ -157,7 +157,8 @@ class GetSettings:
         """
         output = api_json_ouput('https://ipinfo.io?token=26d03faada92e8',
                                 exit_on_error=True,
-                                error='no internet connection !', timeout=2)
+                                error='no internet connection !',
+                                timeout=2)
         return output
 
     def _mirrorlist(self, country):
