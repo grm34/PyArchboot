@@ -54,8 +54,11 @@ coloredlogs.install(
 class PyArchboot(object):
     """Application main class.
 
-    When called, it accepts no arguments and returns a new featureless
-    instance that has no instance attributes and cannot be given any.
+    Arch Linux is a light and fast distribution whose concept is to remain as
+    simple as possible. In the same purpose and in order to give free choice
+    to the users, this script performs a minimal arch installation, and only
+    required packages will be installed. According to desired configuration
+    and in order to get complete support additional packages may be required.
 
     Arguments:
         object -- base class of the class hierarchy
@@ -67,7 +70,8 @@ class PyArchboot(object):
         self.display_banner = app_banner(self)
         self.options = app_helper(self)
         self.packages = load_json_file('packages.json')
-        self.theme = load_json_file('theme.json')
+        self.themes = load_json_file('themes.json')
+        self.theme = self.themes['default']
         self.ipinfo = GetSettings()._ipinfo()
         self.mirrorlist = GetSettings()._mirrorlist(
             self.ipinfo['country'].lower())
@@ -75,6 +79,8 @@ class PyArchboot(object):
         if self.options.lang:
             self.language = self.options.lang[0].strip()
         self.trad = app_translator(self.language)
+        if self.options.theme:
+             self.theme = self.themes[self.options.theme[0].strip()]
         self.efi, self.firmware = GetSettings()._firmware()
         self.drive_list = GetSettings()._drive(self.trad)
         self.lvm = GetSettings()._filesystem(self.trad, 'lvm')

@@ -60,6 +60,7 @@ def app_helper(self):
         --keyboard : Keyboard layout selection;
         --ntp : Update system clock to NTP;
         --file : Install additional packages from file
+        --theme : Applcation theme selection
 
     Returns:
         options -- Tuple containing command line options from sys.argv
@@ -92,14 +93,19 @@ def app_helper(self):
                         metavar='{file,list,...}',
                         help='Install additional packages from file')
 
+    parser.add_argument('--theme',
+                        nargs=1,
+                        choices=['default','bacon', 'matrix'],
+                        help='Application theme selection')
+
     # Handle options
     options = parser.parse_args()
     if options.keyboard:
         cmd = command_output('loadkeys {key}'
-                             .format(key=quote(options.key[0].strip())),
+                             .format(key=quote(options.keyboard[0].strip())),
                              exit_on_error=True,
                              timeout=1,
-                             error=self.trad('invalid keyboard layout !'))
+                             error='invalid keyboard layout !')
 
     if options.ntp:
         update_system_clock = command_output(

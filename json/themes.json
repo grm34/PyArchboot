@@ -1,0 +1,62 @@
+{
+    "default": {
+        "Question": {
+            "mark_color": "red",
+            "brackets_color": "bold_green",
+            "default_color": "normal"
+        },
+        "List": {
+            "selection_color": "reverse_cyan",
+            "selection_cursor": ">",
+            "unselected_color": "normal"
+        },
+        "Checkbox": {
+            "selection_color": "reverse_cyan",
+            "selected_color": "bold_green",
+            "unselected_color": "normal",
+            "selection_icon": ">",
+            "selected_icon": "[x]",
+            "unselected_icon": "[ ]"
+        }
+    },
+    "bacon": {
+        "Question": {
+            "mark_color": "green",
+            "brackets_color": "bold_red",
+            "default_color": "normal"
+        },
+        "List": {
+            "selection_color": "reverse_red",
+            "selection_cursor": ">",
+            "unselected_color": "normal"
+        },
+        "Checkbox": {
+            "selection_color": "reverse_red",
+            "selected_color": "bold_red",
+            "unselected_color": "normal",
+            "selection_icon": ">",
+            "selected_icon": "[x]",
+            "unselected_icon": "[ ]"
+        }
+    },
+    "matrix": {
+        "Question": {
+            "mark_color": "cyan",
+            "brackets_color": "bold_red",
+            "default_color": "normal"
+        },
+        "List": {
+            "selection_color": "reverse_green",
+            "selection_cursor": ">",
+            "unselected_color": "normal"
+        },
+        "Checkbox": {
+            "selection_color": "reverse_green",
+            "selected_color": "bold_green",
+            "unselected_color": "normal",
+            "selection_icon": ">",
+            "selected_icon": "[x]",
+            "unselected_icon": "[ ]"
+        }
+    }
+}
