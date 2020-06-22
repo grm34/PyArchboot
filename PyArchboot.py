@@ -23,6 +23,15 @@ import inquirer
 from inquirer.themes import load_theme_from_dict
 
 from modules.app import app_banner, app_helper, app_translator
+from modules.installer import (configure_desktop_environment,
+                               configure_display_manager, configure_grub,
+                               configure_systemdboot, generate_fstab,
+                               install_aur_helper, install_base_system,
+                               install_bootloader, install_network,
+                               install_optional_packages, set_hostname_file,
+                               set_locales, set_mirrorlist, set_root_passwd,
+                               set_timezone, set_user_privileges,
+                               set_virtual_console)
 from modules.partitioner import (create_dos_partitions, create_lvm_partitions,
                                  delete_partitions, format_drive,
                                  format_partitions, mount_partitions,
@@ -210,7 +219,6 @@ class PyArchboot(object):
         cmd = mount_partitions(self)
 
         # Install Arch Linux
-
 
 
 if __name__ == '__main__':
