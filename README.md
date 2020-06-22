@@ -36,15 +36,18 @@ The only thing you need is one USB bootable device of [Arch Linux](https://mir.a
 
 File|blank|comment|code
 :-------|-------:|-------:|-------:
-modules/questioner/questions.py|48|65|245
-modules/questioner/validator.py|66|95|84
-modules/system_manager/unix_command.py|41|62|70
-modules/app.py|37|47|67
-modules/system_manager/settings.py|46|77|67
-PyArchboot.py|20|29|61
-modules/questioner/updater.py|17|27|15
+modules/installer.py|148|38|376
+modules/questioner/questions.py|49|67|251
+modules/session.py|78|88|170
+modules/partitioner.py|84|111|168
+modules/system_manager/settings.py|71|159|109
+PyArchboot.py|32|89|100
+modules/questioner/validator.py|66|117|84
+modules/system_manager/unix_command.py|41|75|71
+modules/app.py|37|56|67
+modules/questioner/updater.py|17|30|15
 --------|--------|--------|--------
-SUM:|275|402|609
+SUM:|623|830|1411
 
 ---
 
