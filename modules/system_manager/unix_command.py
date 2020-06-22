@@ -22,7 +22,8 @@ import sys
 from subprocess import (PIPE, CalledProcessError, Popen, SubprocessError,
                         TimeoutExpired, check_output)
 
-from requests import ReadTimeout, get
+from requests import ConnectionError as ConnectError
+from requests import ConnectTimeout, ReadTimeout, get
 
 
 def run_command(cmd, args=None, error=None, exit_on_error=False):
@@ -137,7 +138,7 @@ def api_json_ouput(url, exit_on_error=False, error=None, timeout=None):
     try:
         output = get(url, timeout=timeout).json()
 
-    except (ConnectionError, ReadTimeout) as url_error:
+    except (ConnectError, ConnectTimeout, ReadTimeout) as url_error:
         if error is not None:
             url_error = error
         logging.error(url_error)
