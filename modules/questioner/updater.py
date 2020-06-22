@@ -16,7 +16,7 @@ limitations under the License.
 """
 
 
-def partition_list_updater(self, user):
+def partitions_updater(self, user):
     """Delete previous partition to display an updated array after selection.
 
     Arguments
@@ -29,10 +29,10 @@ def partition_list_updater(self, user):
     """
     for partition in ['boot_id', 'root_id', 'swap_id']:
         if (partition in user) and \
-                (user[partition] in self.partition_list):
-            self.partition_list.remove(user[partition])
+                (user[partition] in self.partitions):
+            self.partitions.remove(user[partition])
 
-    return self.partition_list
+    return self.partitions
 
 
 def desktop_extra_assigner(self, user):

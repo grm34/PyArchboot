@@ -91,17 +91,30 @@ class PyArchboot(object):
         " |     |---- session.py
         "`
 
-    Actions
-    -------
-        1) Ask questions to the user.
-        2) Set parameters of the current session.
-        3) Partition the disk (optional).
-        4) Mount the partitions.
-        5) Install Arch Linux.
-
     Arguments
     ---------
-        object : base class of the class hierarchy
+        object: base class of the class hierarchy
+
+    Parameters
+    ----------
+        self.app: "Application information" > dict()
+        self.packages: "Arch Linux packages" > dict()
+        self.theme: "Application theme" > dict()
+        self.ipinfo: "User's IP address data" > dict()
+        self.mirrorlist: "User's country mirrorlist" > str()
+        self.trad: "Application language" > func()
+        self.cpu: "User's processor" > str()
+        self.efi: "User's firmware version" > str()
+        self.firmware: "User's firmware type" > str()
+        self.gpu: "Available VGA controllers" > array()
+        self.drives: "Available drives" > array()
+        self.partitions: "Available partitions" > array()
+        self.mountpoints: "Mountpoints of mounted partitions" > array()
+        self.volumes: "Existing LVM volumes" > array()
+        self.lvm: "Support for LVM volumes" > bool()
+        self.luks: "Support for encrypted drives" > bool()
+        self.ntfs: "Support for NTFS partitions" > bool()
+        self.user: "User's session parameters" > dict()
     """
 
     def __init__(self):
@@ -124,7 +137,7 @@ class PyArchboot(object):
             self.ipinfo['country'])
         language = self.ipinfo['country'].lower()
         if options.lang:
-            language = self.options.lang[0].strip()
+            language = options.lang[0].strip()
         self.trad = app_translator(language)
         if options.theme:
             self.theme = themes[options.theme[0].strip()]
@@ -132,8 +145,8 @@ class PyArchboot(object):
         # Session parameters
         self.cpu = GetSettings()._processor()
         self.efi, self.firmware = GetSettings()._firmware()
-        self.gpu_list = GetSettings()._vga_controller()
-        self.drive_list = GetSettings()._drives(self.trad)
+        self.controllers = GetSettings()._vga_controller()
+        self.drives = GetSettings()._drives(self.trad)
         self.partition_list = GetSettings()._partitions()
         self.mountpoints = GetSettings()._mountpoints()
         self.volumes = GetSettings()._volumes()
@@ -195,6 +208,9 @@ class PyArchboot(object):
 
         # Mount the partitions
         cmd = mount_partitions(self)
+
+        # Install Arch Linux
+
 
 
 if __name__ == '__main__':

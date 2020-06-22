@@ -18,7 +18,7 @@ import logging
 
 import inquirer
 
-from .updater import desktop_extra_assigner, partition_list_updater
+from .updater import desktop_extra_assigner, partitions_updater
 from .validator import (hostname_validator, language_validator,
                         passwd_validator, size_validator, timezone_validator,
                         username_validator)
@@ -35,7 +35,7 @@ def question_manager(self):
     Submodules
     ----------
         `desktop_extra_assigner`: "Assign the extra packages name of desktop"
-        `partition_list_updater`: "Delete partition to get updated array"
+        `partitions_updater`: "Delete partition to get updated array"
         `hostname_validator`: "Match UNIX hostname regex"
         `language_validator`: "Match language code in libraries/locale"
         `passwd_validator`: "Match UNIX password regex"
@@ -56,7 +56,7 @@ def question_manager(self):
         inquirer.List(
             'drive',
             message=self.trad('Select the drive to use'),
-            choices=self.drive_list,
+            choices=self.drives,
             carousel=True),
 
         # Lvm
@@ -143,25 +143,25 @@ def question_manager(self):
         inquirer.List(
             'boot_id',
             message=self.trad('Select boot partition'),
-            choices=self.partition_list,
+            choices=self.partitions,
             carousel=True,
             ignore=lambda user:
-                user['drive'] is not None or self.partition_list is None),
+                user['drive'] is not None or self.partitions is None),
 
         # Root drive ID
         inquirer.List(
             'root_id',
             message=self.trad('Select root partition'),
-            choices=lambda user: partition_list_updater(self, user),
+            choices=lambda user: partitions_updater(self, user),
             carousel=True,
             ignore=lambda user:
-                user['drive'] is not None or self.partition_list is None),
+                user['drive'] is not None or self.partitions is None),
 
         # Swap drive ID
         inquirer.List(
             'swap_id',
             message=self.trad('Select swap partition'),
-            choices=lambda user: partition_list_updater(self, user),
+            choices=lambda user: partitions_updater(self, user),
             carousel=True,
             ignore=lambda user:
                 user['drive'] is not None or
@@ -171,7 +171,7 @@ def question_manager(self):
         inquirer.List(
             'home_id',
             message=self.trad('Select home partition'),
-            choices=lambda user: partition_list_updater(self, user),
+            choices=lambda user: partitions_updater(self, user),
             carousel=True,
             ignore=lambda user:
                 user['drive'] is not None or
@@ -305,14 +305,14 @@ def question_manager(self):
             message=self.trad('Do you wish to install GPU driver'),
             ignore=lambda user:
                 user['desktop'] is None or
-                self.gpu_list == [''] or
-                self.gpu_list is False),
+                self.controllers == [''] or
+                self.controllers is False),
 
         # VGA Controller selection
         inquirer.List(
             'vga_controller',
             message=self.trad('Select GPU Controller'),
-            choices=self.gpu_list,
+            choices=self.controllers,
             carousel=True,
             ignore=lambda user: user['gpu_driver'] is False),
 

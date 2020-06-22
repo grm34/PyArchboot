@@ -38,8 +38,8 @@ def drive_session(self):
     else:
 
         # Get boot drive
-        boot = str(self.drive_list[0]).split()[0]
-        for drive in self.drive_list:
+        boot = str(self.drives[0]).split()[0]
+        for drive in self.drives:
             if str(drive).split()[0] in self.user['boot_id'].split()[0]:
                 boot = str(drive).split()[0]
                 break
