@@ -16,7 +16,7 @@ limitations under the License.
 """
 import logging
 import os
-from pprint import pprint
+import sys
 
 import coloredlogs
 import inquirer
@@ -71,24 +71,33 @@ class PyArchboot(object):
 
     Project structure
     -----------------
-        PyArchboot.py
-        |---- modules/
-        |     |---- questioner/
-        |     |     |---- __init__.py
-        |     |     |---- questions.py
-        |     |     |---- updater.py
-        |     |     |---- validator.py
-        |     |
-        |     |---- system_manager/
-        |     |     |---- __init__.py
-        |     |     |---- settings.py
-        |     |     |---- unix_command.py
-        |     |
-        |     |---- __init__.py
-        |     |---- app.py
-        |     |---- installer.py
-        |     |---- partitioner.py
-        |     |---- session.py
+        " PyArchboot.py
+        " |---` modules/
+        " |     |---- questioner/
+        " |     |     |---- __init__.py
+        " |     |     |---- questions.py
+        " |     |     |---- updater.py
+        " |     |     |---- validator.py
+        " |     |
+        " |     |---- system_manager/
+        " |     |     |---- __init__.py
+        " |     |     |---- settings.py
+        " |     |     |---- unix_command.py
+        " |     |
+        " |     |---- __init__.py
+        " |     |---- app.py
+        " |     |---- installer.py
+        " |     |---- partitioner.py
+        " |     |---- session.py
+        "`
+
+    Actions
+    -------
+        1) Ask questions to the user.
+        2) Set parameters of the current session.
+        3) Partition the disk (optional).
+        4) Mount the partitions.
+        5) Install Arch Linux.
 
     Arguments
     ---------
@@ -126,7 +135,7 @@ class PyArchboot(object):
         self.gpu_list = GetSettings()._vga_controller()
         self.drive_list = GetSettings()._drives(self.trad)
         self.partition_list = GetSettings()._partitions()
-        self.mountpoints = GetSettings()._partition_ids()
+        self.mountpoints = GetSettings()._mountpoints()
         self.volumes = GetSettings()._volumes()
         self.lvm = GetSettings()._filesystem(self.trad, 'lvm')
         self.luks = GetSettings()._filesystem(self.trad, 'luks')
@@ -136,45 +145,33 @@ class PyArchboot(object):
     def run(self):
         """Start the application.
 
-        Actions:
-        --------
+        Actions
+        -------
             1) Ask questions to the user.
             2) Set parameters of the current session.
             3) Partition the disk (optional).
             4) Mount the partitions.
             5) Install Arch Linux.
         """
-        while True:
+        # Ask questions to the user by running questioner module
+        self.user = inquirer.prompt(question_manager(self),
+                                    theme=load_theme_from_dict(self.theme))
 
-            # Ask questions to the user by running questioner module
-            self.user = inquirer.prompt(question_manager(self),
-                                        theme=load_theme_from_dict(
-                                            self.theme))
+        if self.user['confim'] is False:
+            del self
+            os.execl(sys.executable, sys.executable, * sys.argv)
 
-            # Set parameters of the current session
-            session_manager = [drive_session(self),
-                               partition_session(self),
-                               vga_session(self),
-                               desktop_session(self),
-                               display_session(self),
-                               system_session(self),
-                               clean_session(self)]
+        # Set parameters of the current session
+        session_manager = [drive_session(self),
+                        partition_session(self),
+                        vga_session(self),
+                        desktop_session(self),
+                        display_session(self),
+                        system_session(self),
+                        clean_session(self)]
 
-            for session in session_manager:
-                self.user = session
-
-            # Ask confirmation
-            question = [inquirer.List(
-                'confirm',
-                message=trad('Warning, this action can not be cancelled'),
-                choices=[('Install Arch Linux', True),
-                         ('Try again', False)],
-                default='Install Arch Linux')]
-
-            confirm = inquirer.prompt(question,
-                                      theme=load_theme_from_dict(self.theme))
-            if confirm is True:
-                break
+        for session in session_manager:
+            self.user = session
 
         # Umount user's partitions
         cmd = umount_partitions(self)
@@ -185,8 +182,8 @@ class PyArchboot(object):
             cmd = format_drive(self)
             cmd = new_partition_table(self)
             cmd = create_dos_partitions(self)
-            ids = GetSettings()._partition_ids(self)
-            partuuid = GetSettings()._partuuid(self)
+            ids = GetSettings()._partition_ids(self.user['drive']['name'])
+            partuuid = GetSettings()._partuuid(self.user['drive']['drive_id'])
             self.drive['partitions']['drive_id'] = ids
             cmd = set_partition_types(self)
             self.drive['partitions']['partuuid'] = partuuid

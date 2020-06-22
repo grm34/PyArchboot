@@ -29,21 +29,25 @@ from requests import ConnectTimeout, ReadTimeout, get
 def run_command(cmd, args=None, error=None, exit_on_error=False):
     """Subprocess Popen with console output.
 
-    Arguments:
-        cmd -- String containing the shell command to run
+    Arguments
+    ---------
+        cmd: "String containing the shell command to run"
 
-    Keyword Arguments:
-        args -- Array of the arguments to pipe (default: {None});
-        exit_on_error {boolean} -- Exit on exception (default: {False})
+    Keyword Arguments
+    -----------------
+        `args`: "Array of the arguments to pipe" (default: None)
+        `exit_on_error`: "Exit on exception boolean" (default: False)
 
-    Modules:
-        subprocess -- Connect to input/output/error pipes and obtain return;
-        shlex -- Analyzer class for simple shell-like syntaxes;
-        logging -- Event logging system for applications and libraries;
-        sys -- Access to some objects used or maintained by the interpreter
+    Modules
+    -------
+        subprocess: "Connect to input/output/error pipes and obtain return"
+        shlex: "Analyzer class for simple shell-like syntaxes"
+        logging: "Event logging system for applications and libraries"
+        sys: "Access to some objects used or maintained by the interpreter"
 
-    Returns:
-        output -- Run command and print the output to console
+    Returns
+    -------
+        "String containing the ouptut of the shell command"
     """
     try:
         if args is not None:
@@ -84,21 +88,25 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
 def command_output(cmd, exit_on_error=False, error=None, timeout=None):
     """Subprocess check_output with return codes.
 
-    Arguments:
-        cmd -- String containing the shell command to run
+    Arguments
+    ---------
+        cmd: "String containing the shell command to run
 
-    Keyword Arguments:
-        exit_on_error {boolean} -- Exit on exception (default: {False});
-        error -- String to set custom error message (default: {None});
-        timeout -- Integer to set timeout expired exception (default: {None})
+    Keyword Arguments
+    -----------------
+        `exit_on_error`: "Exit on exception boolean" (default: False)
+        `error`: "String to set custom error message" (default: None)
+        `timeout`: "Integer to set timeout expired exception" (default: None)
 
-    Modules:
-        subprocess -- Connect to input/output/error pipes and obtain return;
-        logging -- Event logging system for applications and libraries;
-        sys -- Access to some objects used or maintained by the interpreter
+    Modules
+    -------
+        subprocess: "Connect to input/output/error pipes and obtain return"
+        logging: "Event logging system for applications and libraries"
+        sys: "Access to some objects used or maintained by the interpreter"
 
-    Returns:
-        output -- Run command and return its output
+    Returns
+    -------
+        "String containing the ouptut of the shell command"
     """
     try:
         output = check_output(cmd,
@@ -124,16 +132,19 @@ def command_output(cmd, exit_on_error=False, error=None, timeout=None):
 def api_json_ouput(url, exit_on_error=False, error=None, timeout=None):
     """JSON API url parser.
 
-    Arguments:
-        url -- String containing the url to parse
+    Arguments
+    ---------
+        url: "String containing the url to parse"
 
-    Keyword Arguments:
-        exit_on_error {boolean} -- Exit on exception (default: {False});
-        error -- String to set custom error message (default: {None});
-        timeout -- Integer to set timeout expired exception (default: {None})
+    Keyword Arguments
+    -----------------
+        `exit_on_error`: "Exit on exception boolean" (default: False)
+        `error`: "String to set custom error message" (default: None)
+        `timeout`: "Integer to set timeout expired exception" (default: None)
 
-    Returns:
-        output -- Dictionary containing the json output
+    Returns
+    -------
+        "Dictionary containing the json output"
     """
     try:
         output = get(url, timeout=timeout).json()
@@ -152,16 +163,18 @@ def api_json_ouput(url, exit_on_error=False, error=None, timeout=None):
 def load_json_file(file):
     """JSON file parser.
 
-    Arguments:
-        file -- String containing the desired file to parse
-                (should be in json folder)
+    Arguments
+    ---------
+        file: "String containing the desired file to parse from json folder"
 
-    Modules:
-        json -- JavaScript syntax data interchange format;
-        os -- Export all functions from posix
+    Modules
+    -------
+        json: "JavaScript syntax data interchange format"
+        os: "Export all functions from posix"
 
-    Returns:
-        output -- Dictionary containing the json file
+    Returns
+    -------
+        "Dictionary containing the json file values"
     """
     with open('{path}/json/{file}'.format(
             path=os.getcwd(), file=file), 'r', encoding='utf-8') as output:

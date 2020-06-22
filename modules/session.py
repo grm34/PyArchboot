@@ -20,8 +20,9 @@ from crypt import METHOD_SHA512, crypt, mksalt
 def drive_session(self):
     """Set drive parameters of the current session.
 
-    Returns:
-        self.user -- Dictionary containing user's options
+    Returns
+    -------
+        self.user: "Dictionary containing user's options"
     """
     # Dedicated drive
     if self.user['drive'] is not None:
@@ -65,8 +66,9 @@ def drive_session(self):
 def partition_session(self):
     """Set partition parameters of the current session.
 
-    Returns:
-        self.user -- Dictionary containing user's options
+    Returns
+    -------
+        self.user: "Dictionary containing user's options"
     """
     # Dedicated drive
     if self.user['drive']['name'] is not None:
@@ -136,8 +138,9 @@ def partition_session(self):
 def vga_session(self):
     """Set VGA controller parameters of the current session.
 
-    Returns:
-        self.user -- Dictionary containing user's options
+    Returns
+    -------
+        self.user: "Dictionary containing user's options"
     """
     gpu_driver = None
     if self.user['gpu_driver'] is True:
@@ -193,8 +196,9 @@ def vga_session(self):
 def desktop_session(self):
     """Set desktop environment parameters of the current session.
 
-    Returns:
-        self.user -- Dictionary containing user's options
+    Returns
+    -------
+        self.user: "Dictionary containing user's options"
     """
     self.user['desktop_environment'] = {'name': self.user['desktop']}
     if self.user['desktop'] is not None:
@@ -234,8 +238,9 @@ def desktop_session(self):
 def display_session(self):
     """Set display manager parameters of the current session.
 
-    Returns:
-        self.user -- Dictionary containing user's options
+    Returns
+    -------
+        self.user: "Dictionary containing user's options"
     """
     self.user['display_manager'] = {'name': self.user['display']}
     if self.user['display'] is not None:
@@ -262,8 +267,9 @@ def display_session(self):
 def system_session(self):
     """Set system parameters of the current session.
 
-    Returns:
-        self.user -- Dictionary containing user's options
+    Returns
+    -------
+        self.user: "Dictionary containing user's options"
     """
     self.user['kernel'] = self.packages['kernel'][self.user['kernel']]
 
@@ -309,8 +315,9 @@ def system_session(self):
 def clean_session(self):
     """Delete unused parameters of the current session.
 
-    Returns:
-        self.user -- Dictionary containing user's options
+    Returns
+    -------
+        self.user: "Dictionary containing user's options"
     """
     unused_entries = ['root_freespace', 'home_freespace', 'hardvideo',
                       'optional_partitions', 'boot_id', 'greeter', 'display',

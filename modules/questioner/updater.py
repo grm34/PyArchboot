@@ -19,11 +19,13 @@ limitations under the License.
 def partition_list_updater(self, user):
     """Delete previous partition to display an updated array after selection.
 
-    Arguments:
-        user -- Dictionary containing user's answers
+    Arguments
+    ---------
+        user: "Dictionary containing user's answers"
 
-    Returns:
-        partition_list -- Array of the remaining partitions
+    Returns
+    -------
+        "Array containing the remaining available partitions"
     """
     for partition in ['boot_id', 'root_id', 'swap_id']:
         if (partition in user) and \
@@ -36,12 +38,13 @@ def partition_list_updater(self, user):
 def desktop_extra_assigner(self, user):
     """Assign the extra packages name of the selected desktop.
 
-    Arguments:
-        user -- Dictionary containing user's answers
+    Arguments
+    ---------
+        user: "Dictionary containing user's answers"
 
-    Returns:
-        desktop_choice -- String containing the question for the desktop
-                          environment extra packages
+    Returns
+    -------
+        "String containing question for the desktop extras"
     """
     choice = ['Gnome extra',
               'KDE applications',
@@ -49,10 +52,10 @@ def desktop_extra_assigner(self, user):
               'Mate extra',
               'XFCE goodies']
 
-    desktop_choice = self.trad('Do you wish to install {extra}').format(
-        extra=choice[user['desktop']])
+    question = self.trad('Do you wish to install {extra}'
+                         .format(extra=choice[user['desktop']]))
 
-    return desktop_choice
+    return question
 
 
 # PyArchboot - Python Arch Linux Installer by grm34 under Apache License 2.0

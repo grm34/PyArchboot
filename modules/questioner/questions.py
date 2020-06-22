@@ -27,25 +27,25 @@ from .validator import (hostname_validator, language_validator,
 def question_manager(self):
     """Ask questions to the user and store the answers.
 
-    Modules:
-        inquirer -- Common interactive command line user interfaces;
-        logging -- Event logging system for applications and libraries
+    Modules
+    -------
+        inquirer: "Common interactive command line user interfaces"
+        logging: "Event logging system for applications and libraries"
 
-    Submodules:
-        desktop_extra_assigner -- Assign the extra packages name of the
-                                  selected desktop;
-        partition_list_updater -- Delete previous partition to display an
-                                  updated array after selection;
-        hostname_validator -- Match UNIX hostname regex;
-        language_validator -- Match language code in libraries/locale;
-        passwd_validator -- Match UNIX password regex;
-        size_validator -- Match regex, current partition min/max size and
-                          remaining disk space;
-        timezone_validator -- Match timezone code in libraries/timezone;
-        username_validator -- Match UNIX username regex
+    Submodules
+    ----------
+        `desktop_extra_assigner`: "Assign the extra packages name of desktop"
+        `partition_list_updater`: "Delete partition to get updated array"
+        `hostname_validator`: "Match UNIX hostname regex"
+        `language_validator`: "Match language code in libraries/locale"
+        `passwd_validator`: "Match UNIX password regex"
+        `size_validator`: "Match regex, partition min/max and remaining size"
+        `timezone_validator`: "Match timezone code in libraries/timezone"
+        `username_validator`: "Match UNIX username regex"
 
-    Returns:
-        questions -- Dictionary containing user's answers
+    Returns
+    -------
+        questions: "Dictionary containing user's answers"
     """
     logging.info(self.trad('use arrow keys to select an option'))
     logging.warning(self.trad('all data will be lost !'))
@@ -349,7 +349,15 @@ def question_manager(self):
             'power',
             message=self.trad(
                 'Do you wish add to all groups user {username}'),
-            default=True)
+            default=True),
+
+        # Confirmation
+        inquirer.List(
+            'confirm',
+            message=self.trad('This action can not be cancelled'),
+            choices=[('Install Arch Linux', True),
+                     ('Try again', False)],
+            default='Install Arch Linux')
     ]
 
     return questions

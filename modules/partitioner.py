@@ -28,13 +28,15 @@ from .system_manager.unix_command import command_output, run_command
 def umount_partitions(self):
     """Umount user's existing partitions.
 
-    Modules:
-        logging -- Event logging system for applications and libraries;
-        time -- Various functions to manipulate time values
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        time: "Various functions to manipulate time values"
 
-    Submodules:
-        GetSettings -- Class to get user's system settings;
-        run_command -- Subprocess Popen with console output
+    Submodules
+    ----------
+        `GetSettings`: "Class to get user's system settings"
+        `run_command`: "Subprocess Popen with console output"
     """
     for partition in self.mountpoints:
 
@@ -60,13 +62,15 @@ def umount_partitions(self):
 def delete_partitions(self):
     """Delete existing partitions of the user's selected drive.
 
-    Modules:
-        logging -- Event logging system for applications and libraries;
-        time -- Various functions to manipulate time values
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        time: "Various functions to manipulate time values"
 
-    Submodules:
-        GetSettings -- Class to get user's system settings;
-        run_command -- Subprocess Popen with console output
+    Submodules
+    ----------
+        `GetSettings`: "Class to get user's system settings"
+        `run_command`: "Subprocess Popen with console output"
     """
     # Delete lvm partitions
     for partition in self.mountpoints[0]:
@@ -105,14 +109,16 @@ def delete_partitions(self):
 def format_drive(self):
     """Wipe and format drive.
 
-    Modules:
-        shlex.quote -- Return a shell-escaped version of the string
-        logging -- Event logging system for applications and libraries;
-        time -- Various functions to manipulate time values
+    Modules
+    -------
+        shlex.quote: "Return a shell-escaped version of the string"
+        logging: "Event logging system for applications and libraries"
+        time: "Various functions to manipulate time values"
 
-    Submodules:
-        run_command -- Subprocess Popen with console output;
-        command_output -- Subprocess check_output with return codes
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+        `command_output`: "Subprocess `check_output` with return codes"
     """
     logging.info(self.trad('format {drive} [{size}]')
                  .format(drive=self.user['drive']['name'],
@@ -131,12 +137,14 @@ def format_drive(self):
 def new_partition_table(self):
     """Create new partition table on user's selected drive.
 
-    Modules:
-        logging -- Event logging system for applications and libraries;
-        time -- Various functions to manipulate time values
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        time: "Various functions to manipulate time values"
 
-    Submodules:
-        run_command -- Subprocess Popen with console output
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
     """
     logging.info(self.trad('create new {table} partition table on {drive}')
                  .format(table=self.user['drive']['table'].upper(),
@@ -155,16 +163,15 @@ def new_partition_table(self):
 def create_dos_partitions(self):
     """Create dos partition on user's selected drive.
 
-    Modules:
-        humanfriendly.parse_size -- Parse a human readable data size and
-                                    return the number of bytes;
-        humanfriendly.round_number -- Round a floating point number to two
-                                      decimal places in a human format;
-        logging -- Event logging system for applications and libraries;
-        time -- Various functions to manipulate time values
+    Modules
+    -------
+        humanfriendly: "Human readable data libraries"
+        logging: "Event logging system for applications and libraries"
+        time: "Various functions to manipulate time values"
 
-    Submodules:
-        run_command -- Subprocess Popen with console output
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
     """
     for partition, size in zip(self.user['partitions']['name'],
                                self.user['partitions']['size']):
@@ -194,12 +201,14 @@ def create_dos_partitions(self):
 def set_partition_types(self):
     """Set type of user's dos partitions.
 
-    Modules:
-        logging -- Event logging system for applications and libraries;
-        time -- Various functions to manipulate time values
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        time: "Various functions to manipulate time values"
 
-    Submodules:
-        run_command -- Subprocess Popen with console output
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
     """
     for partition, drive_id in zip(self.user['partitions']['name'],
                                    self.user['partitions']['drive_id']):
@@ -226,12 +235,14 @@ def set_partition_types(self):
 def create_lvm_partitions(self):
     """Create LVM partitions on user's selected drive.
 
-    Modules:
-        logging -- Event logging system for applications and libraries;
-        time -- Various functions to manipulate time values
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        time: "Various functions to manipulate time values"
 
-    Submodules:
-        run_command -- Subprocess Popen with console output
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
     """
     for partition, drive_id, size in zip(self.user['partitions']['name'],
                                          self.user['partitions']['drive_id'],
@@ -283,11 +294,13 @@ def create_lvm_partitions(self):
 def format_partitions(self):
     """Format created partitions of user's selected drive.
 
-    Modules:
-        logging -- Event logging system for applications and libraries
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
 
-    Submodules:
-        command_output -- Subprocess check_output with return codes
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
     """
     for partition, drive_id, size, filesystem in zip(
             self.user['partitions']['name'],
@@ -313,13 +326,15 @@ def format_partitions(self):
 def mount_partitions(self):
     """Mount the partitions and activate SWAP.
 
-    Modules:
-        os -- Export all functions from posix;
-        logging -- Event logging system for applications and libraries;
-        time -- Various functions to manipulate time values
+    Modules
+    -------
+        os: "Export all functions from posix"
+        logging: "Event logging system for applications and libraries"
+        time: "Various functions to manipulate time values"
 
-    Submodules:
-        run_command -- Subprocess Popen with console output
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
     """
     for mountorder, partition, drive_id, mountpoint in sorted(
             zip(self.user['partitions']['mountorder'],

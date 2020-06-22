@@ -22,20 +22,39 @@ from .unix_command import api_json_ouput, command_output
 
 
 class GetSettings:
-    """Class to get user's system settings."""
+    """Class to get user's system settings.
+
+    Functions
+    ---------
+        1) "Get user's available drives."
+        2) "Get user's available partitions."
+        3) "Get the partition ids of the user's selected drive."
+        4) "Get partitions PARTUUID."
+        5) "Get mountpoints of existing partitions."
+        6) "Get existing LVM volumes."
+        7) "Get existing mountpoints of swap volumes."
+        8) "Get user's processor."
+        9) "Get user's available VGA controllers."
+        10) "Check if a filesystem is used by a volume or a partition."
+        11) "Get user's system firmware."
+        12) "Get user's IP address data."
+        13) "Get user's fastest mirrors (corresponding to user's country)."
+    """
 
     def _drives(self, trad):
         """Get user's available drives.
 
-        Arguments:
-            trad -- Function to translate string
+        Arguments
+        ---------
+            trad: "Function to translate string"
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- Array containing the available drives plus an option
-                      to select already formatted partitions
+        Returns
+        -------
+            "Array containing the available drives"
         """
         cmd = 'lsblk -I 8 -d -p -o NAME,SIZE,MODEL | grep -v NAME'
         output = command_output(cmd, exit_on_error=True)
@@ -48,11 +67,13 @@ class GetSettings:
     def _partitions(self):
         """Get user's available partitions.
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- Array containing the available partitions
+        Returns
+        -------
+            "Array containing the available partitions"
         """
         cmd = 'lsblk -p -l -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL'
         pipe = 'grep part | sed "s/part //g"'
@@ -66,14 +87,17 @@ class GetSettings:
     def _partition_ids(self, drive):
         """Get the partition ids of the user's selected drive.
 
-        Arguments:
-            drive -- String containing user's selected drive
+        Arguments
+        ---------
+            drive: "String containing user's selected drive"
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- Array containing partition ids
+        Returns
+        -------
+            "Array containing partition drive ids"
         """
         cmd = 'lsblk -p -l -o NAME,TYPE {drive}'.format(drive=quote(drive))
         pipe = 'grep part | sed "s/ part//g"'
@@ -87,14 +111,17 @@ class GetSettings:
     def _partuuid(self, partition_ids):
         """Get partitions PARTUUID.
 
-        Arguments:
-            partition_ids -- Array containing user's selected partitions
+        Arguments
+        ---------
+            `partition_ids`: "Array containing user's selected partitions"
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- Array containing partition partuuid
+        Returns
+        -------
+            "Array containing partition partuuid"
         """
         partuuid = []
         for drive_id in partition_ids:
@@ -109,11 +136,13 @@ class GetSettings:
     def _mountpoints(self):
         """Get mountpoints of existing partitions.
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- Array containing partition mountpoints
+        Returns
+        -------
+            "Array containing partition mountpoints"
         """
         cmd = 'lsblk -l -o MOUNTPOINT | grep -v MOUNTPOINT'
         output = command_output(cmd)
@@ -123,13 +152,15 @@ class GetSettings:
         return output
 
     def _volumes(self):
-        """Get existing volumes.
+        """Get existing LVM volumes.
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- Array containing existing volumes (pv, vg, lvm)
+        Returns
+        -------
+            "Array containing existing volumes (pv, vg, lvm)"
         """
         volumes = []
         cmd = ['lvs --noheadings --separator / -o vg_name,lv_name,devices',
@@ -147,11 +178,13 @@ class GetSettings:
     def _swap(self):
         """Get existing mountpoints of swap volumes.
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- Array containing swap mountpoints
+        Returns
+        -------
+            "Array containing swap mountpoints"
         """
         cmd = 'lsblk -p -l -o NAME,MOUNTPOINT | grep SWAP'
         output = command_output(cmd)
@@ -163,14 +196,17 @@ class GetSettings:
     def _processor(self):
         """Get user's processor.
 
-        Modules:
-            re -- Regular expression matching operations
+        Modules
+        -------
+            re: "Regular expression matching operations"
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- String containing the processor model name
+        Returns
+        -------
+            "String containing the processor model name"
         """
         cmd = 'cat /proc/cpuinfo | grep "model name" | uniq'
         output = command_output(cmd, exit_on_error=True)
@@ -183,11 +219,13 @@ class GetSettings:
     def _vga_controller(self):
         """Get user's available VGA controllers.
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- Array containing the available VGA controllers
+        Returns
+        -------
+            "Array containing the available VGA controllers"
         """
         cmd = 'lspci | grep -e VGA -e 3D'
         pipe = 'sed "s/.*: //g" | sed "s/Graphics Controller //g"'
@@ -204,15 +242,18 @@ class GetSettings:
         Used to check if user as ntfs, lvm or encrypted volumes to get thoses
         volumes supported by the system (by installing the required packages)
 
-        Arguments:
-            trad -- Function to translate string;
-            arg -- String containing the filesystem to check
+        Arguments
+        ---------
+            trad: "Function to translate string"
+            arg: "String containing the filesystem to check"
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- Boolean (True or False)
+        Returns
+        -------
+            Boolean: True or False
         """
         msg_error = trad('No existing {arg} volume detected'.format(arg=arg))
         output = command_output('lsblk -f | grep {arg}'
@@ -225,11 +266,13 @@ class GetSettings:
     def _firmware(self):
         """Get user's system firmware.
 
-        Modules:
-            os -- Export all functions from posix
+        Modules
+        -------
+            os: "Export all functions from posix"
 
-        Returns:
-            efi, firmware -- Strings containing system firmware type
+        Returns
+        -------
+            efi, firmware: "Strings containing system firmware type"
         """
         if os.path.isdir('/sys/firmware/efi/efivars'):
             firmware = 'uefi'
@@ -246,11 +289,13 @@ class GetSettings:
     def _ipinfo(self):
         """Get user's IP address data.
 
-        Submodules:
-            api_json_output -- JSON API url parser
+        Submodules
+        ----------
+            `api_json_output`: "JSON API url parser"
 
-        Returns:
-            output -- Dictionary containing IP address data
+        Returns
+        -------
+            "Dictionary containing IP address data"
         """
         output = api_json_ouput('https://ipinfo.io?token=26d03faada92e8',
                                 exit_on_error=True,
@@ -259,19 +304,23 @@ class GetSettings:
         return output
 
     def _mirrorlist(self, country):
-        """Get user's fastest mirrors (corresponding to country).
+        """Get user's fastest mirrors (corresponding to user's country).
 
-        Arguments:
-            country -- String containing user's country
+        Arguments
+        ---------
+            country: "String containing user's country"
 
-        Modules:
-            shlex.quote -- Return a shell-escaped version of the string
+        Modules
+        -------
+            shlex.quote: "Return a shell-escaped version of the string"
 
-        Submodules:
-            command_output -- Subprocess check_output with return codes
+        Submodules
+        ----------
+            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns:
-            output -- String containing the list of the mirrors
+        Returns
+        -------
+            "String containing the list of the mirrors"
         """
         url_base = 'https://www.archlinux.org/mirrorlist/?country='
         url_args = '{code}&use_mirror_status=on'.format(code=country.upper())

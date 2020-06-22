@@ -26,13 +26,13 @@ from .system_manager.unix_command import command_output
 def app_banner(self):
     """Display ASCII banner of the application.
 
-    Modules:
-    --------
-        termcolor -- ANSII Color formatting for output in terminal
+    Modules
+    -------
+        termcolor: "ANSII Color formatting for output in terminal"
 
-    Returns:
-    --------
-        Title with a short description of the application
+    Returns
+    -------
+        "Title with a short description of the application"
     """
     for key in range(4):
         cprint(self.app['ascii{key}'.format(key=key)], 'blue', attrs=['bold'])
@@ -48,25 +48,29 @@ def app_banner(self):
 def app_helper(self):
     """Argument handler for parsing command line strings.
 
-    Modules:
-        argparse -- Optparse-inspired command-line parsing library
-        termcolor -- ANSII Color formatting for output in terminal
-        shlex.quote -- Return a shell-escaped version of the string
+    Modules
+    -------
+        argparse: "Optparse-inspired command-line parsing library"
+        termcolor: "ANSII Color formatting for output in terminal"
+        shlex.quote: "Return a shell-escaped version of the string"
 
-    Submodules:
-        command_output -- Subprocess check_output with return codes
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
 
-    Options:
-        -h, --help > Display usage and exit
-        --ntp > Update the system clock with NTP
-        --time > Update the system clock manually
-        --lang > Installer language selection
-        --keyboard > Keyboard layout selection
-        --file > Install additional packages from file
-        --theme > Application theme selection
+    Options
+    -------
+        help: "Display usage and exit"
+        ntp: "Update the system clock with NTP"
+        time: "Update the system clock manually"
+        lang: "Installer language selection"
+        keyboard: "Keyboard layout selection"
+        file: "Install additional packages from file"
+        theme: "Application theme selection"
 
-    Returns:
-        options -- Tuple containing command line options from sys.argv
+    Returns
+    -------
+        options: "Tuple containing command line options from sys.argv"
     """
     parser = argparse.ArgumentParser(
         prog=colored(self.app['name'], 'green', attrs=['bold']),
@@ -133,14 +137,17 @@ def app_helper(self):
 def app_translator(lang):
     """Interface to the GNU gettext message catalog library.
 
-    Arguments:
-        lang -- String containing application language
+    Arguments
+    ---------
+        lang: "String containing application language"
 
-    Modules:
-        gettext -- Internationalization and localization support
+    Modules
+    -------
+        gettext: "Internationalization and localization support"
 
-    Returns:
-        trad -- Function to translate string
+    Returns
+    -------
+        trad: "Function to translate string"
     """
     language = gettext.translation('PyArchboot',
                                    localedir='locales',
