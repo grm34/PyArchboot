@@ -18,7 +18,7 @@ from crypt import METHOD_SHA512, crypt, mksalt
 
 
 def drive_session(self):
-    """Drive parameters manager.
+    """Set drive parameters of the current session.
 
     Returns:
         self.user -- Dictionary containing user's options
@@ -63,7 +63,7 @@ def drive_session(self):
 
 
 def partition_session(self):
-    """Partition parameters manager.
+    """Set partition parameters of the current session.
 
     Returns:
         self.user -- Dictionary containing user's options
@@ -134,7 +134,7 @@ def partition_session(self):
 
 
 def vga_session(self):
-    """VGA controller parameters manager.
+    """Set VGA controller parameters of the current session.
 
     Returns:
         self.user -- Dictionary containing user's options
@@ -191,7 +191,7 @@ def vga_session(self):
 
 
 def desktop_session(self):
-    """Desktop environment parameters manager.
+    """Set desktop environment parameters of the current session.
 
     Returns:
         self.user -- Dictionary containing user's options
@@ -232,7 +232,7 @@ def desktop_session(self):
 
 
 def display_session(self):
-    """Display manager parameters manager.
+    """Set display manager parameters of the current session.
 
     Returns:
         self.user -- Dictionary containing user's options
@@ -260,7 +260,7 @@ def display_session(self):
 
 
 def system_session(self):
-    """System parameters manager.
+    """Set system parameters of the current session.
 
     Returns:
         self.user -- Dictionary containing user's options
@@ -307,7 +307,7 @@ def system_session(self):
 
 
 def clean_session(self):
-    """Delete unused parameters.
+    """Delete unused parameters of the current session.
 
     Returns:
         self.user -- Dictionary containing user's options

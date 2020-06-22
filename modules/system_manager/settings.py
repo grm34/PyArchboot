@@ -24,7 +24,7 @@ from .unix_command import api_json_ouput, command_output
 class GetSettings:
     """Class to get user's system settings."""
 
-    def _drive(self, trad):
+    def _drives(self, trad):
         """Get user's available drives.
 
         Arguments:
@@ -45,7 +45,7 @@ class GetSettings:
 
         return output
 
-    def _partition(self):
+    def _partitions(self):
         """Get user's available partitions.
 
         Submodules:
@@ -57,6 +57,103 @@ class GetSettings:
         cmd = 'lsblk -p -l -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL'
         pipe = 'grep part | sed "s/part //g"'
         cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
+        output = command_output(cmd)
+        if output is not False:
+            output = list(filter(None, output.split('\n')))
+
+        return output
+
+    def _partition_ids(self, drive):
+        """Get the partition ids of the user's selected drive.
+
+        Arguments:
+            drive -- String containing user's selected drive
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- Array containing partition ids
+        """
+        cmd = 'lsblk -p -l -o NAME,TYPE {drive}'.format(drive=quote(drive))
+        pipe = 'grep part | sed "s/ part//g"'
+        cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
+        output = command_output(cmd)
+        if output is not False:
+            output = list(filter(None, output.split('\n')))
+
+        return output
+
+    def _partuuid(self, partition_ids):
+        """Get partitions PARTUUID.
+
+        Arguments:
+            partition_ids -- Array containing user's selected partitions
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- Array containing partition partuuid
+        """
+        partuuid = []
+        for drive_id in partition_ids:
+            output = command_output('blkid -o value -s PARTUUID {id}'
+                                    .format(id=quote(drive_id))
+                                    .replace('\n', ''))
+            partuuid.append(output)
+
+        output = list(filter(None, partuuid))
+        return output
+
+    def _mountpoints(self):
+        """Get mountpoints of existing partitions.
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- Array containing partition mountpoints
+        """
+        cmd = 'lsblk -l -o MOUNTPOINT | grep -v MOUNTPOINT'
+        output = command_output(cmd)
+        if output is not False:
+            output = list(filter(None, output.split('\n')))
+
+        return output
+
+    def _volumes(self):
+        """Get existing volumes.
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- Array containing existing volumes (pv, vg, lvm)
+        """
+        volumes = []
+        cmd = ['lvs --noheadings --separator / -o vg_name,lv_name,devices',
+               'vgs --noheadings -o vg_name,devices',
+               'pvs --noheadings -o pv_name']
+
+        for command in cmd:
+            output = command_output(command)
+            if output is not False:
+                output = list(filter(None, output.split('\n')))
+            volumes.append(output)
+
+        return output
+
+    def _swap(self):
+        """Get existing mountpoints of swap volumes.
+
+        Submodules:
+            command_output -- Subprocess check_output with return codes
+
+        Returns:
+            output -- Array containing swap mountpoints
+        """
+        cmd = 'lsblk -p -l -o NAME,MOUNTPOINT | grep SWAP'
         output = command_output(cmd)
         if output is not False:
             output = list(filter(None, output.split('\n')))
@@ -176,9 +273,9 @@ class GetSettings:
         Returns:
             output -- String containing the list of the mirrors
         """
-        url_base = 'https://www.archlinux.org/mirrorlist/'
-        url_args = 'country={code}&use_mirror_status=on'.format(code=country)
-        url = '{base}?{args}'.format(base=url_base, args=url_args)
+        url_base = 'https://www.archlinux.org/mirrorlist/?country='
+        url_args = '{code}&use_mirror_status=on'.format(code=country.upper())
+        url = '{base}{args}'.format(base=url_base, args=url_args)
         output = command_output('curl -s {url}'.format(url=quote(url)))
 
         if 'DOCTYPE' in output:

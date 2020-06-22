@@ -28,7 +28,8 @@ def question_manager(self):
     """Ask questions to the user and store the answers.
 
     Modules:
-        inquirer -- Common interactive command line user interfaces
+        inquirer -- Common interactive command line user interfaces;
+        logging -- Event logging system for applications and libraries
 
     Submodules:
         desktop_extra_assigner -- Assign the extra packages name of the

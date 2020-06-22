@@ -22,6 +22,10 @@ import inquirer
 from inquirer.themes import load_theme_from_dict
 
 from modules.app import app_banner, app_helper, app_translator
+from modules.partitioner import (create_dos_partitions, create_lvm_partitions,
+                                 delete_partitions, format_drive,
+                                 new_partition_table, set_partition_types,
+                                 umount_partitions)
 from modules.questioner.questions import question_manager
 from modules.session import (clean_session, desktop_session, display_session,
                              drive_session, partition_session, system_session,
@@ -63,7 +67,8 @@ class PyArchboot(object):
     required packages will be installed. According to desired configuration
     and in order to get complete support additional packages may be required.
 
-    Structure:
+    Project structure
+    -----------------
         PyArchboot.py
         |---- modules/
         |     |---- questioner/
@@ -79,10 +84,13 @@ class PyArchboot(object):
         |     |
         |     |---- __init__.py
         |     |---- app.py
+        |     |---- installer.py
+        |     |---- partitioner.py
         |     |---- session.py
 
-    Arguments:
-        object -- base class of the class hierarchy
+    Arguments
+    ---------
+        object : base class of the class hierarchy
     """
 
     def __init__(self):
@@ -111,30 +119,34 @@ class PyArchboot(object):
             self.theme = themes[options.theme[0].strip()]
 
         # Session parameters
+        self.cpu = GetSettings()._processor()
         self.efi, self.firmware = GetSettings()._firmware()
-        self.drive_list = GetSettings()._drive(self.trad)
+        self.gpu_list = GetSettings()._vga_controller()
+        self.drive_list = GetSettings()._drives(self.trad)
+        self.partition_list = GetSettings()._partitions()
+        self.mountpoints = GetSettings()._partition_ids()
+        self.volumes = GetSettings()._volumes()
         self.lvm = GetSettings()._filesystem(self.trad, 'lvm')
         self.luks = GetSettings()._filesystem(self.trad, 'luks')
         self.ntfs = GetSettings()._filesystem(self.trad, 'ntfs')
-        self.cpu = GetSettings()._processor()
-        self.partition_list = GetSettings()._partition()
-        self.gpu_list = GetSettings()._vga_controller()
         self.user = {}
 
     def run(self):
         """Start the application.
 
         Actions:
+        --------
             1) Ask questions to the user.
-            2) Handle session parameters.
-            3) Partition the disk.
-            4) Install Arch Linux.
+            2) Set parameters of the current session.
+            3) Partition the disk (optional).
+            4) Mount the partitions.
+            5) Install Arch Linux.
         """
         # Ask questions to the user by running questioner module
         self.user = inquirer.prompt(question_manager(self),
                                     theme=load_theme_from_dict(self.theme))
 
-        # Handle session parameters
+        # Set parameters of the current session
         session_manager = [drive_session(self),
                            partition_session(self),
                            vga_session(self),
@@ -145,6 +157,26 @@ class PyArchboot(object):
 
         for session in session_manager:
             self.user = session
+
+        # Umount user's partitions
+        cmd = umount_partitions(self)
+
+        # Partition the disk (optional)
+        if self.user['drive']['name'] is not None:
+            cmd = delete_partitions(self)
+            cmd = format_drive(self)
+            cmd = new_partition_table(self)
+            cmd = create_dos_partitions(self)
+            ids = GetSettings()._partition_ids(self)
+            partuuid = GetSettings()._partuuid(self)
+            self.drive['partitions']['drive_id'] = ids
+            cmd = set_partition_types(self)
+            self.drive['partitions']['partuuid'] = partuuid
+            if self.user['drive']['lvm'] is True:
+                cmd = create_lvm_partitions(self)
+                self.drive['partitions']['drive_id'] = ids
+                self.drive['partitions']['partuuid'] = partuuid
+
 
         # __TESTING__
         from pprint import pprint

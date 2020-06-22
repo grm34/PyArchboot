@@ -27,9 +27,11 @@ def app_banner(self):
     """Display ASCII banner of the application.
 
     Modules:
+    --------
         termcolor -- ANSII Color formatting for output in terminal
 
     Returns:
+    --------
         Title with a short description of the application
     """
     for key in range(4):
@@ -47,20 +49,20 @@ def app_helper(self):
     """Argument handler for parsing command line strings.
 
     Modules:
-        argparse -- Optparse-inspired command-line parsing library;
-        termcolor -- ANSII Color formatting for output in terminal;
+        argparse -- Optparse-inspired command-line parsing library
+        termcolor -- ANSII Color formatting for output in terminal
         shlex.quote -- Return a shell-escaped version of the string
 
     Submodules:
         command_output -- Subprocess check_output with return codes
 
     Options:
-        -h, --help > Display usage and exit;
-        --ntp > Update the system clock with NTP;
-        --time > Update the system clock manually;
-        --lang > Installer language selection;
-        --keyboard > Keyboard layout selection;
-        --file > Install additional packages from file;
+        -h, --help > Display usage and exit
+        --ntp > Update the system clock with NTP
+        --time > Update the system clock manually
+        --lang > Installer language selection
+        --keyboard > Keyboard layout selection
+        --file > Install additional packages from file
         --theme > Application theme selection
 
     Returns:
