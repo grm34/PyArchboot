@@ -69,28 +69,6 @@ class PyArchboot(object):
     required packages will be installed. According to desired configuration
     and in order to get complete support additional packages may be required.
 
-    Project structure
-    -----------------
-        " PyArchboot.py
-        " |---` modules/
-        " |     |---- questioner/
-        " |     |     |---- __init__.py
-        " |     |     |---- questions.py
-        " |     |     |---- updater.py
-        " |     |     |---- validator.py
-        " |     |
-        " |     |---- system_manager/
-        " |     |     |---- __init__.py
-        " |     |     |---- settings.py
-        " |     |     |---- unix_command.py
-        " |     |
-        " |     |---- __init__.py
-        " |     |---- app.py
-        " |     |---- installer.py
-        " |     |---- partitioner.py
-        " |     |---- session.py
-        "`
-
     Arguments
     ---------
         object: base class of the class hierarchy
@@ -115,6 +93,28 @@ class PyArchboot(object):
         self.luks: "Support for encrypted drives" > bool()
         self.ntfs: "Support for NTFS partitions" > bool()
         self.user: "User's session parameters" > dict()
+
+    Project structure
+    -----------------
+        " PyArchboot.py
+        " |---` modules/
+        " |     |---- questioner/
+        " |     |     |---- __init__.py
+        " |     |     |---- questions.py
+        " |     |     |---- updater.py
+        " |     |     |---- validator.py
+        " |     |
+        " |     |---- system_manager/
+        " |     |     |---- __init__.py
+        " |     |     |---- settings.py
+        " |     |     |---- unix_command.py
+        " |     |
+        " |     |---- __init__.py
+        " |     |---- app.py
+        " |     |---- installer.py
+        " |     |---- partitioner.py
+        " |     |---- session.py
+        "`
     """
 
     def __init__(self):
