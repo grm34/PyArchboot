@@ -163,12 +163,12 @@ class PyArchboot(object):
 
         # Set parameters of the current session
         session_manager = [drive_session(self),
-                        partition_session(self),
-                        vga_session(self),
-                        desktop_session(self),
-                        display_session(self),
-                        system_session(self),
-                        clean_session(self)]
+                           partition_session(self),
+                           vga_session(self),
+                           desktop_session(self),
+                           display_session(self),
+                           system_session(self),
+                           clean_session(self)]
 
         for session in session_manager:
             self.user = session
