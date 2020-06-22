@@ -16,6 +16,7 @@ limitations under the License.
 """
 import logging
 import os
+from pprint import pprint
 
 import coloredlogs
 import inquirer
@@ -24,6 +25,7 @@ from inquirer.themes import load_theme_from_dict
 from modules.app import app_banner, app_helper, app_translator
 from modules.partitioner import (create_dos_partitions, create_lvm_partitions,
                                  delete_partitions, format_drive,
+                                 format_partitions, mount_partitions,
                                  new_partition_table, set_partition_types,
                                  umount_partitions)
 from modules.questioner.questions import question_manager
@@ -142,21 +144,37 @@ class PyArchboot(object):
             4) Mount the partitions.
             5) Install Arch Linux.
         """
-        # Ask questions to the user by running questioner module
-        self.user = inquirer.prompt(question_manager(self),
-                                    theme=load_theme_from_dict(self.theme))
+        while True:
 
-        # Set parameters of the current session
-        session_manager = [drive_session(self),
-                           partition_session(self),
-                           vga_session(self),
-                           desktop_session(self),
-                           display_session(self),
-                           system_session(self),
-                           clean_session(self)]
+            # Ask questions to the user by running questioner module
+            self.user = inquirer.prompt(question_manager(self),
+                                        theme=load_theme_from_dict(
+                                            self.theme))
 
-        for session in session_manager:
-            self.user = session
+            # Set parameters of the current session
+            session_manager = [drive_session(self),
+                               partition_session(self),
+                               vga_session(self),
+                               desktop_session(self),
+                               display_session(self),
+                               system_session(self),
+                               clean_session(self)]
+
+            for session in session_manager:
+                self.user = session
+
+            # Ask confirmation
+            question = [inquirer.List(
+                'confirm',
+                message=trad('Warning, this action can not be cancelled'),
+                choices=[('Install Arch Linux', True),
+                         ('Try again', False)],
+                default='Install Arch Linux')]
+
+            confirm = inquirer.prompt(question,
+                                      theme=load_theme_from_dict(self.theme))
+            if confirm is True:
+                break
 
         # Umount user's partitions
         cmd = umount_partitions(self)
@@ -176,11 +194,10 @@ class PyArchboot(object):
                 cmd = create_lvm_partitions(self)
                 self.drive['partitions']['drive_id'] = ids
                 self.drive['partitions']['partuuid'] = partuuid
+            cmd = format_partitions(self)
 
-
-        # __TESTING__
-        from pprint import pprint
-        pprint(self.user)
+        # Mount the partitions
+        cmd = mount_partitions(self)
 
 
 if __name__ == '__main__':
