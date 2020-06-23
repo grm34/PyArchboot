@@ -1,3 +1,4 @@
 add zRam / zSwap support
 add missing command line option (-f, --file)
 add more filesystems (new user choice)
+move logs to system
