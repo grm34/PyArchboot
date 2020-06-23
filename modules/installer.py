@@ -23,7 +23,7 @@ from .system_manager.unix_command import command_output, run_command
 
 
 def set_mirrorlist(self):
-    """Updates pacman mirrorlist.
+    """Update pacman mirrorlist.
 
     Modules
     -------
@@ -31,7 +31,7 @@ def set_mirrorlist(self):
 
     Actions
     -------
-        "Writes {mirrorlist}:" /etc/pacman.d/mirrorlist
+        "Write {mirrorlist}:" /etc/pacman.d/mirrorlist
     """
     if self.user['mirrorlist'] is False:
         logging.info(self.trad('update mirrorlist'))
@@ -42,7 +42,7 @@ def set_mirrorlist(self):
 
 
 def install_base_system(self):
-    """Installs Arch Linux base system.
+    """Install Arch Linux base system.
 
     Modules
     -------
@@ -70,7 +70,7 @@ def install_base_system(self):
 
 
 def generate_fstab(self):
-    """Generates Filsystem Table.
+    """Generate Filsystem Table.
 
     Modules
     -------
@@ -93,7 +93,7 @@ def generate_fstab(self):
 
 
 def set_timezone(self):
-    """Sets the user's time zone.
+    """Set the user's time zone.
 
     Modules
     -------
@@ -119,7 +119,7 @@ def set_timezone(self):
 
 
 def set_locales(self):
-    """Generates the user's locales.
+    """Generate the user's locales.
 
     Submodules
     ----------
@@ -128,7 +128,7 @@ def set_locales(self):
     Actions
     -------
         arch-chroot /mnt locale-gen
-        "Writes {language}:" /mnt/etc/locale.conf
+        "Write {language}:" /mnt/etc/locale.conf
     """
     logging.info(self.trad('set locale [{locale}]'
                            .format(locale=self.user['language'])))
@@ -146,7 +146,7 @@ def set_locales(self):
 
 
 def set_virtual_console(self):
-    """Sets the user's virtual console file.
+    """Set the user's virtual console file.
 
     Modules
     -------
@@ -154,7 +154,7 @@ def set_virtual_console(self):
 
     Actions
     -------
-        "Writes {keymap}:" /mnt/etc/vconsole.conf
+        "Write {keymap}:" /mnt/etc/vconsole.conf
     """
     logging.info(self.trad('set virtual console [{keymap}]'
                            .format(keymap=self.user['keymap'])))
@@ -164,7 +164,7 @@ def set_virtual_console(self):
 
 
 def set_hostname_file(self):
-    """Sets the user's hostname file.
+    """Set the user's hostname file.
 
     Modules
     -------
@@ -172,7 +172,7 @@ def set_hostname_file(self):
 
     Actions
     -------
-        "Writes {hostname}:" /mnt/etc/locale.conf
+        "Write {hostname}:" /mnt/etc/locale.conf
     """
     logging.info(self.trad('set hostname [{hostname}]'
                            .format(hostname=self.user['hostname'])))
@@ -182,7 +182,7 @@ def set_hostname_file(self):
 
 
 def set_root_passwd(self):
-    """Sets the password for root.
+    """Set the password for root.
 
     Modules
     -------
@@ -204,7 +204,7 @@ def set_root_passwd(self):
 
 
 def create_user(self):
-    """Creates new user.
+    """Create new user.
 
     Modules
     -------
@@ -240,7 +240,7 @@ def create_user(self):
 
 
 def install_network(self):
-    """Installs the network.
+    """Install the network.
 
     Modules
     -------
@@ -266,7 +266,7 @@ def install_network(self):
 
 
 def install_bootloader(self):
-    """Installs grub bootloader.
+    """Install grub bootloader.
 
     Modules
     -------
@@ -292,7 +292,7 @@ def install_bootloader(self):
 
 
 def install_optional_packages(self):
-    """Installs optional packages.
+    """Install optional packages.
 
     Submodules
     ----------
@@ -330,7 +330,7 @@ def install_optional_packages(self):
 
 
 def configure_systemdboot(self):
-    """Configures systemd-boot bootloader.
+    """Configure systemd-boot bootloader.
 
     Modules
     -------
@@ -344,10 +344,10 @@ def configure_systemdboot(self):
 
     Actions
     -------
-        "Writes {hooks}:" /mnt/etc/mkinitcpio.conf
+        "Write {hooks}:" /mnt/etc/mkinitcpio.conf
         arch-chroot /mnt bootctl "--path=/boot" install
-        "Writes {loader}:" /mnt/boot/loader/loader.conf
-        "Writes {entry}:" /mnt/boot/loader/entries/arch.conf
+        "Write {loader}:" /mnt/boot/loader/loader.conf
+        "Write {entry}:" /mnt/boot/loader/entries/arch.conf
         arch-chroot /mnt bootctl "--path=/boot" update
     """
     logging.info(self.trad('configure systemd-boot bootloader'))
@@ -425,7 +425,7 @@ def configure_systemdboot(self):
 
 
 def configure_grub(self):
-    """Configures grub bootlader.
+    """Configure grub bootlader.
 
     Modules
     -------
@@ -441,7 +441,7 @@ def configure_grub(self):
     -------
         arch-chroot /mnt grub-install "--target=i386-pc" {boot}
         "Copy Grub2-themes/Archlinux:" /mnt/boot/grub/themes/Archlinux
-        "Writes {config}:" /mnt/etc/default/grub
+        "Write {config}:" /mnt/etc/default/grub
         arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
     """
     logging.info(self.trad('configure grub bootloader'))
@@ -484,7 +484,7 @@ def configure_grub(self):
 
 
 def configure_desktop_environment(self):
-    """Configures the desktop environment.
+    """Configure the desktop environment.
 
     Modules
     -------
@@ -498,8 +498,8 @@ def configure_desktop_environment(self):
 
     Actions
     -------
-        "Writes {keyboard}:" /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
-        "Writes {xinitrc}:" ~/.xinitrc
+        "Write {keyboard}:" /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+        "Write {xinitrc}:" ~/.xinitrc
         arch-chroot /mnt chmod 770 ~/.xinitrc
     """
     logging.info(self.trad('configure {desktop}'.format(
@@ -540,7 +540,7 @@ def configure_desktop_environment(self):
 
 
 def configure_display_manager(self):
-    """Configures the display manager.
+    """Configure the display manager.
 
     Modules
     -------
@@ -559,24 +559,24 @@ def configure_display_manager(self):
 
     GDM display manager
     -------------------
-        "Writes {xprofile}:" /mnt/etc/xprofile
+        "Write {xprofile}:" /mnt/etc/xprofile
 
     LightDM display manager
     -----------------------
-        "Writes {conf}:" /mnt/etc/lightdm/lightdm.conf
+        "Write {conf}:" /mnt/etc/lightdm/lightdm.conf
 
     SDDM display manager
     --------------------
         arch-chroot /mnt sddm "--example-config" > /etc/sddm.backup
-        "Writes {conf}:" /mnt/etc/sddm.conf
+        "Write {conf}:" /mnt/etc/sddm.conf
 
     LXDM display manager
     --------------------
-        "Writes {conf}:" /mnt/etc/lxdm/lxdm.conf
+        "Write {conf}:" /mnt/etc/lxdm/lxdm.conf
 
     XDM display manager
     -------------------
-        "Writes {conf}:" ~/.session
+        "Write {conf}:" ~/.session
         arch-chroot /mnt chmod 770 ~/.session
     """
     logging.info(self.trad('configure {dm}'.format(
@@ -690,7 +690,7 @@ def configure_display_manager(self):
 
 
 def set_user_privileges(self):
-    """Sets user's privileges.
+    """Set user's privileges.
 
     Modules
     -------
@@ -703,7 +703,7 @@ def set_user_privileges(self):
 
     Actions
     -------
-        "Writes {privileges}:" /mnt/etc/sudoers
+        "Write {privileges}:" /mnt/etc/sudoers
         arch-chroot /mnt pwck
         arch-chroot /mnt grpck
         arch-chroot /mnt gpasswd -a {user} {group}
@@ -736,7 +736,7 @@ def set_user_privileges(self):
 
 
 def install_aur_helper(self):
-    """Installs AUR Helper.
+    """Install AUR Helper.
 
     Modules
     -------
@@ -793,7 +793,8 @@ def install_aur_helper(self):
                      'cd /home/{user}/{aur}\n'.format(
                          user=self.user['username'],
                          aur=self.user['aur_helper']),
-                     'sudo -u luna makepkg --noconfirm --needed -sic\n',
+                     'sudo -u {user} makepkg --noconfirm --needed -sic\n'
+                     .format(user=self.user['username']),
                      'EOF\n']:
             file.write(line)
 
@@ -826,7 +827,7 @@ def install_aur_helper(self):
 
 
 def clean_pacman_cache(self):
-    """Cleans pacman cache and removes unused dependencies.
+    """Clean pacman cache and remove unused dependencies.
 
     Modules
     -------
