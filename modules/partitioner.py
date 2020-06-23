@@ -85,14 +85,14 @@ def delete_partitions(self):
         if self.user['drive'] in volume:
             partition = volume.split('/')[0]
             logging.info(self.trad('delete {vg}').format(vg=volume))
-            cmd = run_command('vgremove -q -f -y {lv}'.format(vg=volume))
+            cmd = run_command('vgremove -q -f -y {vg}'.format(vg=volume))
             time.sleep(1)
 
     # Delete physical volumes
     for volume in self.mountpoints[2]:
         if self.user['drive'] in volume:
-            logging.info(self.trad('delete {lv}').format(pv=volume))
-            cmd = run_command('pvremove -q -f -y {lv}'.format(pv=volume))
+            logging.info(self.trad('delete {pv}').format(pv=volume))
+            cmd = run_command('pvremove -q -f -y {pv}'.format(pv=volume))
             time.sleep(1)
 
     # Delete DOS partitions

@@ -46,11 +46,11 @@ def app_banner(self):
 
 
 def app_helper(self):
-    """Argument handler for parsing command line strings.
+    """Application usage and command line options.
 
     Modules
     -------
-        argparse: "Optparse-inspired command-line parsing library"
+        argparse: "Argument handler for parsing command line strings"
         termcolor: "ANSII Color formatting for output in terminal"
         shlex.quote: "Return a shell-escaped version of the string"
 
@@ -112,7 +112,6 @@ def app_helper(self):
                         choices=['default', 'bacon', 'matrix'],
                         help='Application theme selection')
 
-    # Handle options
     options = parser.parse_args()
     if options.keyboard:
         cmd = command_output('loadkeys {key}'
@@ -135,7 +134,7 @@ def app_helper(self):
 
 
 def app_translator(lang):
-    """Interface to the GNU gettext message catalog library.
+    """Localization of the application.
 
     Arguments
     ---------

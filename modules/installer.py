@@ -23,6 +23,16 @@ from .system_manager.unix_command import command_output, run_command
 
 
 def set_mirrorlist(self):
+    """Updates pacman mirrorlist.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Actions
+    -------
+        "Writes {mirrorlist}:" /etc/pacman.d/mirrorlist
+    """
     if self.user['mirrorlist'] is False:
         logging.info(self.trad('update mirrorlist'))
 
@@ -32,6 +42,20 @@ def set_mirrorlist(self):
 
 
 def install_base_system(self):
+    """Installs Arch Linux base system.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions:
+    --------
+        pacstrap /mnt {base}
+    """
     logging.info(self.trad('install Arch Linux base system'))
     self.packages['base'] += ' {kernel}'.format(kernel=self.user['kernel'])
 
@@ -46,6 +70,21 @@ def install_base_system(self):
 
 
 def generate_fstab(self):
+    """Generates Filsystem Table.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Submodules
+    ----------
+        `command_output`: "Subprocess check_output with return codes"
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        genfstab -U -p /mnt >> /mnt/etc/fstab
+    """
     logging.info(self.trad('create file system table'))
     cmd = 'genfstab -U -p /mnt >> /mnt/etc/fstab'
     command_output(cmd)
@@ -54,6 +93,21 @@ def generate_fstab(self):
 
 
 def set_timezone(self):
+    """Sets the user's time zone.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        ln -sfv /usr/share/zoneinfo/{timezone} /mnt/etc/localtime
+        hwclock "--systohc"
+    """
     logging.info(self.trad('set timezone [{timezone}]'
                            .format(timezone=self.user['timezone'])))
 
@@ -65,6 +119,17 @@ def set_timezone(self):
 
 
 def set_locales(self):
+    """Generates the user's locales.
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        arch-chroot /mnt locale-gen
+        "Writes {language}:" /mnt/etc/locale.conf
+    """
     logging.info(self.trad('set locale [{locale}]'
                            .format(locale=self.user['language'])))
 
@@ -81,6 +146,16 @@ def set_locales(self):
 
 
 def set_virtual_console(self):
+    """Sets the user's virtual console file.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Actions
+    -------
+        "Writes {keymap}:" /mnt/etc/vconsole.conf
+    """
     logging.info(self.trad('set virtual console [{keymap}]'
                            .format(keymap=self.user['keymap'])))
 
@@ -89,6 +164,16 @@ def set_virtual_console(self):
 
 
 def set_hostname_file(self):
+    """Sets the user's hostname file.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Actions
+    -------
+        "Writes {hostname}:" /mnt/etc/locale.conf
+    """
     logging.info(self.trad('set hostname [{hostname}]'
                            .format(hostname=self.user['hostname'])))
 
@@ -97,8 +182,21 @@ def set_hostname_file(self):
 
 
 def set_root_passwd(self):
-    logging.info(self.trad('set root password'))
+    """Sets the password for root.
 
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Submodules
+    ----------
+        `command_output`: "Subprocess Popen with return codes"
+
+    Actions
+    -------
+        echo root:{passwd} | arch-chroot /mnt chpasswd -e
+    """
+    logging.info(self.trad('set root password'))
     cmd = 'echo root:{passwd} | arch-chroot /mnt chpasswd -e'.format(
         passwd=quote(self.user['passwords']['root']))
 
@@ -106,6 +204,23 @@ def set_root_passwd(self):
 
 
 def create_user(self):
+    """Creates new user.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        shlex.quote: "Return a shell-escaped version of the string"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+        `command_output`: "Subprocess Popen with return codes"
+
+    Actions
+    -------
+        arch-chroot /mnt useradd -g users -m -s /bin/bash {user}
+        echo {user}:{passwd} | arch-chroot /mnt chpasswd -e
+    """
     logging.info(self.trad('create user {user}'
                            .format(user=self.user['username'])))
 
@@ -125,6 +240,21 @@ def create_user(self):
 
 
 def install_network(self):
+    """Installs the network.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        arch-chroot /mnt pacman "--noconfirm --needed" -S {network}
+        arch-chroot /mnt systemctl enable NetworkManager
+    """
     logging.info(self.trad('install network'))
     cmd_list = [
         'arch-chroot /mnt pacman --noconfirm --needed -S {net}'.format(
@@ -136,6 +266,20 @@ def install_network(self):
 
 
 def install_bootloader(self):
+    """Installs grub bootloader.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        arch-chroot /mnt pacman "--noconfirm --needed" -S {grub}
+    """
     if self.user['ntfs'] is not False:
         self.packages['grub']['packages'] += ' {extras}'.format(
             extras=self.packages['grub']['extras'])
@@ -148,6 +292,16 @@ def install_bootloader(self):
 
 
 def install_optional_packages(self):
+    """Installs optional packages.
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        arch-chroot /mnt pacman "--noconfirm --needed" -S {optional}
+    """
     for choice, name in zip(
         [self.user['cpu']['microcode'],
          self.user['drive']['lvm'],
@@ -176,6 +330,26 @@ def install_optional_packages(self):
 
 
 def configure_systemdboot(self):
+    """Configures systemd-boot bootloader.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        shutil: "File and manipulation libraries"
+        re: "Regular expression matching operations"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        "Writes {hooks}:" /mnt/etc/mkinitcpio.conf
+        arch-chroot /mnt bootctl "--path=/boot" install
+        "Writes {loader}:" /mnt/boot/loader/loader.conf
+        "Writes {entry}:" /mnt/boot/loader/entries/arch.conf
+        arch-chroot /mnt bootctl "--path=/boot" update
+    """
     logging.info(self.trad('configure systemd-boot bootloader'))
 
     # Update the HOOKS
@@ -251,6 +425,25 @@ def configure_systemdboot(self):
 
 
 def configure_grub(self):
+    """Configures grub bootlader.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        shutil: "File manipulation libraries"
+        re: "Regular expression matching operations"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        arch-chroot /mnt grub-install "--target=i386-pc" {boot}
+        "Copy Grub2-themes/Archlinux:" /mnt/boot/grub/themes/Archlinux
+        "Writes {config}:" /mnt/etc/default/grub
+        arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+    """
     logging.info(self.trad('configure grub bootloader'))
 
     # Run grub-install
@@ -291,6 +484,24 @@ def configure_grub(self):
 
 
 def configure_desktop_environment(self):
+    """Configures the desktop environment.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        shutil: "File manipulation libraries"
+        re: "Regular expression matching operations"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        "Writes {keyboard}:" /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
+        "Writes {xinitrc}:" ~/.xinitrc
+        arch-chroot /mnt chmod 770 ~/.xinitrc
+    """
     logging.info(self.trad('configure {desktop}'.format(
         desktop=self.user['desktop_environment']['name'])))
 
@@ -329,6 +540,45 @@ def configure_desktop_environment(self):
 
 
 def configure_display_manager(self):
+    """Configures the display manager.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        shutil: "File manipulation libraries"
+        re: "Regular expression matching operations"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+        `command_output`: "Subprocess Popen with return codes"
+
+    Actions
+    -------
+        arch-chroot /mnt systemctl enable {manager}
+
+    GDM display manager
+    -------------------
+        "Writes {xprofile}:" /mnt/etc/xprofile
+
+    LightDM display manager
+    -----------------------
+        "Writes {conf}:" /mnt/etc/lightdm/lightdm.conf
+
+    SDDM display manager
+    --------------------
+        arch-chroot /mnt sddm "--example-config" > /etc/sddm.backup
+        "Writes {conf}:" /mnt/etc/sddm.conf
+
+    LXDM display manager
+    --------------------
+        "Writes {conf}:" /mnt/etc/lxdm/lxdm.conf
+
+    XDM display manager
+    -------------------
+        "Writes {conf}:" ~/.session
+        arch-chroot /mnt chmod 770 ~/.session
+    """
     logging.info(self.trad('configure {dm}'.format(
         dm=self.user['display_manager']['name'])))
 
@@ -440,7 +690,24 @@ def configure_display_manager(self):
 
 
 def set_user_privileges(self):
+    """Sets user's privileges.
 
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+        `command_output`: "Subprocess Popen with return codes"
+
+    Actions
+    -------
+        "Writes {privileges}:" /mnt/etc/sudoers
+        arch-chroot /mnt pwck
+        arch-chroot /mnt grpck
+        arch-chroot /mnt gpasswd -a {user} {group}
+    """
     # Grant the user in the sudoers file (root privilege)
     logging.info(self.trad('give root privilege to the user {user}'
                            .format(user=self.user['username'])))
@@ -469,6 +736,25 @@ def set_user_privileges(self):
 
 
 def install_aur_helper(self):
+    """Installs AUR Helper.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        shutil: "File manipulation libraries"
+        re: "Regular expression matching operations"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        Temporarily grants user to run command without password
+        Clones AUR Helper repository
+        Creates and executes bash script to perform install
+        Removes AUR Helper repository folder
+    """
     logging.info(self.trad('install {aur} AUR Helper'
                            .format(aur=self.user['aur_helper'])))
 
@@ -540,6 +826,25 @@ def install_aur_helper(self):
 
 
 def clean_pacman_cache(self):
+    """Cleans pacman cache and removes unused dependencies.
+
+    Modules
+    -------
+        logging: "Event logging system for applications and libraries"
+        shutil: "File manipulation libraries"
+        re: "Regular expression matching operations"
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+        `command_output`: "Subprocess check_output with return codes"
+
+    Actions
+    -------
+        arch-chroot /mnt pacman -Qdtd
+        arch-chroot /mnt pacman "--noconfirm" -Rcsn {dependency}
+        arch-chroot /mnt pacman "--noconfirm" -Sc
+    """
     logging.info(
         self.trad('clean pacman cache and delete unused dependencies'))
 
