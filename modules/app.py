@@ -16,11 +16,12 @@ limitations under the License.
 """
 import argparse
 import gettext
+import time
 from shlex import quote
 
 from termcolor import colored, cprint
 
-from .system_manager.unix_command import command_output
+from .system_manager.unix_command import command_output, run_command
 
 
 def app_banner(self):
@@ -30,9 +31,9 @@ def app_banner(self):
     -------
         termcolor: "ANSII Color formatting for output in terminal"
 
-    Returns
+    Actions
     -------
-        "Title with a short description of the application"
+        "Print title with a short description of the application"
     """
     for key in range(4):
         cprint(self.app['ascii{key}'.format(key=key)], 'blue', attrs=['bold'])
@@ -153,6 +154,37 @@ def app_translator(lang):
                                    languages=['{lang}'.format(lang=lang)])
     trad = language.gettext
     return trad
+
+
+def app_reboot():
+    """Umount the partitions and reboot the system.
+
+    Modules
+    -------
+        time: "Various functions to manipulate time values"
+        termcolor: "ANSII Color formatting for output in terminal"
+
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions:
+    --------
+        umount -f -R -q /mnt
+        reboot
+    """
+    # Umount the partitions
+    cmd = run_command('umount -f -R -q /mnt')
+
+    # Reboot with 5s timeout
+    for second in range(5, 0, -1):
+        message = 'System will reboot in {second}s'.format(
+            second=str(second))
+
+        cprint(message, 'green', attrs=['bold'], end='\r')
+        time.sleep(1)
+    cmd = run_command('reboot')
 
 
 # PyArchboot - Python Arch Linux Installer by grm34 under Apache License 2.0

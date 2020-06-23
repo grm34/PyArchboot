@@ -265,7 +265,7 @@ def install_network(self):
         run_command(cmd)
 
 
-def install_bootloader(self):
+def install_grub_bootloader(self):
     """Install grub bootloader.
 
     Modules
@@ -280,15 +280,18 @@ def install_bootloader(self):
     -------
         arch-chroot /mnt pacman "--noconfirm --needed" -S {grub}
     """
-    if self.user['ntfs'] is not False:
-        self.packages['grub']['packages'] += ' {extras}'.format(
-            extras=self.packages['grub']['extras'])
+    if (self.firmware == 'bios') or \
+            ((self.firmware == 'uefi') and (self.efi == 'x86')):
 
-    logging.info(self.trad('install grub bootloader'))
-    cmd = 'arch-chroot /mnt pacman --noconfirm --needed -S {grub}'.format(
-        grub=self.packages['grub']['packages'])
+        if self.user['ntfs'] is not False:
+            self.packages['grub']['packages'] += ' {extras}'.format(
+                extras=self.packages['grub']['extras'])
 
-    run_command(cmd)
+        logging.info(self.trad('install grub bootloader'))
+        cmd = 'arch-chroot /mnt pacman --noconfirm --needed -S {grub}'.format(
+            grub=self.packages['grub']['packages'])
+
+        run_command(cmd)
 
 
 def install_optional_packages(self):
@@ -350,78 +353,79 @@ def configure_systemdboot(self):
         "Write {entry}:" /mnt/boot/loader/entries/arch.conf
         arch-chroot /mnt bootctl "--path=/boot" update
     """
-    logging.info(self.trad('configure systemd-boot bootloader'))
+    if (self.firmware == 'uefi') and (self.efi == 'x84'):
+        logging.info(self.trad('configure systemd-boot bootloader'))
 
-    # Update the HOOKS
-    with open('/mnt/etc/mkinitcpio.conf', 'r') as mkinitcpio:
-        mkinitcpio_list = list(mkinitcpio)
+        # Update the HOOKS
+        with open('/mnt/etc/mkinitcpio.conf', 'r') as mkinitcpio:
+            mkinitcpio_list = list(mkinitcpio)
 
-    move('/mnt/etc/mkinitcpio.conf',
-         '/mnt/etc/mkinitcpio.backup',
-         copy_function=copy2)
+        move('/mnt/etc/mkinitcpio.conf',
+             '/mnt/etc/mkinitcpio.backup',
+             copy_function=copy2)
 
-    mkinitcpio = []
-    for line in mkinitcpio_list:
-        line = re.sub(' +', ' ', line)
+        mkinitcpio = []
+        for line in mkinitcpio_list:
+            line = re.sub(' +', ' ', line)
 
-        if line.startswith('HOOKS=('):
+            if line.startswith('HOOKS=('):
 
-            for key in [' keyboard', ' keymap', ' lvm2', ' encrypt']:
-                line = line.replace(key, '')
+                for key in [' keyboard', ' keymap', ' lvm2', ' encrypt']:
+                    line = line.replace(key, '')
 
-            line = line.replace(' filesystems',
-                                ' keyboard keymap lvm2 filesystems')
+                line = line.replace(' filesystems',
+                                    ' keyboard keymap lvm2 filesystems')
 
-            if self.user['drive']['luks'] is not False:
-                line = line.replace(' filesystems', ' encrypt filesystems')
+                if self.user['drive']['luks'] is not False:
+                    line = line.replace(' filesystems', ' encrypt filesystems')
 
-        mkinitcpio.append(line)
+            mkinitcpio.append(line)
 
-    with open('/mnt/etc/mkinitcpio.conf', 'w+') as file:
-        for line in mkinitcpio:
-            file.write(line)
+        with open('/mnt/etc/mkinitcpio.conf', 'w+') as file:
+            for line in mkinitcpio:
+                file.write(line)
 
-    # Run bootctl install
-    cmd = 'arch-chroot /mnt bootctl --path=/boot install'
-    run_command(cmd)
+        # Run bootctl install
+        cmd = 'arch-chroot /mnt bootctl --path=/boot install'
+        run_command(cmd)
 
-    # Create loader.conf
-    move('/mnt/boot/loader/loader.conf',
-         '/mnt/boot/loader/loader.backup',
-         copy_function=copy2)
+        # Create loader.conf
+        move('/mnt/boot/loader/loader.conf',
+             '/mnt/boot/loader/loader.backup',
+             copy_function=copy2)
 
-    copyfile('config/loader.conf', '/mnt/boot/loader/loader.conf')
+        copyfile('config/loader.conf', '/mnt/boot/loader/loader.conf')
 
-    # Create new boot entry
-    systemdboot = ['title Arch Linux',
-                   'linux /vmlinuz-{kernel}'.format(
-                       kernel=self.user['kernel']),
-                   'initrd /initramfs-{kernel}.img'.format(
-                       kernel=self.user['kernel'])]
+        # Create new boot entry
+        systemdboot = ['title Arch Linux',
+                       'linux /vmlinuz-{kernel}'.format(
+                           kernel=self.user['kernel']),
+                       'initrd /initramfs-{kernel}.img'.format(
+                           kernel=self.user['kernel'])]
 
-    if self.user['cpu']['microcode'] is not None:
-        systemdboot.insert(2, 'initrd /{microcode}.img'.format(
-            microcode=self.user['cpu']['microcode']))
+        if self.user['cpu']['microcode'] is not None:
+            systemdboot.insert(2, 'initrd /{microcode}.img'.format(
+                microcode=self.user['cpu']['microcode']))
 
-    if self.user['drive']['luks'] is not False:
-        opt = 'options cryptdevice=PARTUUID={uuid}:cryptlvm'.format(
-            uuid=self.user['partitions']['partuuid'][1])
+        if self.user['drive']['luks'] is not False:
+            opt = 'options cryptdevice=PARTUUID={uuid}:cryptlvm'.format(
+                uuid=self.user['partitions']['partuuid'][1])
 
-        arg = 'root=/dev/lvm/root quiet rw'
-        options = '{opt} {arg}'.format(opt=opt, arg=arg)
+            arg = 'root=/dev/lvm/root quiet rw'
+            options = '{opt} {arg}'.format(opt=opt, arg=arg)
 
-    else:
-        options = 'options root=PARTUUID={uuid} quiet rw'.format(
-            uuid=self.user['partitions']['partuuid'][1])
+        else:
+            options = 'options root=PARTUUID={uuid} quiet rw'.format(
+                uuid=self.user['partitions']['partuuid'][1])
 
-    systemdboot.append(options)
-    with open('/mnt/boot/loader/entries/arch.conf', 'w+') as file:
-        for line in systemdboot:
-            file.write(systemdboot)
+        systemdboot.append(options)
+        with open('/mnt/boot/loader/entries/arch.conf', 'w+') as file:
+            for line in systemdboot:
+                file.write(systemdboot)
 
-    # Run bootctl update
-    cmd = 'arch-chroot /mnt bootctl --path=/boot update'
-    run_command(cmd)
+        # Run bootctl update
+        cmd = 'arch-chroot /mnt bootctl --path=/boot update'
+        run_command(cmd)
 
 
 def configure_grub(self):
@@ -444,43 +448,45 @@ def configure_grub(self):
         "Write {config}:" /mnt/etc/default/grub
         arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
     """
-    logging.info(self.trad('configure grub bootloader'))
+    if (self.firmware == 'bios') or \
+            ((self.firmware == 'uefi') and (self.efi == 'x86')):
+        logging.info(self.trad('configure grub bootloader'))
 
-    # Run grub-install
-    cmd = 'arch-chroot /mnt grub-install --target=i386-pc {boot}'.format(
-        boot=self.user['drive']['boot'])
+        # Run grub-install
+        cmd = 'arch-chroot /mnt grub-install --target=i386-pc {boot}'.format(
+            boot=self.user['drive']['boot'])
 
-    run_command(cmd)
+        run_command(cmd)
 
-    # Add grub theme (Archlinux)
-    copytree('libraries/grub2-themes/Archlinux',
-             '/mnt/boot/grub/themes/Archlinux',
+        # Add grub theme (Archlinux)
+        copytree('libraries/grub2-themes/Archlinux',
+                 '/mnt/boot/grub/themes/Archlinux',
+                 copy_function=copy2)
+
+        with open('/mnt/etc/default/grub', 'r') as grub:
+            grub_list = list(grub)
+
+        move('/mnt/etc/default/grub',
+             '/mnt/etc/default/grub.backup',
              copy_function=copy2)
 
-    with open('/mnt/etc/default/grub', 'r') as grub:
-        grub_list = list(grub)
+        grub = []
+        for line in grub_list:
+            line = re.sub(' +', ' ', line)
+            line = line.replace('GRUB_GFXMODE=auto', 'GRUB_GFXMODE=1024x768')
+            line = line.replace(
+                '#GRUB_THEME="/path/to/gfxtheme"',
+                'GRUB_THEME="/boot/grub/themes/Archlinux/theme.txt"')
 
-    move('/mnt/etc/default/grub',
-         '/mnt/etc/default/grub.backup',
-         copy_function=copy2)
+            grub.append(line)
 
-    grub = []
-    for line in grub_list:
-        line = re.sub(' +', ' ', line)
-        line = line.replace('GRUB_GFXMODE=auto', 'GRUB_GFXMODE=1024x768')
-        line = line.replace(
-            '#GRUB_THEME="/path/to/gfxtheme"',
-            'GRUB_THEME="/boot/grub/themes/Archlinux/theme.txt"')
+        with open('/mnt/etc/default/grub', 'w+') as file:
+            for line in grub:
+                file.write(line)
 
-        grub.append(line)
-
-    with open('/mnt/etc/default/grub', 'w+') as file:
-        for line in grub:
-            file.write(line)
-
-    # Run grub-mkconfig
-    cmd = 'arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg'
-    run_command(cmd)
+        # Run grub-mkconfig
+        cmd = 'arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg'
+        run_command(cmd)
 
 
 def configure_desktop_environment(self):
@@ -499,44 +505,46 @@ def configure_desktop_environment(self):
     Actions
     -------
         "Write {keyboard}:" /mnt/etc/X11/xorg.conf.d/00-keyboard.conf
-        "Write {xinitrc}:" ~/.xinitrc
-        arch-chroot /mnt chmod 770 ~/.xinitrc
+        "Write {xinitrc}:" /home/{user}/.xinitrc
+        arch-chroot /mnt chmod 770 /home/{user}/.xinitrc
     """
-    logging.info(self.trad('configure {desktop}'.format(
-        desktop=self.user['desktop_environment']['name'])))
+    if self.user['desktop_environment']['name'] is not None:
+        logging.info(self.trad('configure {desktop}'.format(
+            desktop=self.user['desktop_environment']['name'])))
 
-    # Set the keyboard layout
-    with open('config/00-keyboard.conf', 'r') as keyboard:
-        keyboard_list = list(keyboard)
+        # Set the keyboard layout
+        with open('config/00-keyboard.conf', 'r') as keyboard:
+            keyboard_list = list(keyboard)
 
-    keyboard = []
-    for line in keyboard_list:
-        line = re.sub(' +', ' ', line)
-        line = line.replace('keymap_code', self.user['keymap'])
-        keyboard.append(line)
+        keyboard = []
+        for line in keyboard_list:
+            line = re.sub(' +', ' ', line)
+            line = line.replace('keymap_code', self.user['keymap'])
+            keyboard.append(line)
 
-    with open('/mnt/etc/X11/xorg.conf.d/00-keyboard.conf', 'w+') as file:
-        for line in keyboard:
-            file.write(line)
+        with open('/mnt/etc/X11/xorg.conf.d/00-keyboard.conf', 'w+') as file:
+            for line in keyboard:
+                file.write(line)
 
-    # Create xinitrc file (window managers only)
-    if 'xorg-xinit' in self.user['desktop_environment']['requirements']:
+        # Create xinitrc file (window managers only)
+        if 'xorg-xinit' in self.user['desktop_environment']['requirements']:
 
-        move('config/xinitrc.conf',
-             '/mnt/home/{user}/.xinitrc'.format(user=self.user['username']),
-             copy_function=copy2)
+            move('config/xinitrc.conf',
+                 '/mnt/home/{user}/.xinitrc'
+                 .format(user=self.user['username']),
+                 copy_function=copy2)
 
-        with open('/mnt/home/{user}/.xinitrc'
-                  .format(user=self.user['username']),
-                  'a') as xinitrc:
+            with open('/mnt/home/{user}/.xinitrc'
+                      .format(user=self.user['username']),
+                      'a') as xinitrc:
 
-            xinitrc.write('exec {wm}\n'.format(
-                wm=self.user['desktop_environment']['name'].split(' ')[0]))
+                xinitrc.write('exec {w}\n'.format(
+                    w=self.user['desktop_environment']['name'].split(' ')[0]))
 
-        cmd = 'arch-chroot /mnt chmod 770 /mnt/home/{user}/.xinitrc'.format(
-            user=self.user['username'])
+            cmd = 'arch-chroot /mnt chmod 770 /mnt/home/{x}/.xinitrc'.format(
+                x=self.user['username'])
 
-        run_command(cmd)
+            run_command(cmd)
 
 
 def configure_display_manager(self):
@@ -576,117 +584,122 @@ def configure_display_manager(self):
 
     XDM display manager
     -------------------
-        "Write {conf}:" ~/.session
-        arch-chroot /mnt chmod 770 ~/.session
+        "Write {conf}:" /home/{user}/.session
+        arch-chroot /mnt chmod 770 /home/{user}/.session
     """
-    logging.info(self.trad('configure {dm}'.format(
-        dm=self.user['display_manager']['name'])))
+    if self.user['display_manager']['name'] is not None:
+        logging.info(self.trad('configure {dm}'.format(
+            dm=self.user['display_manager']['name'])))
 
-    # Enable display manager service
-    if self.user['display_manager']['name'].lower() == 'xdm display manager':
-        service = 'xdm-archlinux'
+        # Enable display manager service
+        if self.user['display_manager']['name'].lower() == \
+                'xdm display manager':
+            service = 'xdm-archlinux'
 
-    else:
-        service = self.user['display_manager']['name'].lower().split()[0]
+        else:
+            service = self.user['display_manager']['name'].lower().split()[0]
 
-    cmd = 'arch-chroot /mnt systemctl enable {dm}'.format(dm=service)
-    run_command(cmd)
-
-    # Configure GDM
-    if self.user['display_manager']['name'].lower() == 'gdm display manager':
-        copyfile('config/xprofile.conf', '/mnt/etc/xprofile')
-
-    # Configure LightDM
-    elif self.user['display_manager']['name'].lower() == \
-            'lightdm display manager':
-
-        with open('/mnt/etc/lightdm/lightdm.conf', 'r') as lightdm:
-            lightdm_list = list(lightdm)
-
-        move('/mnt/etc/lightdm/lightdm.conf',
-             '/mnt/etc/lightdm/lightdm.backup',
-             copy_function=copy2)
-
-        lightdm = []
-        for line in lightdm_list:
-            session = 'greeter-session={dm}'.format(
-                dm=self.user['display_manager']['session'])
-            line = re.sub(' +', ' ', line)
-            line = line.replace('#greeter-session=example-gtk-gnome', session)
-            line = line.replace('#greeter-setup-script=',
-                                'greeter-setup-script=/usr/bin/numlockx on')
-            lightdm.append(line)
-
-        with open('/mnt/etc/lightdm/lightdm.conf', 'w+') as file:
-            for line in lightdm:
-                file.write(line)
-
-    # Configure SDDM
-    elif self.user['display_manager']['name'].lower() == \
-            'sddm display manager':
-
-        cmd = 'arch-chroot /mnt sddm --example-config > /etc/sddm.backup'
-        command_output(cmd)
-
-        with open('/mnt/etc/sddm.backup', 'r') as sddm:
-            sddm_list = list(sddm)
-
-        sddm = []
-        for line in sddm_list:
-            line = re.sub(' +', ' ', line)
-            line = line.replace(
-                'Session=',
-                'Session={session}'.format(
-                    session=self.user['display_manager']['session']))
-            line = line.replace('Numlock=none', 'Numlock=on')
-            sddm.append(line)
-
-        with open('/mnt/etc/sddm.conf', 'w+') as file:
-            for line in sddm:
-                file.write(line)
-
-    # Configure LXDM
-    elif self.user['display_manager']['name'].lower() == \
-            'lxdm display manager':
-
-        with open('/mnt/etc/lxdm/lxdm.conf', 'r') as lxdm:
-            lxdm_list = list(lxdm)
-
-        move('/mnt/etc/lxdm/lxdm.conf',
-             '/mnt/etc/lxdm/lxdm.backup',
-             copy_function=copy2)
-
-        lxdm = []
-        for line in lxdm_list:
-            line = re.sub(' +', ' ', line)
-            line = line.replace(
-                '# session=/usr/bin/startlxde',
-                'session={session}'.format(
-                    session=self.user['display_manager']['session']))
-            line = line.replace('# numlock=0', 'numlock=1')
-            line = line.replace('white=',
-                                'white={user}'.format(
-                                    user=self.user['username']))
-            lxdm.append(line)
-
-        with open('/mnt/etc/lxdm/lxdm.conf', 'w+') as file:
-            for line in lxdm:
-                file.write(line)
-
-    # Configure XDM
-    elif self.user['display_manager']['name'].lower() == \
-            'xdm display manager':
-
-        with open('/mnt/home/{user}/.session'
-                  .format(user=self.user['username']),
-                  'a') as xdm:
-            xdm.write('{session}'.format(
-                session=self.user['display_manager']['session']))
-
-        cmd = 'arch-chroot /mnt chmod 770 /mnt/home/{user}/.session'.format(
-            user=self.user['username'])
-
+        cmd = 'arch-chroot /mnt systemctl enable {dm}'.format(dm=service)
         run_command(cmd)
+
+        # Configure GDM
+        if self.user['display_manager']['name'].lower() == \
+                'gdm display manager':
+            copyfile('config/xprofile.conf', '/mnt/etc/xprofile')
+
+        # Configure LightDM
+        elif self.user['display_manager']['name'].lower() == \
+                'lightdm display manager':
+
+            with open('/mnt/etc/lightdm/lightdm.conf', 'r') as lightdm:
+                lightdm_list = list(lightdm)
+
+            move('/mnt/etc/lightdm/lightdm.conf',
+                 '/mnt/etc/lightdm/lightdm.backup',
+                 copy_function=copy2)
+
+            lightdm = []
+            for line in lightdm_list:
+                session = 'greeter-session={dm}'.format(
+                    dm=self.user['display_manager']['session'])
+                line = re.sub(' +', ' ', line)
+                line = line.replace('#greeter-session=example-gtk-gnome',
+                                    session)
+                line = line.replace(
+                    '#greeter-setup-script=',
+                    'greeter-setup-script=/usr/bin/numlockx on')
+                lightdm.append(line)
+
+            with open('/mnt/etc/lightdm/lightdm.conf', 'w+') as file:
+                for line in lightdm:
+                    file.write(line)
+
+        # Configure SDDM
+        elif self.user['display_manager']['name'].lower() == \
+                'sddm display manager':
+
+            cmd = 'arch-chroot /mnt sddm --example-config > /etc/sddm.backup'
+            command_output(cmd)
+
+            with open('/mnt/etc/sddm.backup', 'r') as sddm:
+                sddm_list = list(sddm)
+
+            sddm = []
+            for line in sddm_list:
+                line = re.sub(' +', ' ', line)
+                line = line.replace(
+                    'Session=',
+                    'Session={session}'.format(
+                        session=self.user['display_manager']['session']))
+                line = line.replace('Numlock=none', 'Numlock=on')
+                sddm.append(line)
+
+            with open('/mnt/etc/sddm.conf', 'w+') as file:
+                for line in sddm:
+                    file.write(line)
+
+        # Configure LXDM
+        elif self.user['display_manager']['name'].lower() == \
+                'lxdm display manager':
+
+            with open('/mnt/etc/lxdm/lxdm.conf', 'r') as lxdm:
+                lxdm_list = list(lxdm)
+
+            move('/mnt/etc/lxdm/lxdm.conf',
+                 '/mnt/etc/lxdm/lxdm.backup',
+                 copy_function=copy2)
+
+            lxdm = []
+            for line in lxdm_list:
+                line = re.sub(' +', ' ', line)
+                line = line.replace(
+                    '# session=/usr/bin/startlxde',
+                    'session={session}'.format(
+                        session=self.user['display_manager']['session']))
+                line = line.replace('# numlock=0', 'numlock=1')
+                line = line.replace('white=',
+                                    'white={user}'.format(
+                                        user=self.user['username']))
+                lxdm.append(line)
+
+            with open('/mnt/etc/lxdm/lxdm.conf', 'w+') as file:
+                for line in lxdm:
+                    file.write(line)
+
+        # Configure XDM
+        elif self.user['display_manager']['name'].lower() == \
+                'xdm display manager':
+
+            with open('/mnt/home/{user}/.session'
+                      .format(user=self.user['username']),
+                      'a') as xdm:
+                xdm.write('{session}'.format(
+                    session=self.user['display_manager']['session']))
+
+            cmd = 'arch-chroot /mnt chmod 770 /mnt/home/{x}/.session'.format(
+                x=self.user['username'])
+
+            run_command(cmd)
 
 
 def set_user_privileges(self):
@@ -708,31 +721,34 @@ def set_user_privileges(self):
         arch-chroot /mnt grpck
         arch-chroot /mnt gpasswd -a {user} {group}
     """
-    # Grant the user in the sudoers file (root privilege)
-    logging.info(self.trad('give root privilege to the user {user}'
-                           .format(user=self.user['username'])))
+    if self.user['power'] is not False:
 
-    with open('/mnt/etc/sudoers', 'a') as sudo:
-        sudo.write('\n## {user} privilege specification\n{user} ALL=(ALL) ALL'
-                   .format(user=self.user['username']))
+        # Grant the user in the sudoers file (root privilege)
+        logging.info(self.trad('give root privilege to the user {user}'
+                               .format(user=self.user['username'])))
 
-    # Add the user to all groups
-    logging.info(self.trad('add user {user} to all groups'
-                           .format(user=self.user['username'])))
+        with open('/mnt/etc/sudoers', 'a') as sudo:
+            sudo.write(
+                '\n## {user} privilege specification\n{user} ALL=(ALL) ALL'
+                .format(user=self.user['username']))
 
-    cmd_list = ['pwck', 'grpck']
-    for cmd in cmd_list:
-        cmd = 'arch-chroot /mnt {cmd}'.format(cmd=cmd)
-        run_command(cmd)
+        # Add the user to all groups
+        logging.info(self.trad('add user {user} to all groups'
+                               .format(user=self.user['username'])))
 
-    cmd = 'cut -d: -f1 /mnt/etc/group'
-    group_list = command_output(cmd).split('\n')
-    group_list = list(filter(None, group_list))
+        cmd_list = ['pwck', 'grpck']
+        for cmd in cmd_list:
+            cmd = 'arch-chroot /mnt {cmd}'.format(cmd=cmd)
+            run_command(cmd)
 
-    for group in group_list:
-        cmd = 'arch-chroot /mnt gpasswd -a {user} {group}'.format(
-            user=self.user['username'], group=group)
-        run_command(cmd)
+        cmd = 'cut -d: -f1 /mnt/etc/group'
+        group_list = command_output(cmd).split('\n')
+        group_list = list(filter(None, group_list))
+
+        for group in group_list:
+            cmd = 'arch-chroot /mnt gpasswd -a {user} {group}'.format(
+                user=self.user['username'], group=group)
+            run_command(cmd)
 
 
 def install_aur_helper(self):
@@ -755,75 +771,78 @@ def install_aur_helper(self):
         Creates and executes bash script to perform install
         Removes AUR Helper repository folder
     """
-    logging.info(self.trad('install {aur} AUR Helper'
-                           .format(aur=self.user['aur_helper'])))
+    if self.user['aur_helper'] is not None:
+        logging.info(self.trad('install {aur} AUR Helper'
+                               .format(aur=self.user['aur_helper'])))
 
-    # Set root privilege without password
-    with open('/mnt/etc/sudoers', 'r') as sudo:
-        sudo_list = list(sudo)
+        # Set root privilege without password
+        with open('/mnt/etc/sudoers', 'r') as sudo:
+            sudo_list = list(sudo)
 
-    sudo = []
-    for line in sudo_list:
-        line = re.sub(' +', ' ', line)
-        line = line.replace(
-            '{user} ALL=(ALL) ALL'.format(user=self.user['username']),
-            '{user} ALL=(ALL) NOPASSWD: ALL'.format(
-                user=self.user['username']))
-        sudo.append(line)
+        sudo = []
+        for line in sudo_list:
+            line = re.sub(' +', ' ', line)
+            line = line.replace(
+                '{user} ALL=(ALL) ALL'.format(user=self.user['username']),
+                '{user} ALL=(ALL) NOPASSWD: ALL'.format(
+                    user=self.user['username']))
+            sudo.append(line)
 
-    with open('/mnt/etc/sudoers', 'w+') as file:
-        for line in sudo:
-            file.write(line)
+        with open('/mnt/etc/sudoers', 'w+') as file:
+            for line in sudo:
+                file.write(line)
 
-    # Clone the AUR Helper repository
-    chroot = 'arch-chroot /mnt'
-    url = 'https://aur.archlinux.org/{aur}.git'.format(
-        aur=self.user['aur_helper'].lower())
-    cmd = '{chroot} sudo -u {user} git clone {url} /home/{user}/{aur}'.format(
-        chroot=chroot,
-        user=self.user['username'],
-        url=url,
-        aur=self.user['aur_helper'].lower())
-    run_command(cmd)
-
-    # Create bash script to perform install
-    with open('/root/aur.sh', 'w+') as file:
-        for line in ['#!/bin/bash\n',
-                     'arch-chroot /mnt /bin/bash <<EOF\n',
-                     'cd /home/{user}/{aur}\n'.format(
-                         user=self.user['username'],
-                         aur=self.user['aur_helper']),
-                     'sudo -u {user} makepkg --noconfirm --needed -sic\n'
-                     .format(user=self.user['username']),
-                     'EOF\n']:
-            file.write(line)
-
-    # Install the AUR Helper
-    cmd_list = ['chmod +x /root/aur.sh', '/root/aur.sh', 'rm /root/aur.sh']
-    for cmd in cmd_list:
+        # Clone the AUR Helper repository
+        chroot = 'arch-chroot /mnt'
+        url = 'https://aur.archlinux.org/{aur}.git'.format(
+            aur=self.user['aur_helper'].lower())
+        cmd = '{x} sudo -u {user} git clone {url} /home/{user}/{aur}'.format(
+            x=chroot,
+            user=self.user['username'],
+            url=url,
+            aur=self.user['aur_helper'].lower())
         run_command(cmd)
 
-    # Restore root privilege access
-    with open('/mnt/etc/sudoers', 'r') as sudo:
-        sudo_list = list(sudo)
+        # Create bash script to perform install
+        with open('/root/aur.sh', 'w+') as file:
+            for line in ['#!/bin/bash\n',
+                         'arch-chroot /mnt /bin/bash <<EOF\n',
+                         'cd /home/{user}/{aur}\n'.format(
+                             user=self.user['username'],
+                             aur=self.user['aur_helper']),
+                         'sudo -u {user} makepkg --noconfirm --needed -sic\n'
+                         .format(user=self.user['username']),
+                         'EOF\n']:
+                file.write(line)
 
-    sudo = []
-    for line in sudo_list:
-        line = re.sub(' +', ' ', line)
-        line = line.replace(
-            '{user} ALL=(ALL) NOPASSWD: ALL'.format(
-                user=self.user['username']),
-            '{user} ALL=(ALL) ALL'.format(user=self.user['username']))
-        sudo.append(line)
+        # Install the AUR Helper
+        cmd_list = ['chmod +x /root/aur.sh',
+                    '/root/aur.sh',
+                    'rm /root/aur.sh']
+        for cmd in cmd_list:
+            run_command(cmd)
 
-    with open('/mnt/etc/sudoers', 'w+') as file:
-        for line in sudo:
-            file.write(line)
+        # Restore root privilege access
+        with open('/mnt/etc/sudoers', 'r') as sudo:
+            sudo_list = list(sudo)
 
-    # Remove AUR Helper repository folder
-    rmtree('/mnt/home/{user}/{aur}'
-           .format(user=self.user['username'],
-                   aur=self.user['aur_helper'].lower()))
+        sudo = []
+        for line in sudo_list:
+            line = re.sub(' +', ' ', line)
+            line = line.replace(
+                '{user} ALL=(ALL) NOPASSWD: ALL'.format(
+                    user=self.user['username']),
+                '{user} ALL=(ALL) ALL'.format(user=self.user['username']))
+            sudo.append(line)
+
+        with open('/mnt/etc/sudoers', 'w+') as file:
+            for line in sudo:
+                file.write(line)
+
+        # Remove AUR Helper repository folder
+        rmtree('/mnt/home/{user}/{aur}'
+               .format(user=self.user['username'],
+                       aur=self.user['aur_helper'].lower()))
 
 
 def clean_pacman_cache(self):

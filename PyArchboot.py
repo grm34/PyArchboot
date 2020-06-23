@@ -22,16 +22,17 @@ import coloredlogs
 import inquirer
 from inquirer.themes import load_theme_from_dict
 
-from modules.app import app_banner, app_helper, app_translator
-from modules.installer import (configure_desktop_environment,
+from modules.app import app_banner, app_helper, app_reboot, app_translator
+from modules.installer import (clean_pacman_cache,
+                               configure_desktop_environment,
                                configure_display_manager, configure_grub,
-                               configure_systemdboot, generate_fstab,
-                               install_aur_helper, install_base_system,
-                               install_bootloader, install_network,
-                               install_optional_packages, set_hostname_file,
-                               set_locales, set_mirrorlist, set_root_passwd,
-                               set_timezone, set_user_privileges,
-                               set_virtual_console)
+                               configure_systemdboot, create_user,
+                               generate_fstab, install_aur_helper,
+                               install_base_system, install_grub_bootloader,
+                               install_network, install_optional_packages,
+                               set_hostname_file, set_locales, set_mirrorlist,
+                               set_root_passwd, set_timezone,
+                               set_user_privileges, set_virtual_console)
 from modules.partitioner import (create_dos_partitions, create_lvm_partitions,
                                  delete_partitions, format_drive,
                                  format_partitions, mount_partitions,
@@ -220,6 +221,37 @@ class PyArchboot(object):
         cmd = mount_partitions(self)
 
         # Install Arch Linux
+        functions = [set_mirrorlist(self), install_base_system(self),
+                     generate_fstab(self), set_timezone(self),
+                     set_locales(self), set_virtual_console(self),
+                     set_hostname_file(self), set_root_passwd(self),
+                     create_user(self), install_network(self),
+                     install_grub_bootloader(self),
+                     install_optional_packages(self),
+                     configure_systemdboot(self), configure_grub(self),
+                     configure_desktop_environment(self),
+                     configure_display_manager(self),
+                     set_user_privileges(self), install_aur_helper(self),
+                     clean_pacman_cache(self)]
+
+        for function in functions:
+            cmd = function
+
+        logging.info(trad('installation successfull'))
+
+        # Reboot the system
+        question = [inquirer.Confirm(
+            'reboot',
+            message=trad('Do you wish to reboot your computer now'),
+            default=True)]
+
+        confirm = inquirer.prompt(question,
+                                  theme=load_theme_from_dict(self.theme))
+
+        if confirm['reboot'] is True:
+            cmd = app_reboot()
+        else:
+            sys.exit(0)
 
 
 if __name__ == '__main__':
