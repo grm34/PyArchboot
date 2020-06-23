@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Install AUR Helper tests."""
 import os
 import re
 import shlex
@@ -11,6 +11,7 @@ aur_helper = 'trizen'
 
 
 def run_command(cmd):
+    """Subprocess Popen."""
     process = Popen(shlex.split(cmd),
                     stdin=PIPE, stdout=PIPE, encoding='utf-8')
     while True:

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Partition size validation."""
 import re
 
 import inquirer
@@ -8,7 +9,7 @@ from inquirer.themes import load_theme_from_dict
 
 
 def size_counter(user):
-
+    """Get remaining available disk space."""
     counter = 0
     size_list = ['boot_size', 'root_size', 'swap_size', 'home_size']
 
@@ -23,7 +24,7 @@ def size_counter(user):
 
 
 def index_counter(user):
-
+    """Set current partition index."""
     index = 0
     if 'swap_size' in user:
         index = 3
@@ -36,7 +37,7 @@ def index_counter(user):
 
 
 def size_validation(user, response):
-
+    """Validate partition size."""
     drive = '465,4G'
     name = ['boot', 'root', 'swap', 'home']
     eq_size = ['512M', '25G', '2G', '100G']

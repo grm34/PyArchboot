@@ -127,9 +127,10 @@ class PyArchboot(object):
     """
 
     def __init__(self):
-        """Main class instance.
+        """Set main class instance.
 
-        Initialize:
+        Initialize
+        ----------
             Accessible attributes of the class
         """
         # Application parameters

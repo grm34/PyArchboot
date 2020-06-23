@@ -22,7 +22,7 @@ from inquirer.errors import ValidationError
 
 
 def size_counter(user):
-    """Calculate disk space usage.
+    """Calculate remaining available disk space.
 
     Arguments
     ---------

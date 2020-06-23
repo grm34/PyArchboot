@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Store encrypted passwords tests."""
 import json
 import os
 import shlex

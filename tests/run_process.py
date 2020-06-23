@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-
+"""Run process tests."""
 import shlex
 from subprocess import PIPE, STDOUT, Popen
 
 
 def run_command(cmd):
+    """Subprocess check_output."""
     process = Popen(shlex.split(cmd),
                     stdin=PIPE, stdout=PIPE, encoding='utf-8')
     while True:

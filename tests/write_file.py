@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Write to file tests."""
 import re
 
 print('test is running...')
