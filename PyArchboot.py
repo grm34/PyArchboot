@@ -22,6 +22,7 @@ from shutil import copy2, copytree
 import coloredlogs
 import inquirer
 from inquirer.themes import load_theme_from_dict
+from termcolor import colored
 
 from modules.app import app_banner, app_helper, app_reboot, app_translator
 from modules.installer import (clean_pacman_cache,
@@ -259,7 +260,9 @@ class PyArchboot(object):
 
 if __name__ == '__main__':
     if not os.geteuid() == 0:
-        sys.exit('ERROR: This script must be run as root !')
+        sys.exit(colored('ERROR: This script must be run as root !',
+                         'red',
+                         attrs=['bold']))
     PyArchboot().run()
 
 
