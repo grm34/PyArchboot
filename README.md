@@ -40,14 +40,14 @@ modules/installer.py|205|288|394
 modules/questioner/questions.py|49|67|251
 modules/session.py|78|88|170
 modules/partitioner.py|84|111|168
-PyArchboot.py|36|91|135
-modules/system_manager/settings.py|71|159|109
+PyArchboot.py|35|92|138
+modules/system_manager/settings.py|71|159|108
 modules/questioner/validator.py|66|117|84
 modules/app.py|44|71|76
-modules/system_manager/unix_command.py|41|75|71
-modules/questioner/updater.py|17|30|15
+modules/system_manager/unix_command.py|46|88|75
+modules/questioner/updater.py|17|30|14
 --------|--------|--------|--------
-SUM:|691|1097|1473
+SUM:|695|1111|1478
 
 ---
 
