@@ -95,7 +95,7 @@ def app_helper(self):
 
     parser.add_argument('--lang',
                         nargs=1,
-                        choices=['de', 'en', 'es', 'fr', 'ru'],
+                        choices=['en', 'fr'],
                         help='Installer language selection')
 
     parser.add_argument('--keyboard',

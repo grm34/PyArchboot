@@ -15,7 +15,7 @@ If you know another language and are willing to help translate PyArchboot, here 
 
 - Open an issue requesting new language (language will be added in locales).
 - Follow pull request guidelines as described below.
-- Implement your translations in the corresponding PO file.
+- Implement your translations in the corresponding PO file using Poedit.
 - Create a new pull request to submit your language.
 
 ### How to make a clean pull request 👌
