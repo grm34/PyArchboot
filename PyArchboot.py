@@ -17,6 +17,7 @@ limitations under the License.
 import logging
 import os
 import sys
+from shutil import copy2, copytree
 
 import coloredlogs
 import inquirer
@@ -237,12 +238,16 @@ class PyArchboot(object):
         for function in functions:
             cmd = function
 
+        # Copy logs to system
         logging.info(trad('installation successfull'))
+        copytree('{path}/logs'.format(path=os.getcwd()),
+                 '/mnt/var/log/PyArchboot',
+                 copy_function=copy2)
 
         # Reboot the system
         question = [inquirer.Confirm(
             'reboot',
-            message=trad('Do you wish to reboot your computer now'),
+            message=self.trad('Do you wish to reboot your computer now'),
             default=True)]
 
         confirm = inquirer.prompt(question,

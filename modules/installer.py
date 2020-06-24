@@ -434,7 +434,7 @@ def configure_grub(self):
     Modules
     -------
         logging: "Event logging system for applications and libraries"
-        shutil: "File manipulation libraries"
+        shutil: "High-level file operations"
         re: "Regular expression matching operations"
 
     Submodules
@@ -495,7 +495,7 @@ def configure_desktop_environment(self):
     Modules
     -------
         logging: "Event logging system for applications and libraries"
-        shutil: "File manipulation libraries"
+        shutil: "High-level file operations"
         re: "Regular expression matching operations"
 
     Submodules
@@ -553,7 +553,7 @@ def configure_display_manager(self):
     Modules
     -------
         logging: "Event logging system for applications and libraries"
-        shutil: "File manipulation libraries"
+        shutil: "High-level file operations"
         re: "Regular expression matching operations"
 
     Submodules
@@ -757,7 +757,7 @@ def install_aur_helper(self):
     Modules
     -------
         logging: "Event logging system for applications and libraries"
-        shutil: "File manipulation libraries"
+        shutil: "High-level file operations"
         re: "Regular expression matching operations"
 
     Submodules
@@ -851,7 +851,7 @@ def clean_pacman_cache(self):
     Modules
     -------
         logging: "Event logging system for applications and libraries"
-        shutil: "File manipulation libraries"
+        shutil: "High-level file operations"
         re: "Regular expression matching operations"
 
     Submodules
