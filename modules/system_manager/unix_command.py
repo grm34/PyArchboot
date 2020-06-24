@@ -183,5 +183,27 @@ def load_json_file(file):
     return output
 
 
+def dump_json_file(dictionary, file):
+    """Store dictionary to JSON file.
+
+    Arguments
+    ---------
+        dictionary: "Dictionary to be stored"
+        file: "String containing the JSON filename where to be stored"
+
+    Modules
+    -------
+        json: "JavaScript syntax data interchange format"
+        os: "Export all functions from posix"
+
+    Actions
+    -------
+        "Store the desired dictionary to the desired JSON file"
+    """
+    with open('{path}/logs/{file}'.format(
+            path=os.getcwd()), 'w', encoding='utf-8') as output:
+        json.dump(dictionary, output, ensure_ascii=False, indent=4)
+
+
 # PyArchboot - Python Arch Linux Installer by grm34 under Apache License 2.0
 ##############################################################################

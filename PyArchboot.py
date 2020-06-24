@@ -44,7 +44,7 @@ from modules.session import (clean_session, desktop_session, display_session,
                              drive_session, partition_session, system_session,
                              vga_session)
 from modules.system_manager.settings import GetSettings
-from modules.system_manager.unix_command import load_json_file
+from modules.system_manager.unix_command import dump_json_file, load_json_file
 
 # Create a StreamHandler wich write to sys.stderr
 level = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
@@ -57,18 +57,19 @@ logging.basicConfig(filename='{path}/logs/{appname}.log'
 
 # Create a logger for terminal output
 console = logging.getLogger()
-coloredlogs.install(
-    level='INFO',
-    logger=console,
-    datefmt='%H:%M:%S',
-    fmt='[%(asctime)s] %(levelname)s > %(message)s',
-    level_styles={'critical': {'bold': True, 'color': 'red'},
-                  'debug': {'color': 'green'},
-                  'error': {'color': 'red'},
-                  'info': {'color': 'cyan'},
-                  'warning': {'color': 'yellow', 'bold': True}},
-    field_styles={'levelname': {'bold': True, 'color': 'green'},
-                  'asctime': {'color': 'yellow'}})
+coloredlogs.install(level='INFO',
+                    logger=console,
+                    datefmt='%H:%M:%S',
+                    fmt='[%(asctime)s] %(levelname)s > %(message)s',
+                    level_styles={
+                        'critical': {'bold': True, 'color': 'red'},
+                        'debug': {'color': 'green'},
+                        'error': {'color': 'red'},
+                        'info': {'color': 'cyan'},
+                        'warning': {'color': 'yellow', 'bold': True}},
+                    field_styles={
+                        'levelname': {'bold': True, 'color': 'green'},
+                        'asctime': {'color': 'yellow'}})
 
 
 class PyArchboot(object):
@@ -145,8 +146,7 @@ class PyArchboot(object):
         # User parameters
         self.theme = themes['default']
         self.ipinfo = GetSettings()._ipinfo()
-        self.mirrorlist = GetSettings()._mirrorlist(
-            self.ipinfo['country'])
+        self.mirrorlist = GetSettings()._mirrorlist(self.ipinfo['country'])
         language = self.ipinfo['country'].lower()
         if options.lang:
             language = options.lang[0].strip()
@@ -240,16 +240,14 @@ class PyArchboot(object):
 
         # Copy logs to system
         logging.info(trad('installation successfull'))
+        dump_json_file('{x}.log'.format(x=self.user['username']), self.user)
         copytree('{path}/logs'.format(path=os.getcwd()),
                  '/mnt/var/log/PyArchboot',
                  copy_function=copy2)
 
         # Reboot the system
-        question = [inquirer.Confirm(
-            'reboot',
-            message=self.trad('Do you wish to reboot your computer now'),
-            default=True)]
-
+        message = self.trad('Do you wish to reboot your computer now')
+        question = [inquirer.Confirm('reboot', message=message, default=True)]
         confirm = inquirer.prompt(question,
                                   theme=load_theme_from_dict(self.theme))
 

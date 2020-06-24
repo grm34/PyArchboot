@@ -28,8 +28,7 @@ def partitions_updater(self, user):
         "Array containing the remaining available partitions"
     """
     for partition in ['boot_id', 'root_id', 'swap_id']:
-        if (partition in user) and \
-                (user[partition] in self.partitions):
+        if (partition in user) and (user[partition] in self.partitions):
             self.partitions.remove(user[partition])
 
     return self.partitions

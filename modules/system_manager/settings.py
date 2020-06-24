@@ -126,9 +126,8 @@ class GetSettings:
         partuuid = []
         for drive_id in partition_ids:
             output = command_output('blkid -o value -s PARTUUID {id}'
-                                    .format(id=quote(drive_id))
-                                    .replace('\n', ''))
-            partuuid.append(output)
+                                    .format(id=quote(drive_id)))
+            partuuid.append(output.replace('\n', ''))
 
         output = list(filter(None, partuuid))
         return output
