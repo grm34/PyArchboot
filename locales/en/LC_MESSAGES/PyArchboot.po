@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyArchboot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-24 12:29+0200\n"
-"PO-Revision-Date: 2020-06-24 13:20+0200\n"
+"POT-Creation-Date: 2020-06-24 16:32+0200\n"
+"PO-Revision-Date: 2020-06-24 16:35+0200\n"
 "Last-Translator: Jeremy Pardo jerem.pardo@tutanota.com\n"
 "Language-Team: PyArchboot\n"
 "Language: en\n"
@@ -386,11 +386,15 @@ msgstr "Invalid hostname: {response} (e.q., my-computer)"
 msgid "Invalid username: {response} (e.q., JohnDoe)"
 msgstr "Invalid username: {response} (e.q., JohnDoe)"
 
-#: modules/system_manager/settings.py:63
+#: modules/system_manager/settings.py:62
+msgid "No drive detected !"
+msgstr "No drive detected !"
+
+#: modules/system_manager/settings.py:65
 msgid "Use already formatted partitions"
 msgstr "Use already formatted partitions"
 
-#: modules/system_manager/settings.py:257
+#: modules/system_manager/settings.py:260
 #, python-brace-format
 msgid "No existing {arg} volume detected"
 msgstr "No existing {arg} volume detected"

@@ -1,19 +1,20 @@
 #!/bin/bash
 
-POT="locales/PyArchboot.pot"
+APP="PyArchboot"
+POT="locales/${APP}.pot"
 FOLDERS="modules/*.py modules/questioner/*.py modules/system_manager/*.py"
 LANGUAGES=(en fr)
 
-if [[ ! -f "PyArchboot.pot" ]]; then
-    echo "ERROR: updater needs to be run from PyArchboot/locales folder!"
+if [[ ! -f "${APP}.pot" ]]; then
+    echo "ERROR: updater needs to be run from ${APP}/locales folder!"
     exit 1
 else
     # Get translatable strings and update POT
     cd ..
-    xgettext -d PyArchboot -o locales/PyArchboot.pot PyArchboot.py ${FOLDERS}
+    xgettext -d ${APP} -o ${POT} ${APP}.py ${FOLDERS} --keyword=trad
 
     # Update PO files
     for LANGUAGE in "${LANGUAGES[@]}"; do
-        msgmerge -U locales/${LANGUAGE}/LC_MESSAGES/PyArchboot.po ${POT}
+        msgmerge -U locales/${LANGUAGE}/LC_MESSAGES/${APP}.po ${POT}
     done
 fi

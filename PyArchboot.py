@@ -259,7 +259,7 @@ class PyArchboot(object):
 
 if __name__ == '__main__':
     if not os.geteuid() == 0:
-        sys.exit('ERROR: This script must be run as root!')
+        sys.exit('ERROR: This script must be run as root !')
     PyArchboot().run()
 
 

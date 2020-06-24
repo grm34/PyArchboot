@@ -57,10 +57,12 @@ class GetSettings:
             "Array containing the available drives"
         """
         cmd = 'lsblk -I 8 -d -p -o NAME,SIZE,MODEL | grep -v NAME'
-        output = command_output(cmd, exit_on_error=True)
-        if output is not False:
-            output = list(filter(None, output.split('\n')))
-            output.insert(0, (trad('Use already formatted partitions'), None))
+        output = command_output(cmd,
+                                exit_on_error=True,
+                                error=trad('No drive detected !'))
+
+        output = list(filter(None, output.split('\n')))
+        output.insert(0, (trad('Use already formatted partitions'), None))
 
         return output
 
@@ -126,7 +128,8 @@ class GetSettings:
         partuuid = []
         for drive_id in partition_ids:
             output = command_output('blkid -o value -s PARTUUID {id}'
-                                    .format(id=quote(drive_id)))
+                                    .format(id=quote(drive_id)),
+                                    exit_on_error=True)
             partuuid.append(output.replace('\n', ''))
 
         output = list(filter(None, partuuid))
@@ -208,7 +211,7 @@ class GetSettings:
             "String containing the processor model name"
         """
         cmd = 'cat /proc/cpuinfo | grep "model name" | uniq'
-        output = command_output(cmd, exit_on_error=True)
+        output = command_output(cmd)
         if output is not False:
             output = output.split('\n')[0].split(': ')[-1]
             output = re.sub(' +', ' ', output)

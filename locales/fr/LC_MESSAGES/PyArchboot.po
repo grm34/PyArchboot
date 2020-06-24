@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyArchboot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-24 12:29+0200\n"
-"PO-Revision-Date: 2020-06-24 13:41+0200\n"
+"POT-Creation-Date: 2020-06-24 16:32+0200\n"
+"PO-Revision-Date: 2020-06-24 16:34+0200\n"
 "Last-Translator: Jeremy Pardo jerem.pardo@tutanota.com\n"
 "Language-Team: PyArchboot\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #: PyArchboot.py:242
 msgid "installation successfull"
-msgstr "installation  réussie"
+msgstr "installation réussie"
 
 #: PyArchboot.py:249
 msgid "Do you wish to reboot your computer now"
@@ -386,11 +386,15 @@ msgstr "Nom d'hôte invalide: {response} (ex: mon-ordinateur)"
 msgid "Invalid username: {response} (e.q., JohnDoe)"
 msgstr "Nom d'utilisateur invalide: {response} (ex: Johnny)"
 
-#: modules/system_manager/settings.py:63
+#: modules/system_manager/settings.py:62
+msgid "No drive detected !"
+msgstr "Aucun disque dur détecté !"
+
+#: modules/system_manager/settings.py:65
 msgid "Use already formatted partitions"
 msgstr "Utiliser des partitions déjà formatées"
 
-#: modules/system_manager/settings.py:257
+#: modules/system_manager/settings.py:260
 #, python-brace-format
 msgid "No existing {arg} volume detected"
 msgstr "Aucun volume {arg} existant détecté"
