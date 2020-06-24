@@ -159,7 +159,7 @@ class PyArchboot(object):
         self.efi, self.firmware = GetSettings()._firmware()
         self.controllers = GetSettings()._vga_controller()
         self.drives = GetSettings()._drives(self.trad)
-        self.partition_list = GetSettings()._partitions()
+        self.partitions = GetSettings()._partitions()
         self.mountpoints = GetSettings()._mountpoints()
         self.volumes = GetSettings()._volumes()
         self.lvm = GetSettings()._filesystem(self.trad, 'lvm')

@@ -110,7 +110,7 @@ def app_helper(self):
 
     parser.add_argument('--theme',
                         nargs=1,
-                        choices=['default', 'bacon', 'matrix'],
+                        choices=['default', 'bacon', 'matrix', 'snow'],
                         help='Application theme selection')
 
     options = parser.parse_args()

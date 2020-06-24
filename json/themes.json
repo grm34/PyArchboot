@@ -58,5 +58,25 @@
             "selected_icon": "[x]",
             "unselected_icon": "[ ]"
         }
+    },
+    "snow": {
+        "Question": {
+            "mark_color": "white",
+            "brackets_color": "bold_red",
+            "default_color": "normal"
+        },
+        "List": {
+            "selection_color": "reverse_white",
+            "selection_cursor": ">",
+            "unselected_color": "normal"
+        },
+        "Checkbox": {
+            "selection_color": "reverse_white",
+            "selected_color": "bold_red",
+            "unselected_color": "normal",
+            "selection_icon": ">",
+            "selected_icon": "[x]",
+            "unselected_icon": "[ ]"
+        }
     }
 }
