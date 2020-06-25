@@ -21,320 +21,298 @@ from shlex import quote
 from .unix_command import api_json_ouput, command_output
 
 
-class GetSettings:
-    """Class to get user's system settings.
+def get_drives(self):
+    """Get user's available drives.
 
-    Functions
-    ---------
-        1) "Get user's available drives."
-        2) "Get user's available partitions."
-        3) "Get the partition ids of the user's selected drive."
-        4) "Get partitions PARTUUID."
-        5) "Get mountpoints of existing partitions."
-        6) "Get existing LVM volumes."
-        7) "Get existing mountpoints of swap volumes."
-        8) "Get user's processor."
-        9) "Get user's available VGA controllers."
-        10) "Check if a filesystem is used by a volume or a partition."
-        11) "Get user's system firmware."
-        12) "Get user's IP address data."
-        13) "Get user's fastest mirrors (corresponding to user's country)."
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
+
+    Returns
+    -------
+        "Array containing the available drives"
     """
+    cmd = 'lsblk -I 8 -d -p -o NAME,SIZE,MODEL | grep -v NAME'
+    output = command_output(cmd,
+                            exit_on_error=True,
+                            error=self.trad('No drive detected !'))
 
-    def _drives(self, trad):
-        """Get user's available drives.
+    output = list(filter(None, output.split('\n')))
+    output.insert(0, (self.trad('Use already formatted partitions'), None))
 
-        Arguments
-        ---------
-            trad: "Function to translate string"
+    return output
 
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns
-        -------
-            "Array containing the available drives"
-        """
-        cmd = 'lsblk -I 8 -d -p -o NAME,SIZE,MODEL | grep -v NAME'
-        output = command_output(cmd,
-                                exit_on_error=True,
-                                error=trad('No drive detected !'))
+def get_partitions(self):
+    """Get user's available partitions.
 
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
+
+    Returns
+    -------
+        "Array containing the available partitions"
+    """
+    cmd = 'lsblk -p -l -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL'
+    pipe = 'grep part | sed "s/part //g"'
+    cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
+    output = command_output(cmd)
+    if output is not False:
         output = list(filter(None, output.split('\n')))
-        output.insert(0, (trad('Use already formatted partitions'), None))
 
-        return output
+    return output
 
-    def _partitions(self):
-        """Get user's available partitions.
 
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
+def get_partition_id(self):
+    """Get the partition drive id of the user's selected drive.
 
-        Returns
-        -------
-            "Array containing the available partitions"
-        """
-        cmd = 'lsblk -p -l -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL'
-        pipe = 'grep part | sed "s/part //g"'
-        cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
-        output = command_output(cmd)
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
+
+    Returns
+    -------
+        "Array containing partition drive id"
+    """
+    cmd = 'lsblk -p -l -o NAME,TYPE {drive}'.format(
+        drive=quote(self.user['drive']['name']))
+    pipe = 'grep part | sed "s/ part//g"'
+    cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
+    output = command_output(cmd)
+    if output is not False:
+        output = list(filter(None, output.split('\n')))
+
+    return output
+
+
+def get_partuuid(self):
+    """Get partitions PARTUUID.
+
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
+
+    Returns
+    -------
+        "Array containing partition partuuid"
+    """
+    partuuid = []
+    for drive_id in self.user['partitions']['drive_id']:
+        output = command_output('blkid -o value -s PARTUUID {id}'
+                                .format(id=quote(drive_id)),
+                                exit_on_error=True)
+        partuuid.append(output.replace('\n', ''))
+
+    output = list(filter(None, partuuid))
+    return output
+
+
+def get_mountpoints(self):
+    """Get mountpoints of existing partitions.
+
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
+
+    Returns
+    -------
+        "Array containing partition mountpoints"
+    """
+    cmd = 'lsblk -l -o MOUNTPOINT | grep -v MOUNTPOINT'
+    output = command_output(cmd)
+    if output is not False:
+        output = list(filter(None, output.split('\n')))
+
+    return output
+
+
+def get_volumes(self):
+    """Get existing LVM volumes.
+
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
+
+    Returns
+    -------
+        "Array containing existing volumes (pv, vg, lvm)"
+    """
+    volumes = []
+    cmd = ['lvs --noheadings --separator / -o vg_name,lv_name,devices',
+           'vgs --noheadings -o vg_name,devices',
+           'pvs --noheadings -o pv_name']
+
+    for command in cmd:
+        output = command_output(command)
         if output is not False:
             output = list(filter(None, output.split('\n')))
+        volumes.append(output)
 
-        return output
+    return volumes
 
-    def _partition_ids(self, drive):
-        """Get the partition ids of the user's selected drive.
 
-        Arguments
-        ---------
-            drive: "String containing user's selected drive"
+def get_swap(self):
+    """Get existing mountpoints of swap volumes.
 
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns
-        -------
-            "Array containing partition drive ids"
-        """
-        cmd = 'lsblk -p -l -o NAME,TYPE {drive}'.format(drive=quote(drive))
-        pipe = 'grep part | sed "s/ part//g"'
-        cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
-        output = command_output(cmd)
-        if output is not False:
-            output = list(filter(None, output.split('\n')))
+    Returns
+    -------
+        "Array containing swap mountpoints"
+    """
+    cmd = 'lsblk -p -l -o NAME,MOUNTPOINT | grep SWAP'
+    output = command_output(cmd)
+    if output is not False:
+        output = list(filter(None, output.split('\n')))
 
-        return output
+    return output
 
-    def _partuuid(self, partition_ids):
-        """Get partitions PARTUUID.
 
-        Arguments
-        ---------
-            `partition_ids`: "Array containing user's selected partitions"
+def get_processor(self):
+    """Get user's processor.
 
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
+    Modules
+    -------
+        re: "Regular expression matching operations"
 
-        Returns
-        -------
-            "Array containing partition partuuid"
-        """
-        partuuid = []
-        for drive_id in partition_ids:
-            output = command_output('blkid -o value -s PARTUUID {id}'
-                                    .format(id=quote(drive_id)),
-                                    exit_on_error=True)
-            partuuid.append(output.replace('\n', ''))
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
 
-        output = list(filter(None, partuuid))
-        return output
+    Returns
+    -------
+        "String containing the processor model name"
+    """
+    cmd = 'cat /proc/cpuinfo | grep "model name" | uniq'
+    output = command_output(cmd)
+    if output is not False:
+        output = output.split('\n')[0].split(': ')[-1]
+        output = re.sub(' +', ' ', output)
 
-    def _mountpoints(self):
-        """Get mountpoints of existing partitions.
+    return output
 
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns
-        -------
-            "Array containing partition mountpoints"
-        """
-        cmd = 'lsblk -l -o MOUNTPOINT | grep -v MOUNTPOINT'
-        output = command_output(cmd)
-        if output is not False:
-            output = list(filter(None, output.split('\n')))
+def get_vga_controller(self):
+    """Get user's available VGA controllers.
 
-        return output
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
 
-    def _volumes(self):
-        """Get existing LVM volumes.
+    Returns
+    -------
+        "Array containing the available VGA controllers"
+    """
+    cmd = 'lspci | grep -e VGA -e 3D'
+    pipe = 'sed "s/.*: //g" | sed "s/Graphics Controller //g"'
+    cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
+    output = command_output(cmd)
+    if output is not False:
+        output = list(filter(None, output.split('\n')))
 
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
+    return output
 
-        Returns
-        -------
-            "Array containing existing volumes (pv, vg, lvm)"
-        """
-        volumes = []
-        cmd = ['lvs --noheadings --separator / -o vg_name,lv_name,devices',
-               'vgs --noheadings -o vg_name,devices',
-               'pvs --noheadings -o pv_name']
 
-        for command in cmd:
-            output = command_output(command)
-            if output is not False:
-                output = list(filter(None, output.split('\n')))
-            volumes.append(output)
+def get_filesystem(self, arg):
+    """Check if a filesystem is used by a volume or a partition.
 
-        return volumes
+    Used to check if user as ntfs, lvm or encrypted volumes to get thoses
+    volumes supported by the system (by installing the required packages)
 
-    def _swap(self):
-        """Get existing mountpoints of swap volumes.
+    Arguments
+    ---------
+        arg: "String containing the filesystem to check"
 
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
 
-        Returns
-        -------
-            "Array containing swap mountpoints"
-        """
-        cmd = 'lsblk -p -l -o NAME,MOUNTPOINT | grep SWAP'
-        output = command_output(cmd)
-        if output is not False:
-            output = list(filter(None, output.split('\n')))
+    Returns
+    -------
+        Boolean: True or False
+    """
+    msg = self.trad('No existing {arg} volume detected').format(arg=arg)
+    output = command_output('lsblk -f | grep {arg}'
+                            .format(arg=arg, error=msg))
+    if output is not False:
+        output = True
 
-        return output
+    return output
 
-    def _processor(self):
-        """Get user's processor.
 
-        Modules
-        -------
-            re: "Regular expression matching operations"
+def get_firmware(self):
+    """Get user's system firmware.
 
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
+    Modules
+    -------
+        os: "Export all functions from posix"
 
-        Returns
-        -------
-            "String containing the processor model name"
-        """
-        cmd = 'cat /proc/cpuinfo | grep "model name" | uniq'
-        output = command_output(cmd)
-        if output is not False:
-            output = output.split('\n')[0].split(': ')[-1]
-            output = re.sub(' +', ' ', output)
-
-        return output
-
-    def _vga_controller(self):
-        """Get user's available VGA controllers.
-
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
-
-        Returns
-        -------
-            "Array containing the available VGA controllers"
-        """
-        cmd = 'lspci | grep -e VGA -e 3D'
-        pipe = 'sed "s/.*: //g" | sed "s/Graphics Controller //g"'
-        cmd = '{cmd} | {pipe}'.format(cmd=cmd, pipe=pipe)
-        output = command_output(cmd)
-        if output is not False:
-            output = list(filter(None, output.split('\n')))
-
-        return output
-
-    def _filesystem(self, trad, arg):
-        """Check if a filesystem is used by a volume or a partition.
-
-        Used to check if user as ntfs, lvm or encrypted volumes to get thoses
-        volumes supported by the system (by installing the required packages)
-
-        Arguments
-        ---------
-            trad: "Function to translate string"
-            arg: "String containing the filesystem to check"
-
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
-
-        Returns
-        -------
-            Boolean: True or False
-        """
-        msg = trad('No existing {arg} volume detected').format(arg=arg)
-        output = command_output('lsblk -f | grep {arg}'
-                                .format(arg=arg, error=msg))
-        if output is not False:
-            output = True
-
-        return output
-
-    def _firmware(self):
-        """Get user's system firmware.
-
-        Modules
-        -------
-            os: "Export all functions from posix"
-
-        Returns
-        -------
-            efi, firmware: "Strings containing system firmware type"
-        """
-        if os.path.isdir('/sys/firmware/efi/efivars'):
-            firmware = 'uefi'
-            if '64' in open('/sys/firmware/efi/fw_platform_size').read():
-                efi = 'x64'
-            else:
-                efi = 'x86'
+    Returns
+    -------
+        efi, firmware: "Strings containing system firmware type"
+    """
+    if os.path.isdir('/sys/firmware/efi/efivars'):
+        firmware = 'uefi'
+        if '64' in open('/sys/firmware/efi/fw_platform_size').read():
+            efi = 'x64'
         else:
-            efi = None
-            firmware = 'bios'
+            efi = 'x86'
+    else:
+        efi = None
+        firmware = 'bios'
 
-        return efi, firmware
+    return efi, firmware
 
-    def _ipinfo(self):
-        """Get user's IP address data.
 
-        Submodules
-        ----------
-            `api_json_output`: "JSON API url parser"
+def get_ipinfo(self):
+    """Get user's IP address data.
 
-        Returns
-        -------
-            "Dictionary containing IP address data"
-        """
-        output = api_json_ouput('https://ipinfo.io?token=26d03faada92e8',
-                                exit_on_error=True,
-                                error='no internet connection !',
-                                timeout=2)
-        return output
+    Submodules
+    ----------
+        `api_json_output`: "JSON API url parser"
 
-    def _mirrorlist(self, country):
-        """Get user's fastest mirrors (corresponding to user's country).
+    Returns
+    -------
+        "Dictionary containing IP address data"
+    """
+    output = api_json_ouput('https://ipinfo.io?token=26d03faada92e8',
+                            exit_on_error=True,
+                            error='no internet connection !',
+                            timeout=2)
+    return output
 
-        Arguments
-        ---------
-            country: "String containing user's country"
 
-        Modules
-        -------
-            shlex.quote: "Return a shell-escaped version of the string"
+def get_mirrorlist(self, country):
+    """Get user's fastest mirrors (corresponding to user's country).
 
-        Submodules
-        ----------
-            `command_output`: "Subprocess `check_output` with return codes"
+    Modules
+    -------
+        shlex.quote: "Return a shell-escaped version of the string"
 
-        Returns
-        -------
-            "String containing the list of the mirrors"
-        """
-        url_base = 'https://www.archlinux.org/mirrorlist/?country='
-        url_args = '{code}&use_mirror_status=on'.format(code=country.upper())
-        url = '{base}{args}'.format(base=url_base, args=url_args)
-        output = command_output('curl -s {url}'.format(url=quote(url)))
+    Submodules
+    ----------
+        `command_output`: "Subprocess `check_output` with return codes"
 
-        if 'DOCTYPE' in output:
-            output = False
-        if output is not False:
-            output = output.replace('#Server =', 'Server =')
+    Returns
+    -------
+        "String containing the list of the mirrors"
+    """
+    url_base = 'https://www.archlinux.org/mirrorlist/?country='
+    url_args = '{code}&use_mirror_status=on'.format(
+        code=self.ipinfo['country'].upper())
 
-        return output
+    url = '{base}{args}'.format(base=url_base, args=url_args)
+    output = command_output('curl -s {url}'.format(url=quote(url)))
+
+    if 'DOCTYPE' in output:
+        output = False
+    if output is not False:
+        output = output.replace('#Server =', 'Server =')
+
+    return output
 
 
 # PyArchboot - Python Arch Linux Installer by grm34 under Apache License 2.0

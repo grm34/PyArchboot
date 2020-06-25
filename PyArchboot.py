@@ -44,7 +44,13 @@ from modules.questioner.questions import question_manager
 from modules.session import (clean_session, desktop_session, display_session,
                              drive_session, partition_session, system_session,
                              vga_session)
-from modules.system_manager.settings import GetSettings
+from modules.system_manager.settings import (get_drives, get_filesystem,
+                                             get_firmware, get_ipinfo,
+                                             get_mirrorlist, get_mountpoints,
+                                             get_partition_id, get_partitions,
+                                             get_partuuid, get_processor,
+                                             get_swap, get_vga_controller,
+                                             get_volumes)
 from modules.system_manager.unix_command import dump_json_file, load_json_file
 
 # Create a StreamHandler wich write to sys.stderr
@@ -146,8 +152,8 @@ class PyArchboot(object):
 
         # User parameters
         self.theme = themes['default']
-        self.ipinfo = GetSettings()._ipinfo()
-        self.mirrorlist = GetSettings()._mirrorlist(self.ipinfo['country'])
+        self.ipinfo = get_ipinfo(self)
+        self.mirrorlist = get_mirrorlist(self)
         language = self.ipinfo['country'].lower()
         if options.lang:
             language = options.lang[0].strip()
@@ -156,16 +162,16 @@ class PyArchboot(object):
             self.theme = themes[options.theme[0].strip()]
 
         # Session parameters
-        self.cpu = GetSettings()._processor()
-        self.efi, self.firmware = GetSettings()._firmware()
-        self.controllers = GetSettings()._vga_controller()
-        self.drives = GetSettings()._drives(self.trad)
-        self.partitions = GetSettings()._partitions()
-        self.mountpoints = GetSettings()._mountpoints()
-        self.volumes = GetSettings()._volumes()
-        self.lvm = GetSettings()._filesystem(self.trad, 'lvm')
-        self.luks = GetSettings()._filesystem(self.trad, 'luks')
-        self.ntfs = GetSettings()._filesystem(self.trad, 'ntfs')
+        self.cpu = get_processor(self)
+        self.efi, self.firmware = get_firmware(self)
+        self.controllers = get_vga_controller(self)
+        self.drives = get_drives(self)
+        self.partitions = get_partitions(self)
+        self.mountpoints = get_mountpoints(self)
+        self.volumes = get_volumes(self)
+        self.lvm = get_filesystem(self, 'lvm')
+        self.luks = get_filesystem(self, 'luks')
+        self.ntfs = get_filesystem(self, 'ntfs')
         self.user = {}
 
     def run(self):
@@ -208,15 +214,13 @@ class PyArchboot(object):
             format_drive(self)
             new_partition_table(self)
             create_dos_partitions(self)
-            ids = GetSettings()._partition_ids(self.user['drive']['name'])
-            partuuid = GetSettings()._partuuid(ids)
-            self.user['partitions']['drive_id'] = ids
+            self.user['partitions']['drive_id'] = get_partition_id(self)
+            self.user['partitions']['partuuid'] = get_partuuid(self)
             set_partition_types(self)
-            self.user['partitions']['partuuid'] = partuuid
             if self.user['drive']['lvm'] is True:
                 create_lvm_partitions(self)
-                self.user['partitions']['drive_id'] = ids
-                self.user['partitions']['partuuid'] = partuuid
+                self.user['partitions']['drive_id'] = get_partition_id(self)
+                self.user['partitions']['partuuid'] = get_partuuid(self)
             format_partitions(self)
 
         # Mount the partitions
