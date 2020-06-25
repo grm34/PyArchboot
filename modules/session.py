@@ -20,7 +20,8 @@ from crypt import METHOD_SHA512, crypt, mksalt
 
 
 def drive_session(self):
-    """Set drive parameters of the current session.
+    """
+    Set drive parameters of the current session.
 
     Returns
     -------
@@ -66,7 +67,8 @@ def drive_session(self):
 
 
 def partition_session(self):
-    """Set partition parameters of the current session.
+    """
+    Set partition parameters of the current session.
 
     Returns
     -------
@@ -138,7 +140,8 @@ def partition_session(self):
 
 
 def vga_session(self):
-    """Set VGA controller parameters of the current session.
+    """
+    Set VGA controller parameters of the current session.
 
     Returns
     -------
@@ -196,7 +199,8 @@ def vga_session(self):
 
 
 def desktop_session(self):
-    """Set desktop environment parameters of the current session.
+    """
+    Set desktop environment parameters of the current session.
 
     Returns
     -------
@@ -238,7 +242,8 @@ def desktop_session(self):
 
 
 def display_session(self):
-    """Set display manager parameters of the current session.
+    """
+    Set display manager parameters of the current session.
 
     Returns
     -------
@@ -267,7 +272,8 @@ def display_session(self):
 
 
 def system_session(self):
-    """Set system parameters of the current session.
+    """
+    Set system parameters of the current session.
 
     Returns
     -------
@@ -315,7 +321,8 @@ def system_session(self):
 
 
 def clean_session(self):
-    """Delete unused parameters of the current session.
+    """
+    Delete unused parameters of the current session.
 
     Returns
     -------

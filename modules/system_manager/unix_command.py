@@ -29,7 +29,8 @@ from requests import ConnectTimeout, ReadTimeout, get
 
 
 def run_command(cmd, args=None, error=None, exit_on_error=False):
-    """Subprocess Popen with console output.
+    """
+    Subprocess Popen with console output.
 
     Arguments
     ---------
@@ -87,7 +88,8 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
 
 
 def command_output(cmd, exit_on_error=False, error=None, timeout=None):
-    """Subprocess check_output with return codes.
+    """
+    Subprocess check_output with return codes.
 
     Arguments
     ---------
@@ -131,7 +133,8 @@ def command_output(cmd, exit_on_error=False, error=None, timeout=None):
 
 
 def api_json_ouput(url, exit_on_error=False, error=None, timeout=None):
-    """JSON API url parser.
+    """
+    JSON API url parser.
 
     Arguments
     ---------
@@ -162,7 +165,8 @@ def api_json_ouput(url, exit_on_error=False, error=None, timeout=None):
 
 
 def load_json_file(file):
-    """JSON file parser.
+    """
+    JSON file parser.
 
     Arguments
     ---------
@@ -185,7 +189,8 @@ def load_json_file(file):
 
 
 def dump_json_file(dictionary, file):
-    """Store dictionary to JSON file.
+    """
+    Store dictionary to JSON file.
 
     Arguments
     ---------

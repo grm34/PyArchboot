@@ -82,7 +82,8 @@ coloredlogs.install(level='INFO',
 
 
 class PyArchboot(object):
-    """Application main object.
+    """
+    Application main object.
 
     Arch Linux is a light and fast distribution whose concept is to remain as
     simple as possible. In the same purpose and in order to give free choice
@@ -139,7 +140,8 @@ class PyArchboot(object):
     """
 
     def __init__(self):
-        """Set main class instance.
+        """
+        Set main class instance.
 
         Initialize
         ----------
@@ -147,7 +149,7 @@ class PyArchboot(object):
         """
         # Application parameters
         self.app = load_json_file('app.json')
-        display_banner = app_banner(self)
+        app_banner(self)
         options = app_helper(self)
         self.packages = load_json_file('packages.json')
         themes = load_json_file('themes.json')
@@ -177,7 +179,8 @@ class PyArchboot(object):
         self.user = {}
 
     def run(self):
-        """Start the application.
+        """
+        Start the application.
 
         Actions
         -------

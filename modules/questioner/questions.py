@@ -27,7 +27,8 @@ from .validator import (hostname_validator, language_validator,
 
 
 def question_manager(self):
-    """Ask questions to the user and store the answers.
+    """
+    Ask questions to the user and store the answers.
 
     Modules
     -------

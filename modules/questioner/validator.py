@@ -24,7 +24,8 @@ from inquirer.errors import ValidationError
 
 
 def size_counter(user):
-    """Calculate remaining available disk space.
+    """
+    Calculate remaining available disk space.
 
     Arguments
     ---------
@@ -49,7 +50,8 @@ def size_counter(user):
 
 
 def size_index(user):
-    """Set the index of the current partition.
+    """
+    Set the index of the current partition.
 
     Arguments
     ---------
@@ -71,7 +73,8 @@ def size_index(user):
 
 
 def size_validator(self, user, response):
-    """Match regex, current partition min/max size and remaining disk space.
+    """
+    Match regex, current partition min/max size and remaining disk space.
 
     Arguments
     ---------
@@ -129,7 +132,8 @@ def size_validator(self, user, response):
 
 
 def timezone_validator(self, user, response):
-    """Match timezone code in libraries/timezone.
+    """
+    Match timezone code in libraries/timezone.
 
     Arguments
     ---------
@@ -162,7 +166,8 @@ def timezone_validator(self, user, response):
 
 
 def language_validator(self, user, response):
-    """Match language code in libraries/locale.
+    """
+    Match language code in libraries/locale.
 
     Arguments
     ---------
@@ -191,7 +196,8 @@ def language_validator(self, user, response):
 
 
 def hostname_validator(self, user, response):
-    """Match UNIX hostname regex.
+    """
+    Match UNIX hostname regex.
 
     Arguments
     ---------
@@ -216,7 +222,8 @@ def hostname_validator(self, user, response):
 
 
 def passwd_validator(self, user, response):
-    """Match UNIX password regex.
+    """
+    Match UNIX password regex.
 
     Arguments
     ---------
@@ -241,7 +248,8 @@ def passwd_validator(self, user, response):
 
 
 def username_validator(self, user, response):
-    """Match UNIX username regex.
+    """
+    Match UNIX username regex.
 
     Arguments
     ---------

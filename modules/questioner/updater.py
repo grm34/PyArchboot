@@ -18,7 +18,8 @@ limitations under the License.
 
 
 def partitions_updater(self, user):
-    """Delete previous partition to display an updated array after selection.
+    """
+    Delete previous partition to display an updated array after selection.
 
     Arguments
     ---------
@@ -36,7 +37,8 @@ def partitions_updater(self, user):
 
 
 def desktop_extra_assigner(self, user):
-    """Assign the extra packages name of the selected desktop.
+    """
+    Assign the extra packages name of the selected desktop.
 
     Arguments
     ---------

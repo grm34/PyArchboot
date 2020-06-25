@@ -24,7 +24,8 @@ from .unix_command import api_json_ouput, command_output
 
 
 def get_drives(self):
-    """Get user's available drives.
+    """
+    Get user's available drives.
 
     Submodules
     ----------
@@ -46,7 +47,8 @@ def get_drives(self):
 
 
 def get_partitions(self):
-    """Get user's available partitions.
+    """
+    Get user's available partitions.
 
     Submodules
     ----------
@@ -67,7 +69,8 @@ def get_partitions(self):
 
 
 def get_partition_id(self):
-    """Get the partition drive id of the user's selected drive.
+    """
+    Get the partition drive id of the user's selected drive.
 
     Submodules
     ----------
@@ -89,7 +92,8 @@ def get_partition_id(self):
 
 
 def get_partuuid(self):
-    """Get partitions PARTUUID.
+    """
+    Get partitions PARTUUID.
 
     Submodules
     ----------
@@ -111,7 +115,8 @@ def get_partuuid(self):
 
 
 def get_mountpoints(self):
-    """Get mountpoints of existing partitions.
+    """
+    Get mountpoints of existing partitions.
 
     Submodules
     ----------
@@ -130,7 +135,8 @@ def get_mountpoints(self):
 
 
 def get_volumes(self):
-    """Get existing LVM volumes.
+    """
+    Get existing LVM volumes.
 
     Submodules
     ----------
@@ -155,7 +161,8 @@ def get_volumes(self):
 
 
 def get_swap(self):
-    """Get existing mountpoints of swap volumes.
+    """
+    Get existing mountpoints of swap volumes.
 
     Submodules
     ----------
@@ -174,7 +181,8 @@ def get_swap(self):
 
 
 def get_processor(self):
-    """Get user's processor.
+    """
+    Get user's processor.
 
     Modules
     -------
@@ -198,7 +206,8 @@ def get_processor(self):
 
 
 def get_vga_controller(self):
-    """Get user's available VGA controllers.
+    """
+    Get user's available VGA controllers.
 
     Submodules
     ----------
@@ -219,7 +228,8 @@ def get_vga_controller(self):
 
 
 def get_filesystem(self, arg):
-    """Check if a filesystem is used by a volume or a partition.
+    """
+    Check if a filesystem is used by a volume or a partition.
 
     Used to check if user as ntfs, lvm or encrypted volumes to get thoses
     volumes supported by the system (by installing the required packages)
@@ -270,7 +280,8 @@ def get_firmware(self):
 
 
 def get_ipinfo(self):
-    """Get user's IP address data.
+    """
+    Get user's IP address data.
 
     Submodules
     ----------
@@ -288,7 +299,8 @@ def get_ipinfo(self):
 
 
 def get_mirrorlist(self, country):
-    """Get user's fastest mirrors (corresponding to user's country).
+    """
+    Get user's fastest mirrors (corresponding to user's country).
 
     Modules
     -------

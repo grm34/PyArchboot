@@ -27,7 +27,8 @@ from .system_manager.unix_command import command_output, run_command
 
 
 def app_banner(self):
-    """Display ASCII banner of the application.
+    """
+    Display ASCII banner of the application.
 
     Modules
     -------
@@ -49,7 +50,8 @@ def app_banner(self):
 
 
 def app_helper(self):
-    """Application usage and command line options.
+    """
+    Application usage and command line options.
 
     Modules
     -------
@@ -137,7 +139,8 @@ def app_helper(self):
 
 
 def app_translator(lang):
-    """Localization of the application.
+    """
+    Localization of the application.
 
     Arguments
     ---------
@@ -159,7 +162,8 @@ def app_translator(lang):
 
 
 def app_reboot():
-    """Umount the partitions and reboot the system.
+    """
+    Umount the partitions and reboot the system.
 
     Modules
     -------
