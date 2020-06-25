@@ -57,13 +57,15 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
             command = Popen(shlex.split(cmd),
                             stdin=pipe.stdout,
                             stdout=PIPE,
-                            encoding='utf-8')
+                            encoding='utf-8',
+                            shell=False)
             command = command.communicate()[0]
         else:
             command = Popen(shlex.split(cmd),
                             stdin=PIPE,
                             stdout=PIPE,
-                            encoding='utf-8')
+                            encoding='utf-8',
+                            shell=False)
             while True:
                 output = command.stdout.readline()
                 if output:

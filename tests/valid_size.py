@@ -57,7 +57,7 @@ def size_validation(user, response):
 
         raise errors.ValidationError('', reason='Invalid size for {name}: \
 {response} (e.q., {eq}) Minimum [{min}] Maximum [{max}] \
-Remaining [{free}] test={t}'.format(
+Remaining [{free}]'.format(
             name=name[index_counter(user)],
             response=response, eq=eq_size[index_counter(user)],
             min=min_size[index_counter(user)],

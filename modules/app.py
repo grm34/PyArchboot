@@ -119,21 +119,19 @@ def app_helper(self):
 
     options = parser.parse_args()
     if options.keyboard:
-        cmd = command_output('loadkeys {key}'
-                             .format(key=quote(options.keyboard[0].strip())),
-                             exit_on_error=True,
-                             timeout=1,
-                             error='invalid keyboard layout !')
+        command_output('loadkeys {key}'
+                       .format(key=quote(options.keyboard[0].strip())),
+                       exit_on_error=True,
+                       timeout=1,
+                       error='invalid keyboard layout !')
 
     if options.ntp:
-        ntp_system_clock = command_output(
-            '/usr/bin/timedatectl set-ntp true', timeout=1)
+        command_output('/usr/bin/timedatectl set-ntp true', timeout=1)
 
     if options.time:
-        manual_system_clock = command_output(
-            '/usr/bin/timedatectl set-time {time}'
-            .format(time=quote(options.time[0].strip())),
-            timeout=1)
+        command_output('/usr/bin/timedatectl set-time {time}'
+                       .format(time=quote(options.time[0].strip())),
+                       timeout=1)
 
     return options
 
@@ -181,7 +179,7 @@ def app_reboot():
         reboot
     """
     # Umount the partitions
-    cmd = run_command('umount -f -R -q /mnt')
+    run_command('umount -f -R -q /mnt')
 
     # Reboot with 5s timeout
     for second in range(5, 0, -1):
@@ -190,7 +188,8 @@ def app_reboot():
 
         cprint(message, 'green', attrs=['bold'], end='\r')
         time.sleep(1)
-    cmd = run_command('reboot')
+
+    run_command('reboot')
 
 
 # PyArchboot - Python Arch Linux Installer by grm34 under Apache License 2.0
