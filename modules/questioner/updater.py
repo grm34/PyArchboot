@@ -51,8 +51,8 @@ def desktop_extra_assigner(self, user):
               'Mate extra',
               'XFCE goodies']
 
-    question = self.trad('Do you wish to install {extra}'
-                         .format(extra=choice[user['desktop']]))
+    question = self.trad('Do you wish to install {extra}').format(
+        extra=choice[user['desktop']])
 
     return question
 

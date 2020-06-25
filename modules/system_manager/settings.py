@@ -257,9 +257,9 @@ class GetSettings:
         -------
             Boolean: True or False
         """
-        msg_error = trad('No existing {arg} volume detected'.format(arg=arg))
+        msg = trad('No existing {arg} volume detected').format(arg=arg)
         output = command_output('lsblk -f | grep {arg}'
-                                .format(arg=arg, error=msg_error))
+                                .format(arg=arg, error=msg))
         if output is not False:
             output = True
 

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyArchboot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-24 16:32+0200\n"
-"PO-Revision-Date: 2020-06-24 16:35+0200\n"
+"POT-Creation-Date: 2020-06-25 14:38+0200\n"
+"PO-Revision-Date: 2020-06-25 14:39+0200\n"
 "Last-Translator: Jeremy Pardo jerem.pardo@tutanota.com\n"
 "Language-Team: PyArchboot\n"
 "Language: en\n"
@@ -26,11 +26,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.3\n"
 
-#: PyArchboot.py:242
+#: PyArchboot.py:243
 msgid "installation successfull"
 msgstr "installation successfull"
 
-#: PyArchboot.py:249
+#: PyArchboot.py:250
 msgid "Do you wish to reboot your computer now"
 msgstr "Do you wish to reboot your computer now"
 
@@ -150,57 +150,57 @@ msgstr "delete {lv}"
 msgid "delete {vg}"
 msgstr "delete {vg}"
 
-#: modules/partitioner.py:94
+#: modules/partitioner.py:95
 #, python-brace-format
 msgid "delete {pv}"
 msgstr "delete {pv}"
 
-#: modules/partitioner.py:101
+#: modules/partitioner.py:103
 #, python-brace-format
 msgid "delete {dos}"
 msgstr "delete {dos}"
 
-#: modules/partitioner.py:123
+#: modules/partitioner.py:125
 #, python-brace-format
 msgid "format {drive} [{size}]"
 msgstr "format {drive} [{size}]"
 
-#: modules/partitioner.py:149
+#: modules/partitioner.py:151
 #, python-brace-format
 msgid "create new {table} partition table on {drive}"
 msgstr "create new {table} partition table on {drive}"
 
-#: modules/partitioner.py:180
+#: modules/partitioner.py:182
 #, python-brace-format
 msgid "create {partition} partition [{size}] on {drive}"
 msgstr "create {partition} partition [{size}] on {drive}"
 
-#: modules/partitioner.py:224
+#: modules/partitioner.py:226
 #, python-brace-format
 msgid "set LVM partition type for {name} partition [{id}]"
 msgstr "set LVM partition type for {name} partition [{id}]"
 
-#: modules/partitioner.py:257
+#: modules/partitioner.py:259
 #, python-brace-format
 msgid "create LVM on LUKS [{id}]"
 msgstr "create LVM on LUKS [{id}]"
 
-#: modules/partitioner.py:269
+#: modules/partitioner.py:270
 #, python-brace-format
 msgid "create LVM Volume [{id}]"
 msgstr "create LVM Volume [{id}]"
 
-#: modules/partitioner.py:281
+#: modules/partitioner.py:284
 #, python-brace-format
 msgid "create {partition} LVM partition [{size}]"
 msgstr "create {partition} LVM partition [{size}]"
 
-#: modules/partitioner.py:312
+#: modules/partitioner.py:315
 #, python-brace-format
 msgid "format {partition} partition [{filesystem} - {size}]"
 msgstr "format {partition} partition [{filesystem} - {size}]"
 
-#: modules/partitioner.py:346
+#: modules/partitioner.py:349
 #, python-brace-format
 msgid "mount {partition} partition [{id}] on {mountpoint}"
 msgstr "mount {partition} partition [{id}] on {mountpoint}"

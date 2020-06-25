@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-24 16:32+0200\n"
+"POT-Creation-Date: 2020-06-25 14:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: PyArchboot.py:242
+#: PyArchboot.py:243
 msgid "installation successfull"
 msgstr ""
 
-#: PyArchboot.py:249
+#: PyArchboot.py:250
 msgid "Do you wish to reboot your computer now"
 msgstr ""
 
@@ -141,57 +141,57 @@ msgstr ""
 msgid "delete {vg}"
 msgstr ""
 
-#: modules/partitioner.py:94
+#: modules/partitioner.py:95
 #, python-brace-format
 msgid "delete {pv}"
 msgstr ""
 
-#: modules/partitioner.py:101
+#: modules/partitioner.py:103
 #, python-brace-format
 msgid "delete {dos}"
 msgstr ""
 
-#: modules/partitioner.py:123
+#: modules/partitioner.py:125
 #, python-brace-format
 msgid "format {drive} [{size}]"
 msgstr ""
 
-#: modules/partitioner.py:149
+#: modules/partitioner.py:151
 #, python-brace-format
 msgid "create new {table} partition table on {drive}"
 msgstr ""
 
-#: modules/partitioner.py:180
+#: modules/partitioner.py:182
 #, python-brace-format
 msgid "create {partition} partition [{size}] on {drive}"
 msgstr ""
 
-#: modules/partitioner.py:224
+#: modules/partitioner.py:226
 #, python-brace-format
 msgid "set LVM partition type for {name} partition [{id}]"
 msgstr ""
 
-#: modules/partitioner.py:257
+#: modules/partitioner.py:259
 #, python-brace-format
 msgid "create LVM on LUKS [{id}]"
 msgstr ""
 
-#: modules/partitioner.py:269
+#: modules/partitioner.py:270
 #, python-brace-format
 msgid "create LVM Volume [{id}]"
 msgstr ""
 
-#: modules/partitioner.py:281
+#: modules/partitioner.py:284
 #, python-brace-format
 msgid "create {partition} LVM partition [{size}]"
 msgstr ""
 
-#: modules/partitioner.py:312
+#: modules/partitioner.py:315
 #, python-brace-format
 msgid "format {partition} partition [{filesystem} - {size}]"
 msgstr ""
 
-#: modules/partitioner.py:346
+#: modules/partitioner.py:349
 #, python-brace-format
 msgid "mount {partition} partition [{id}] on {mountpoint}"
 msgstr ""

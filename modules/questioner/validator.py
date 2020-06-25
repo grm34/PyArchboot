@@ -153,8 +153,8 @@ def timezone_validator(self, user, response):
             (response == ''):
 
         raise ValidationError('', reason=self.trad(
-            'Invalid timezone: {response} (e.q., Europe/Paris)'
-            .format(response=response)))
+            'Invalid timezone: {response} (e.q., Europe/Paris)').format(
+                response=response))
 
     return True
 
@@ -182,8 +182,8 @@ def language_validator(self, user, response):
             (response == ''):
 
         raise ValidationError('', reason=self.trad(
-            'Invalid language code: {response} (e.q., fr_FR)'
-            .format(response=response)))
+            'Invalid language code: {response} (e.q., fr_FR)').format(
+                response=response))
 
     return True
 
@@ -207,8 +207,8 @@ def hostname_validator(self, user, response):
     if not re.match(r'^[a-zA-Z0-9][-a-zA-Z0-9_]{1,31}$', response):
 
         raise ValidationError('', reason=self.trad(
-            'Invalid hostname: {response} (e.q., my-computer)'
-            .format(response=response)))
+            'Invalid hostname: {response} (e.q., my-computer)').format(
+                response=response))
 
     return True
 
@@ -257,8 +257,8 @@ def username_validator(self, user, response):
     if not re.match(r'^[a-z_]{1}[a-z0-9_-]{1,31}$', response):
 
         raise ValidationError('', reason=self.trad(
-            'Invalid username: {response} (e.q., JohnDoe)'
-            .format(response=response)))
+            'Invalid username: {response} (e.q., JohnDoe)').format(
+                response=response))
 
     return True
 

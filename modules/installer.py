@@ -108,8 +108,8 @@ def set_timezone(self):
         ln -sfv /usr/share/zoneinfo/{timezone} /mnt/etc/localtime
         hwclock "--systohc"
     """
-    logging.info(self.trad('set timezone [{timezone}]'
-                           .format(timezone=self.user['timezone'])))
+    logging.info(self.trad('set timezone [{timezone}]')
+                 .format(timezone=self.user['timezone']))
 
     cmd_list = ['ln -sfv /usr/share/zoneinfo/{timezone} /mnt/etc/localtime'
                 .format(timezone=self.user['timezone']), 'hwclock --systohc']
@@ -130,8 +130,8 @@ def set_locales(self):
         arch-chroot /mnt locale-gen
         "Write {language}:" /mnt/etc/locale.conf
     """
-    logging.info(self.trad('set locale [{locale}]'
-                           .format(locale=self.user['language'])))
+    logging.info(self.trad('set locale [{locale}]')
+                 .format(locale=self.user['language']))
 
     with open('/mnt/etc/locale.gen', 'a') as locale:
         locale.write('{language}.UTF-8 UTF-8\n'
@@ -156,8 +156,8 @@ def set_virtual_console(self):
     -------
         "Write {keymap}:" /mnt/etc/vconsole.conf
     """
-    logging.info(self.trad('set virtual console [{keymap}]'
-                           .format(keymap=self.user['keymap'])))
+    logging.info(self.trad('set virtual console [{keymap}]')
+                 .format(keymap=self.user['keymap']))
 
     with open('/mnt/etc/vconsole.conf', 'w+') as vconsole:
         vconsole.write('KEYMAP={keymap}\n'.format(keymap=self.user['keymap']))
@@ -174,8 +174,8 @@ def set_hostname_file(self):
     -------
         "Write {hostname}:" /mnt/etc/locale.conf
     """
-    logging.info(self.trad('set hostname [{hostname}]'
-                           .format(hostname=self.user['hostname'])))
+    logging.info(self.trad('set hostname [{hostname}]')
+                 .format(hostname=self.user['hostname']))
 
     with open('/mnt/etc/hostname', 'w+') as hostname:
         hostname.write('{hostname}\n'.format(hostname=self.user['hostname']))
@@ -221,16 +221,16 @@ def create_user(self):
         arch-chroot /mnt useradd -g users -m -s /bin/bash {user}
         echo {user}:{passwd} | arch-chroot /mnt chpasswd -e
     """
-    logging.info(self.trad('create user {user}'
-                           .format(user=self.user['username'])))
+    logging.info(self.trad('create user {user}')
+                 .format(user=self.user['username']))
 
     cmd = 'arch-chroot /mnt useradd -g users -m -s /bin/bash {user}'.format(
         user=self.user['username'])
 
     run_command(cmd)
 
-    logging.info(self.trad('set password for user {user}'
-                           .format(user=self.user['username'])))
+    logging.info(self.trad('set password for user {user}')
+                 .format(user=self.user['username']))
 
     cmd = 'echo {user}:{passwd} | arch-chroot /mnt chpasswd -e'.format(
         user=quote(self.user['username']),
@@ -325,7 +325,7 @@ def install_optional_packages(self):
 
         if (choice is not None) and (choice is not False):
 
-            logging.info(self.trad('install {name}'.format(name=name)))
+            logging.info(self.trad('install {name}').format(name=name))
             chroot = 'arch-chroot /mnt'
             cmd = 'pacman --noconfirm --needed -S {opt}'.format(opt=choice)
             cmd = '{chroot} {cmd}'.format(chroot=chroot, cmd=cmd)
@@ -509,8 +509,8 @@ def configure_desktop_environment(self):
         arch-chroot /mnt chmod 770 /home/{user}/.xinitrc
     """
     if self.user['desktop_environment']['name'] is not None:
-        logging.info(self.trad('configure {desktop}'.format(
-            desktop=self.user['desktop_environment']['name'])))
+        logging.info(self.trad('configure {desktop}').format(
+            desktop=self.user['desktop_environment']['name']))
 
         # Set the keyboard layout
         with open('config/00-keyboard.conf', 'r') as keyboard:
@@ -588,8 +588,8 @@ def configure_display_manager(self):
         arch-chroot /mnt chmod 770 /home/{user}/.session
     """
     if self.user['display_manager']['name'] is not None:
-        logging.info(self.trad('configure {dm}'.format(
-            dm=self.user['display_manager']['name'])))
+        logging.info(self.trad('configure {dm}')
+                     .format(dm=self.user['display_manager']['name']))
 
         # Enable display manager service
         if self.user['display_manager']['name'].lower() == \
@@ -724,8 +724,8 @@ def set_user_privileges(self):
     if self.user['power'] is not False:
 
         # Grant the user in the sudoers file (root privilege)
-        logging.info(self.trad('give root privilege to the user {user}'
-                               .format(user=self.user['username'])))
+        logging.info(self.trad('give root privilege to the user {user}')
+                     .format(user=self.user['username']))
 
         with open('/mnt/etc/sudoers', 'a') as sudo:
             sudo.write(
@@ -733,8 +733,8 @@ def set_user_privileges(self):
                 .format(user=self.user['username']))
 
         # Add the user to all groups
-        logging.info(self.trad('add user {user} to all groups'
-                               .format(user=self.user['username'])))
+        logging.info(self.trad('add user {user} to all groups')
+                     .format(user=self.user['username']))
 
         cmd_list = ['pwck', 'grpck']
         for cmd in cmd_list:
@@ -772,8 +772,8 @@ def install_aur_helper(self):
         Removes AUR Helper repository folder
     """
     if self.user['aur_helper'] is not None:
-        logging.info(self.trad('install {aur} AUR Helper'
-                               .format(aur=self.user['aur_helper'])))
+        logging.info(self.trad('install {aur} AUR Helper')
+                     .format(aur=self.user['aur_helper']))
 
         # Set root privilege without password
         with open('/mnt/etc/sudoers', 'r') as sudo:

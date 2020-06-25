@@ -44,8 +44,8 @@ def umount_partitions(self):
         if 'swap' in partition.lower():
             mountpoint = GetSettings()._swap()
             if mountpoint is not False:
-                logging.info(self.trad('deactivate swap partition [{id}]'
-                                       .format(id=mountpoint[0].split()[0])))
+                logging.info(self.trad('deactivate swap partition [{id}]')
+                             .format(id=mountpoint[0].split()[0]))
 
                 cmd = run_command('swapoff -a {swap}'
                                   .format(swap=mountpoint[0].split()[0]))
@@ -86,7 +86,7 @@ def delete_partitions(self):
             partition = volume.split('/')[0]
             logging.info(self.trad('delete {vg}').format(vg=volume))
             cmd = run_command('vgremove -q -f -y {vg}'.format(vg=volume))
-            #break
+            # break
             time.sleep(1)
 
     # Delete physical volumes
@@ -94,7 +94,7 @@ def delete_partitions(self):
         if self.user['drive']['name'] in volume:
             logging.info(self.trad('delete {pv}').format(pv=volume))
             cmd = run_command('pvremove -q -f -y {pv}'.format(pv=volume))
-            #break
+            # break
             time.sleep(1)
 
     # Delete DOS partitions
@@ -223,8 +223,8 @@ def set_partition_types(self):
 
         if 'gdisk_pipe' in locals():
             logging.info(self.trad(
-                'set LVM partition type for {name} partition [{id}]')
-                .format(name=partition, id=drive_id))
+                'set LVM partition type for {name} partition [{id}]').format(
+                    name=partition, id=drive_id))
 
             pipe = ['/usr/bin/printf', gdisk_pipe]
             cmd = 'gdisk {drive}'.format(drive=self.user['drive']['name'])
@@ -256,8 +256,8 @@ def create_lvm_partitions(self):
             # LVM on LUKS
             if self.user['drive']['luks'] is True:
 
-                logging.info(self.trad('create LVM on LUKS [{id}]'
-                                       .format(id=drive_id)))
+                logging.info(self.trad('create LVM on LUKS [{id}]')
+                             .format(id=drive_id))
 
                 cmd_list = [
                     'cryptsetup luksFormat {id}'.format(id=drive_id),
@@ -267,8 +267,8 @@ def create_lvm_partitions(self):
 
             # LVM without LUKS
             else:
-                logging.info(self.trad(
-                    'create LVM Volume [{id}]'.format(id=drive_id)))
+                logging.info(self.trad('create LVM Volume [{id}]')
+                             .format(id=drive_id))
 
                 cmd_list = ['pvcreate -y {id}'.format(id=drive_id),
                             'vgcreate -y lvm {id}'.format(id=drive_id)]
@@ -280,8 +280,9 @@ def create_lvm_partitions(self):
         # Create LVM partitions
         elif partition != 'boot':
 
-            logging.info(self.trad('create {partition} LVM partition [{size}]'
-                                   .format(partition=partition, size=size)))
+            logging.info(self.trad(
+                'create {partition} LVM partition [{size}]').format(
+                    partition=partition, size=size))
 
             if size == 'freespace':
                 size = '-l 100%FREE'
@@ -311,8 +312,8 @@ def format_partitions(self):
             self.user['partitions']['filesystem']):
 
         logging.info(self.trad(
-            'format {partition} partition [{filesystem} - {size}]'
-            .format(partition=partition, filesystem=filesystem, size=size)))
+            'format {partition} partition [{filesystem} - {size}]').format(
+                partition=partition, filesystem=filesystem, size=size))
 
         if filesystem == 'fat32':
             filesystem = 'fat -F32'
@@ -345,8 +346,8 @@ def mount_partitions(self):
                 self.user['partitions']['mountpoint'])):
 
         logging.info(self.trad(
-            'mount {partition} partition [{id}] on {mountpoint}'.format(
-                partition=partition, mountpoint=mountpoint, id=drive_id)))
+            'mount {partition} partition [{id}] on {mountpoint}').format(
+                partition=partition, mountpoint=mountpoint, id=drive_id))
 
         if partition == 'swap':
             cmd = run_command('swapon {id}'.format(id=drive_id),
