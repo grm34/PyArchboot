@@ -804,21 +804,19 @@ def install_aur_helper(self):
         run_command(cmd)
 
         # Create bash script to perform install
-        with open('/root/aur.sh', 'w+') as file:
+        with open('aur.sh', 'w+') as file:
             for line in ['#!/bin/bash\n',
                          'arch-chroot /mnt /bin/bash <<EOF\n',
                          'cd /home/{user}/{aur}\n'.format(
                              user=self.user['username'],
-                             aur=self.user['aur_helper']),
+                             aur=self.user['aur_helper'].lower()),
                          'sudo -u {user} makepkg --noconfirm --needed -sic\n'
                          .format(user=self.user['username']),
                          'EOF\n']:
                 file.write(line)
 
         # Install the AUR Helper
-        cmd_list = ['chmod +x /root/aur.sh',
-                    '/root/aur.sh',
-                    'rm /root/aur.sh']
+        cmd_list = ['chmod +x aur.sh', 'sh aur.sh', 'rm aur.sh']
         for cmd in cmd_list:
             run_command(cmd)
 
@@ -869,12 +867,12 @@ def clean_pacman_cache(self):
         self.trad('clean pacman cache and delete unused dependencies'))
 
     cmd = 'arch-chroot /mnt pacman -Qdtd'
-    dependencies_list = command_output(cmd).split('\n')
-    dependencies_list = list(filter(None, dependencies_list))
+    output = command_output(cmd)
 
-    if (dependencies_list != '') or (dependencies_list is not None):
-        for dependency in dependencies_list:
+    if (output is not False) or (output is not None) or (output != ''):
+        output = list(filter(None, output.split('\n')))
 
+        for dependency in output:
             cmd = 'arch-chroot /mnt pacman --noconfirm -Rcsn {dep}'.format(
                 dep=dependency)
             run_command(cmd)

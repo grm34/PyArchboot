@@ -214,7 +214,7 @@ class PyArchboot(object):
             set_partition_types(self)
             self.user['partitions']['partuuid'] = partuuid
             if self.user['drive']['lvm'] is True:
-                cmd = create_lvm_partitions(self)
+                create_lvm_partitions(self)
                 self.user['partitions']['drive_id'] = ids
                 self.user['partitions']['partuuid'] = partuuid
             format_partitions(self)
@@ -253,7 +253,7 @@ class PyArchboot(object):
                                   theme=load_theme_from_dict(self.theme))
 
         if confirm['reboot'] is True:
-            cmd = app_reboot()
+            app_reboot()
         else:
             sys.exit(0)
 
