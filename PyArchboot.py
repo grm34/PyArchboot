@@ -58,8 +58,7 @@ from modules.system_manager.unix_command import dump_json_file, load_json_file
 # Create a StreamHandler wich write to sys.stderr
 level = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
 message = '{level} %(message)s'.format(level=level)
-logging.basicConfig(filename='{path}/logs/{appname}.log'
-                    .format(path=os.getcwd(), appname='PyArchboot'),
+logging.basicConfig(filename='logs/PyArchboot.log',
                     level=logging.DEBUG,
                     filemode='w',
                     format=message)
@@ -251,9 +250,7 @@ class PyArchboot(object):
         # Copy logs to system
         logging.info(trad('installation successfull'))
         dump_json_file('{x}.log'.format(x=self.user['username']), self.user)
-        copytree('{path}/logs'.format(path=os.getcwd()),
-                 '/mnt/var/log/PyArchboot',
-                 copy_function=copy2)
+        copytree('logs', '/mnt/var/log/PyArchboot', copy_function=copy2)
 
         # Reboot the system
         message = self.trad('Do you wish to reboot your computer now')

@@ -18,7 +18,6 @@ limitations under the License.
 
 import json
 import logging
-import os
 import shlex
 import sys
 from subprocess import (PIPE, CalledProcessError, Popen, SubprocessError,
@@ -175,15 +174,13 @@ def load_json_file(file):
     Modules
     -------
         json: "JavaScript syntax data interchange format"
-        os: "Export all functions from posix"
 
     Returns
     -------
         "Dictionary containing the json file values"
     """
-    with open('{path}/json/{file}'.format(
-            path=os.getcwd(), file=file), 'r', encoding='utf-8') as output:
-        output = json.load(output)
+    with open('json/{file}'.format(file=file), 'r', encoding='utf-8') as out:
+        output = json.load(out)
 
     return output
 
@@ -200,15 +197,13 @@ def dump_json_file(dictionary, file):
     Modules
     -------
         json: "JavaScript syntax data interchange format"
-        os: "Export all functions from posix"
 
     Actions
     -------
         "Store the desired dictionary to the desired JSON file"
     """
-    with open('{path}/logs/{file}'.format(
-            path=os.getcwd()), 'w', encoding='utf-8') as output:
-        json.dump(dictionary, output, ensure_ascii=False, indent=4)
+    with open('logs/{file}'.format(file=file), 'w', encoding='utf-8') as log:
+        json.dump(dictionary, log, ensure_ascii=False, indent=4)
 
 
 # PyArchboot - Python Arch Linux Installer by grm34 under Apache License 2.0

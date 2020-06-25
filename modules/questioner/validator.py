@@ -16,7 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import os
 import re
 
 from humanfriendly import format_size, parse_size
@@ -140,10 +139,6 @@ def timezone_validator(self, user, response):
         user: "Dictionary containing user's answers"
         response: "String containing current answer"
 
-    Modules
-    -------
-        os: "Export all functions from posix"
-
     Raises
     ------
         ValidationError: "Display a short description with available formats"
@@ -152,9 +147,7 @@ def timezone_validator(self, user, response):
     -------
         boolean: True
     """
-    timezone_list = open(
-        '{path}/libraries/timezone'.format(path=os.getcwd())).read()
-
+    timezone_list = open('libraries/timezone').read()
     if ('{response}\n'.format(response=response) not in timezone_list) or \
             (response == ''):
 
@@ -182,9 +175,7 @@ def language_validator(self, user, response):
     -------
         boolean: True
     """
-    language_list = open(
-        '{path}/libraries/locale'.format(path=os.getcwd())).read()
-
+    language_list = open('libraries/locale').read()
     if ('{response}\n'.format(response=response) not in language_list) or \
             (response == ''):
 
