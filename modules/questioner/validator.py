@@ -229,8 +229,8 @@ def passwd_validator(self, user, response):
     -------
         boolean: True
     """
-    info = 'Password should be at least'
-    valid = '8 chars long with one letter and one digit !'
+    info = self.trad('Password should be at least')
+    valid = self.trad('8 chars long with one letter and one digit !')
     message = '{info} {valid}'.format(info=info, valid=valid)
     if not re.match(r'^(?=.*[A-Za-z])(?=.*\d)[\S]{8,}$', response):
         raise ValidationError('', reason=message)

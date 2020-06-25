@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-25 14:38+0200\n"
+"POT-Creation-Date: 2020-06-25 15:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -186,12 +186,12 @@ msgstr ""
 msgid "create {partition} LVM partition [{size}]"
 msgstr ""
 
-#: modules/partitioner.py:315
+#: modules/partitioner.py:316
 #, python-brace-format
 msgid "format {partition} partition [{filesystem} - {size}]"
 msgstr ""
 
-#: modules/partitioner.py:349
+#: modules/partitioner.py:350
 #, python-brace-format
 msgid "mount {partition} partition [{id}] on {mountpoint}"
 msgstr ""
@@ -370,6 +370,14 @@ msgstr ""
 #: modules/questioner/validator.py:210
 #, python-brace-format
 msgid "Invalid hostname: {response} (e.q., my-computer)"
+msgstr ""
+
+#: modules/questioner/validator.py:232
+msgid "Password should be at least"
+msgstr ""
+
+#: modules/questioner/validator.py:233
+msgid "8 chars long with one letter and one digit !"
 msgstr ""
 
 #: modules/questioner/validator.py:260

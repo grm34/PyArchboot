@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyArchboot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-25 14:38+0200\n"
-"PO-Revision-Date: 2020-06-25 14:39+0200\n"
+"POT-Creation-Date: 2020-06-25 15:03+0200\n"
+"PO-Revision-Date: 2020-06-25 15:09+0200\n"
 "Last-Translator: Jeremy Pardo jerem.pardo@tutanota.com\n"
 "Language-Team: PyArchboot\n"
 "Language: fr\n"
@@ -195,12 +195,12 @@ msgstr "création d'un volume LVM [{id}]"
 msgid "create {partition} LVM partition [{size}]"
 msgstr "création d'un partition LVM pour {partition} [{size}]"
 
-#: modules/partitioner.py:315
+#: modules/partitioner.py:316
 #, python-brace-format
 msgid "format {partition} partition [{filesystem} - {size}]"
 msgstr "formatage de la partition {partition} [{filesystem} - {size}]"
 
-#: modules/partitioner.py:349
+#: modules/partitioner.py:350
 #, python-brace-format
 msgid "mount {partition} partition [{id}] on {mountpoint}"
 msgstr "montage de la partition {partition} [{id}] sur {mountpoint}"
@@ -380,6 +380,14 @@ msgstr "Code langue invalide: {response} (ex: fr_FR)"
 #, python-brace-format
 msgid "Invalid hostname: {response} (e.q., my-computer)"
 msgstr "Nom d'hôte invalide: {response} (ex: mon-ordinateur)"
+
+#: modules/questioner/validator.py:232
+msgid "Password should be at least"
+msgstr "Le mot de passe doit contenir minimum"
+
+#: modules/questioner/validator.py:233
+msgid "8 chars long with one letter and one digit !"
+msgstr "8 charactères avec un chiffre et une lettre !"
 
 #: modules/questioner/validator.py:260
 #, python-brace-format

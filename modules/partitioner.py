@@ -289,8 +289,9 @@ def create_lvm_partitions(self):
             else:
                 size = '-L {size}'.format(size=size)
 
-            cmd = run_command('lvcreate -y {size} {id}'
-                              .format(size=size, id=drive_id))
+            cmd = run_command('lvcreate -y {size} -n {name} lvm'
+                              .format(size=size, name=partition),
+                              exit_on_error=True)
         time.sleep(1)
 
 
