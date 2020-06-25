@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+
 """Install AUR Helper tests."""
+
 import os
 import re
 import shlex

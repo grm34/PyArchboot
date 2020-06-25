@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+
 """Run process tests."""
+
 import shlex
 from subprocess import PIPE, Popen
 

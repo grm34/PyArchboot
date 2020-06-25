@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+
 """Partition size validation."""
+
 import re
 
 import inquirer
