@@ -1,4 +1,4 @@
-## Thank you for taking the time to contribute to PyArchboot ! ♥
+## Thank you for taking the time to contribute to PyArchboot
 
 ### 🚨 IMPORTANT 🚨
 

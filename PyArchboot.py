@@ -200,27 +200,27 @@ class PyArchboot(object):
             self.user = session
 
         # Umount user's partitions
-        cmd = umount_partitions(self)
+        umount_partitions(self)
 
         # Partition the disk (optional)
         if self.user['drive']['name'] is not None:
-            cmd = delete_partitions(self)
-            cmd = format_drive(self)
-            cmd = new_partition_table(self)
-            cmd = create_dos_partitions(self)
+            delete_partitions(self)
+            format_drive(self)
+            new_partition_table(self)
+            create_dos_partitions(self)
             ids = GetSettings()._partition_ids(self.user['drive']['name'])
             partuuid = GetSettings()._partuuid(ids)
             self.user['partitions']['drive_id'] = ids
-            cmd = set_partition_types(self)
+            set_partition_types(self)
             self.user['partitions']['partuuid'] = partuuid
             if self.user['drive']['lvm'] is True:
                 cmd = create_lvm_partitions(self)
                 self.user['partitions']['drive_id'] = ids
                 self.user['partitions']['partuuid'] = partuuid
-            cmd = format_partitions(self)
+            format_partitions(self)
 
         # Mount the partitions
-        cmd = mount_partitions(self)
+        mount_partitions(self)
 
         # Install Arch Linux
         functions = [set_mirrorlist(self), install_base_system(self),
@@ -237,7 +237,7 @@ class PyArchboot(object):
                      clean_pacman_cache(self)]
 
         for function in functions:
-            cmd = function
+            function
 
         # Copy logs to system
         logging.info(trad('installation successfull'))
