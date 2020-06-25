@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Run process tests."""
 import shlex
-from subprocess import PIPE, STDOUT, Popen
+from subprocess import PIPE, Popen
 
 
 def run_command(cmd):

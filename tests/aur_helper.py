@@ -3,8 +3,8 @@
 import os
 import re
 import shlex
-from shutil import copy2, copyfile, copytree, move, rmtree
-from subprocess import PIPE, STDOUT, Popen
+from shutil import copyfile, copytree, move, rmtree
+from subprocess import PIPE, Popen
 
 username = 'luna'
 aur_helper = 'trizen'

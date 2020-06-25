@@ -5,7 +5,6 @@ import re
 import inquirer
 from humanfriendly import format_size, parse_size
 from inquirer import errors
-from inquirer.themes import load_theme_from_dict
 
 
 def size_counter(user):

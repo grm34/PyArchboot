@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 """Store encrypted passwords tests."""
-import json
-import os
-import shlex
 from crypt import METHOD_SHA512, crypt, mksalt
 from shlex import quote
 from subprocess import check_output
