@@ -2,7 +2,6 @@
 
 """Install AUR Helper tests."""
 
-import os
 import re
 import shlex
 from shutil import copyfile, copytree, move, rmtree
