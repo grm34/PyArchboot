@@ -23,7 +23,7 @@ from shlex import quote
 
 from humanfriendly import parse_size, round_number
 
-from .system_manager.settings import GetSettings
+from .system_manager.settings import get_partition_id, get_swap
 from .system_manager.unix_command import command_output, run_command
 
 
@@ -38,14 +38,13 @@ def umount_partitions(self):
 
     Submodules
     ----------
-        `GetSettings`: "Class to get user's system settings"
         `run_command`: "Subprocess Popen with console output"
     """
     for partition in self.mountpoints:
 
         # Deactivate swap
         if 'swap' in partition.lower():
-            mountpoint = GetSettings()._swap()
+            mountpoint = get_swap(self)
             if mountpoint is not False:
                 logging.info(self.trad('deactivate swap partition [{id}]')
                              .format(id=mountpoint[0].split()[0]))
@@ -73,7 +72,6 @@ def delete_partitions(self):
 
     Submodules
     ----------
-        `GetSettings`: "Class to get user's system settings"
         `run_command`: "Subprocess Popen with console output"
     """
     # Delete lvm partitions
@@ -101,7 +99,7 @@ def delete_partitions(self):
             time.sleep(1)
 
     # Delete DOS partitions
-    dos_partitions = GetSettings()._partition_ids(self.user['drive']['name'])
+    dos_partitions = get_partition_id(self)
     for partition in dos_partitions:
         logging.info(self.trad('delete {dos}').format(dos=partition))
         pipe = ['/usr/bin/printf', 'd\n\nw']
