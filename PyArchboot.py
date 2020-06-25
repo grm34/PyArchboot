@@ -237,7 +237,7 @@ class PyArchboot(object):
                      clean_pacman_cache(self)]
 
         for function in functions:
-            function
+            cmd = function
 
         # Copy logs to system
         logging.info(trad('installation successfull'))
