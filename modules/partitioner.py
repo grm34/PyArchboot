@@ -73,30 +73,32 @@ def delete_partitions(self):
         `run_command`: "Subprocess Popen with console output"
     """
     # Delete lvm partitions
-    for partition in self.mountpoints[0]:
-        if self.user['drive'] in partition:
+    for partition in self.volumes[0]:
+        if self.user['drive']['name'] in partition:
             partition = partition.split('//')[0]
             logging.info(self.trad('delete {lv}').format(lv=partition))
             cmd = run_command('lvremove -q -f -y {lv}'.format(lv=partition))
             time.sleep(1)
 
     # Delete volume groups
-    for volume in self.mountpoints[1]:
-        if self.user['drive'] in volume:
+    for volume in self.volumes[1]:
+        if self.user['drive']['name'] in volume:
             partition = volume.split('/')[0]
             logging.info(self.trad('delete {vg}').format(vg=volume))
             cmd = run_command('vgremove -q -f -y {vg}'.format(vg=volume))
+            #break
             time.sleep(1)
 
     # Delete physical volumes
-    for volume in self.mountpoints[2]:
-        if self.user['drive'] in volume:
+    for volume in self.volumes[2]:
+        if self.user['drive']['name'] in volume:
             logging.info(self.trad('delete {pv}').format(pv=volume))
             cmd = run_command('pvremove -q -f -y {pv}'.format(pv=volume))
+            #break
             time.sleep(1)
 
     # Delete DOS partitions
-    dos_partitions = GetSettings()._partition_ids(self.user['drive'])
+    dos_partitions = GetSettings()._partition_ids(self.user['drive']['name'])
     for partition in dos_partitions:
         logging.info(self.trad('delete {dos}').format(dos=partition))
         pipe = ['/usr/bin/printf', 'd\n\nw']

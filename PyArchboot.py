@@ -183,7 +183,7 @@ class PyArchboot(object):
         self.user = inquirer.prompt(question_manager(self),
                                     theme=load_theme_from_dict(self.theme))
 
-        if self.user['confim'] is False:
+        if self.user['confirm'] is False:
             del self
             os.execl(sys.executable, sys.executable, * sys.argv)
 
@@ -209,14 +209,14 @@ class PyArchboot(object):
             cmd = new_partition_table(self)
             cmd = create_dos_partitions(self)
             ids = GetSettings()._partition_ids(self.user['drive']['name'])
-            partuuid = GetSettings()._partuuid(self.user['drive']['drive_id'])
-            self.drive['partitions']['drive_id'] = ids
+            partuuid = GetSettings()._partuuid(ids)
+            self.user['partitions']['drive_id'] = ids
             cmd = set_partition_types(self)
-            self.drive['partitions']['partuuid'] = partuuid
+            self.user['partitions']['partuuid'] = partuuid
             if self.user['drive']['lvm'] is True:
                 cmd = create_lvm_partitions(self)
-                self.drive['partitions']['drive_id'] = ids
-                self.drive['partitions']['partuuid'] = partuuid
+                self.user['partitions']['drive_id'] = ids
+                self.user['partitions']['partuuid'] = partuuid
             cmd = format_partitions(self)
 
         # Mount the partitions

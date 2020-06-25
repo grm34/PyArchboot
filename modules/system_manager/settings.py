@@ -175,7 +175,7 @@ class GetSettings:
                 output = list(filter(None, output.split('\n')))
             volumes.append(output)
 
-        return output
+        return volumes
 
     def _swap(self):
         """Get existing mountpoints of swap volumes.

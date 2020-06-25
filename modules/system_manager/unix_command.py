@@ -62,6 +62,16 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
                             stdin=PIPE,
                             stdout=PIPE,
                             encoding='utf-8')
+            while True:
+                output = command.stdout.readline()
+                if output:
+                    logging.debug(output.strip())
+                    print(output.strip())
+                else:
+                    break
+
+            output = command.poll()
+            return output
 
     except (SubprocessError, OSError, ValueError) as cmd_error:
         if error is not None:
@@ -72,17 +82,6 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
             sys.exit(1)
         else:
             logging.debug(cmd_error)
-
-    while True:
-        output = command.stdout.readline()
-        if output:
-            logging.debug(output.strip())
-            print(output.strip())
-        else:
-            break
-
-    output = command.poll()
-    return output
 
 
 def command_output(cmd, exit_on_error=False, error=None, timeout=None):
