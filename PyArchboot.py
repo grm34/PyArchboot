@@ -228,23 +228,20 @@ class PyArchboot:
         mount_partitions(self)
 
         # Install Arch Linux
-        functions = [set_mirrorlist(self), install_base_system(self),
-                     create_fstab(self), set_timezone(self),
-                     set_locales(self), set_virtual_console(self),
-                     set_hostname_file(self), set_root_passwd(self),
-                     create_user(self), install_network(self),
-                     install_grub_bootloader(self),
-                     install_optional_packages(self),
-                     configure_systemdboot(self), configure_grub(self),
-                     configure_desktop_environment(self),
-                     configure_display_manager(self), configure_gdm(self),
-                     configure_lightdm(self), configure_sddm(self),
-                     configure_lxdm(self), configure_xdm(self),
-                     set_user_privileges(self), install_aur_helper(self),
-                     clean_pacman_cache(self)]
-
-        for function in functions:
-            function
+        install = [set_mirrorlist(self), install_base_system(self),
+                   create_fstab(self), set_timezone(self),
+                   set_locales(self), set_virtual_console(self),
+                   set_hostname_file(self), set_root_passwd(self),
+                   create_user(self), install_network(self),
+                   install_grub_bootloader(self),
+                   install_optional_packages(self),
+                   configure_systemdboot(self), configure_grub(self),
+                   configure_desktop_environment(self),
+                   configure_display_manager(self), configure_gdm(self),
+                   configure_lightdm(self), configure_sddm(self),
+                   configure_lxdm(self), configure_xdm(self),
+                   set_user_privileges(self), install_aur_helper(self),
+                   clean_pacman_cache(self)]
 
         # Copy logs to system
         logging.info(self.trad('installation successfull'))
