@@ -57,12 +57,12 @@ from modules.system_manager.settings import (get_drives, get_filesystem,
 from modules.system_manager.unix_command import dump_json_file, load_json_file
 
 # Create a StreamHandler wich write to sys.stderr
-level = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
-message = '{level} %(message)s'.format(level=level)
+pre = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
+msg = '{pre} %(message)s'.format(pre=pre)
 logging.basicConfig(filename='logs/PyArchboot.log',
                     level=logging.DEBUG,
                     filemode='w',
-                    format=message)
+                    format=msg)
 
 # Create a logger for terminal output
 console = logging.getLogger()
@@ -228,20 +228,30 @@ class PyArchboot:
         mount_partitions(self)
 
         # Install Arch Linux
-        install = [set_mirrorlist(self), install_base_system(self),
-                   create_fstab(self), set_timezone(self),
-                   set_locales(self), set_virtual_console(self),
-                   set_hostname_file(self), set_root_passwd(self),
-                   create_user(self), install_network(self),
-                   install_grub_bootloader(self),
-                   install_optional_packages(self),
-                   configure_systemdboot(self), configure_grub(self),
-                   configure_desktop_environment(self),
-                   configure_display_manager(self), configure_gdm(self),
-                   configure_lightdm(self), configure_sddm(self),
-                   configure_lxdm(self), configure_xdm(self),
-                   set_user_privileges(self), install_aur_helper(self),
-                   clean_pacman_cache(self)]
+        set_mirrorlist(self)
+        install_base_system(self)
+        create_fstab(self)
+        set_timezone(self)
+        set_locales(self)
+        set_virtual_console(self)
+        set_hostname_file(self)
+        set_root_passwd(self)
+        create_user(self)
+        install_network(self)
+        install_grub_bootloader(self)
+        install_optional_packages(self)
+        configure_systemdboot(self)
+        configure_grub(self)
+        configure_desktop_environment(self)
+        configure_display_manager(self)
+        configure_gdm(self)
+        configure_lightdm(self)
+        configure_sddm(self)
+        configure_lxdm(self)
+        configure_xdm(self)
+        set_user_privileges(self)
+        install_aur_helper(self)
+        clean_pacman_cache(self)
 
         # Copy logs to system
         logging.info(self.trad('installation successfull'))
