@@ -153,7 +153,7 @@ class PyArchboot:
         # User parameters
         self.theme = themes['default']
         self.ipinfo = get_ipinfo()
-        self.mirrorlist = get_mirrorlist()
+        self.mirrorlist = get_mirrorlist(self)
         language = self.ipinfo['country'].lower()
         if options.lang:
             language = options.lang[0].strip()

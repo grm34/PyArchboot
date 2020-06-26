@@ -298,7 +298,7 @@ def get_ipinfo():
     return output
 
 
-def get_mirrorlist():
+def get_mirrorlist(self):
     """
     Get user's fastest mirrors (corresponding to user's country).
 

@@ -359,8 +359,7 @@ def mount_partitions(self):
                 partition=partition, mountpoint=mountpoint, id=drive_id))
 
         if partition == 'swap':
-            cmd = run_command('swapon {id}'.format(id=drive_id),
-                              exit_on_error=True)
+            run_command('swapon {id}'.format(id=drive_id), exit_on_error=True)
         else:
             if not os.path.exists(mountpoint):
                 os.makedirs(mountpoint)
