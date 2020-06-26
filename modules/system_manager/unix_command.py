@@ -60,6 +60,7 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
                             encoding='utf-8',
                             shell=False)
             command = command.communicate()[0]
+            output = None
         else:
             command = Popen(shlex.split(cmd),
                             stdin=PIPE,
@@ -75,7 +76,6 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
                     break
 
             output = command.poll()
-            return output
 
     except (SubprocessError, OSError, ValueError) as cmd_error:
         if error is not None:
@@ -86,6 +86,8 @@ def run_command(cmd, args=None, error=None, exit_on_error=False):
             sys.exit(1)
         else:
             logging.debug(cmd_error)
+
+    return output
 
 
 def command_output(cmd, exit_on_error=False, error=None, timeout=None):

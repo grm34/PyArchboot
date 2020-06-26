@@ -73,7 +73,7 @@ def install_base_system(self):
     run_command(cmd)
 
 
-def generate_fstab(self):
+def create_fstab(self):
     """
     Generate Filsystem Table.
 
@@ -571,153 +571,195 @@ def configure_display_manager(self):
     Modules
     -------
         logging: "Event logging system for applications and libraries"
-        shutil: "High-level file operations"
-        re: "Regular expression matching operations"
 
     Submodules
     ----------
         `run_command`: "Subprocess Popen with console output"
-        `command_output`: "Subprocess Popen with return codes"
 
     Actions
     -------
         arch-chroot /mnt systemctl enable {manager}
 
-    GDM display manager
-    -------------------
-        "Write {xprofile}:" /mnt/etc/xprofile
-
-    LightDM display manager
-    -----------------------
-        "Write {conf}:" /mnt/etc/lightdm/lightdm.conf
-
-    SDDM display manager
-    --------------------
-        arch-chroot /mnt sddm "--example-config" > /etc/sddm.backup
-        "Write {conf}:" /mnt/etc/sddm.conf
-
-    LXDM display manager
-    --------------------
-        "Write {conf}:" /mnt/etc/lxdm/lxdm.conf
-
-    XDM display manager
-    -------------------
-        "Write {conf}:" /home/{user}/.session
-        arch-chroot /mnt chmod 770 /home/{user}/.session
     """
     if self.user['display_manager']['name'] is not None:
         logging.info(self.trad('configure {dm}')
                      .format(dm=self.user['display_manager']['name']))
 
         # Enable display manager service
-        if self.user['display_manager']['name'].lower() == \
-                'xdm display manager':
+        if 'xdm' in self.user['display_manager']['name'].lower():
             service = 'xdm-archlinux'
-
         else:
             service = self.user['display_manager']['name'].lower().split()[0]
 
         cmd = 'arch-chroot /mnt systemctl enable {dm}'.format(dm=service)
         run_command(cmd)
 
-        # Configure GDM
-        if self.user['display_manager']['name'].lower() == \
-                'gdm display manager':
-            copyfile('config/xprofile.conf', '/mnt/etc/xprofile')
 
-        # Configure LightDM
-        elif self.user['display_manager']['name'].lower() == \
-                'lightdm display manager':
+def configure_gdm(self):
+    """
+    Confgure GDM display manager.
 
-            with open('/mnt/etc/lightdm/lightdm.conf', 'r') as lightdm:
-                lightdm_list = list(lightdm)
+    Modules
+    -------
+        shutil: "High-level file operations"
 
-            move('/mnt/etc/lightdm/lightdm.conf',
-                 '/mnt/etc/lightdm/lightdm.backup',
-                 copy_function=copy2)
+    Actions
+    -------
+        "Write {xprofile}:" /mnt/etc/xprofile
+    """
+    if self.user['display_manager']['name'] is not None and \
+            'gdm' in self.user['display_manager']['name'].lower():
 
-            lightdm = []
-            for line in lightdm_list:
-                session = 'greeter-session={dm}'.format(
-                    dm=self.user['display_manager']['session'])
-                line = re.sub(' +', ' ', line)
-                line = line.replace('#greeter-session=example-gtk-gnome',
-                                    session)
-                line = line.replace(
-                    '#greeter-setup-script=',
-                    'greeter-setup-script=/usr/bin/numlockx on')
-                lightdm.append(line)
+        copyfile('config/xprofile.conf', '/mnt/etc/xprofile')
 
-            with open('/mnt/etc/lightdm/lightdm.conf', 'w+') as file:
-                for line in lightdm:
-                    file.write(line)
 
-        # Configure SDDM
-        elif self.user['display_manager']['name'].lower() == \
-                'sddm display manager':
+def configure_lightdm(self):
+    """
+    Confgure LightDM display manager.
 
-            cmd = 'arch-chroot /mnt sddm --example-config > /etc/sddm.backup'
-            command_output(cmd)
+    Modules
+    -------
+        shutil: "High-level file operations"
+        re: "Regular expression matching operations"
 
-            with open('/mnt/etc/sddm.backup', 'r') as sddm:
-                sddm_list = list(sddm)
+    Actions
+    -------
+        "Write {conf}:" /mnt/etc/lightdm/lightdm.conf
+    """
+    if self.user['display_manager']['name'] is not None and \
+            'lightdm' in self.user['display_manager']['name'].lower():
 
-            sddm = []
-            for line in sddm_list:
-                line = re.sub(' +', ' ', line)
-                line = line.replace(
-                    'Session=',
-                    'Session={session}'.format(
-                        session=self.user['display_manager']['session']))
-                line = line.replace('Numlock=none', 'Numlock=on')
-                sddm.append(line)
+        with open('/mnt/etc/lightdm/lightdm.conf', 'r') as lightdm:
+            lightdm_list = list(lightdm)
 
-            with open('/mnt/etc/sddm.conf', 'w+') as file:
-                for line in sddm:
-                    file.write(line)
+        move('/mnt/etc/lightdm/lightdm.conf',
+             '/mnt/etc/lightdm/lightdm.backup',
+             copy_function=copy2)
 
-        # Configure LXDM
-        elif self.user['display_manager']['name'].lower() == \
-                'lxdm display manager':
+        lightdm = []
+        for line in lightdm_list:
+            session = 'greeter-session={dm}'.format(
+                dm=self.user['display_manager']['session'])
+            line = re.sub(' +', ' ', line)
+            line = line.replace('#greeter-session=example-gtk-gnome', session)
+            line = line.replace(
+                '#greeter-setup-script=',
+                'greeter-setup-script=/usr/bin/numlockx on')
+            lightdm.append(line)
 
-            with open('/mnt/etc/lxdm/lxdm.conf', 'r') as lxdm:
-                lxdm_list = list(lxdm)
+        with open('/mnt/etc/lightdm/lightdm.conf', 'w+') as file:
+            for line in lightdm:
+                file.write(line)
 
-            move('/mnt/etc/lxdm/lxdm.conf',
-                 '/mnt/etc/lxdm/lxdm.backup',
-                 copy_function=copy2)
 
-            lxdm = []
-            for line in lxdm_list:
-                line = re.sub(' +', ' ', line)
-                line = line.replace(
-                    '# session=/usr/bin/startlxde',
-                    'session={session}'.format(
-                        session=self.user['display_manager']['session']))
-                line = line.replace('# numlock=0', 'numlock=1')
-                line = line.replace('white=',
-                                    'white={user}'.format(
-                                        user=self.user['username']))
-                lxdm.append(line)
+def configure_sddm(self):
+    """
+    Confgure SDDM display manager.
 
-            with open('/mnt/etc/lxdm/lxdm.conf', 'w+') as file:
-                for line in lxdm:
-                    file.write(line)
+    Modules
+    -------
+        re: "Regular expression matching operations"
 
-        # Configure XDM
-        elif self.user['display_manager']['name'].lower() == \
-                'xdm display manager':
+    Submodules
+    ----------
+        `command_output`: "Subprocess Popen with return codes"
 
-            with open('/mnt/home/{user}/.session'
-                      .format(user=self.user['username']),
-                      'a') as xdm:
-                xdm.write('{session}'.format(
+    Actions
+    -------
+        arch-chroot /mnt sddm "--example-config" > /etc/sddm.backup
+        "Write {conf}:" /mnt/etc/sddm.conf
+    """
+    if self.user['display_manager']['name'] is not None and \
+            'sddm' in self.user['display_manager']['name'].lower():
+
+        cmd = 'arch-chroot /mnt sddm --example-config > /etc/sddm.backup'
+        command_output(cmd)
+
+        with open('/mnt/etc/sddm.backup', 'r') as sddm:
+            sddm_list = list(sddm)
+
+        sddm = []
+        for line in sddm_list:
+            line = re.sub(' +', ' ', line)
+            line = line.replace(
+                'Session=',
+                'Session={session}'.format(
                     session=self.user['display_manager']['session']))
+            line = line.replace('Numlock=none', 'Numlock=on')
+            sddm.append(line)
 
-            cmd = 'arch-chroot /mnt chmod 770 /mnt/home/{x}/.session'.format(
-                x=self.user['username'])
+        with open('/mnt/etc/sddm.conf', 'w+') as file:
+            for line in sddm:
+                file.write(line)
 
-            run_command(cmd)
+
+def configure_lxdm(self):
+    """
+    Confgure LXDM display manager.
+
+    Modules
+    -------
+        shutil: "High-level file operations"
+        re: "Regular expression matching operations"
+
+    Actions
+    -------
+        "Write {conf}:" /mnt/etc/lxdm/lxdm.conf
+    """
+    if self.user['display_manager']['name'] is not None and \
+            'lxdm' in self.user['display_manager']['name'].lower():
+
+        with open('/mnt/etc/lxdm/lxdm.conf', 'r') as lxdm:
+            lxdm_list = list(lxdm)
+
+        move('/mnt/etc/lxdm/lxdm.conf',
+             '/mnt/etc/lxdm/lxdm.backup',
+             copy_function=copy2)
+
+        lxdm = []
+        for line in lxdm_list:
+            line = re.sub(' +', ' ', line)
+            line = line.replace(
+                '# session=/usr/bin/startlxde',
+                'session={session}'.format(
+                    session=self.user['display_manager']['session']))
+            line = line.replace('# numlock=0', 'numlock=1')
+            line = line.replace('white=',
+                                'white={user}'.format(
+                                    user=self.user['username']))
+            lxdm.append(line)
+
+        with open('/mnt/etc/lxdm/lxdm.conf', 'w+') as file:
+            for line in lxdm:
+                file.write(line)
+
+
+def configure_xdm(self):
+    """
+    Confgure XDM display manager.
+
+    Submodules
+    ----------
+        `run_command`: "Subprocess Popen with console output"
+
+    Actions
+    -------
+        "Write {conf}:" /home/{user}/.session
+        arch-chroot /mnt chmod 770 /home/{user}/.session
+    """
+    if self.user['display_manager']['name'] is not None and \
+            'xdm' in self.user['display_manager']['name'].lower():
+
+        with open('/mnt/home/{user}/.session'
+                  .format(user=self.user['username']),
+                  'a') as xdm:
+            xdm.write('{session}'.format(
+                session=self.user['display_manager']['session']))
+
+        cmd = 'arch-chroot /mnt chmod 770 /mnt/home/{x}/.session'.format(
+            x=self.user['username'])
+
+        run_command(cmd)
 
 
 def set_user_privileges(self):

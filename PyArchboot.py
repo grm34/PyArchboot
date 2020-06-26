@@ -29,9 +29,11 @@ from termcolor import colored
 from modules.app import app_banner, app_helper, app_reboot, app_translator
 from modules.installer import (clean_pacman_cache,
                                configure_desktop_environment,
-                               configure_display_manager, configure_grub,
-                               configure_systemdboot, create_user,
-                               generate_fstab, install_aur_helper,
+                               configure_display_manager, configure_gdm,
+                               configure_grub, configure_lightdm,
+                               configure_lxdm, configure_sddm,
+                               configure_systemdboot, configure_xdm,
+                               create_user, create_fstab, install_aur_helper,
                                install_base_system, install_grub_bootloader,
                                install_network, install_optional_packages,
                                set_hostname_file, set_locales, set_mirrorlist,
@@ -80,7 +82,7 @@ coloredlogs.install(level='INFO',
                         'asctime': {'color': 'yellow'}})
 
 
-class PyArchboot(object):
+class PyArchboot:
     """
     Application main object.
 
@@ -89,10 +91,6 @@ class PyArchboot(object):
     to the users, this script performs a minimal arch installation, and only
     required packages will be installed. According to desired configuration
     and in order to get complete support additional packages may be required.
-
-    Arguments
-    ---------
-        object: base class of the class hierarchy
 
     Parameters
     ----------
@@ -232,7 +230,7 @@ class PyArchboot(object):
 
         # Install Arch Linux
         functions = [set_mirrorlist(self), install_base_system(self),
-                     generate_fstab(self), set_timezone(self),
+                     create_fstab(self), set_timezone(self),
                      set_locales(self), set_virtual_console(self),
                      set_hostname_file(self), set_root_passwd(self),
                      create_user(self), install_network(self),
@@ -240,7 +238,9 @@ class PyArchboot(object):
                      install_optional_packages(self),
                      configure_systemdboot(self), configure_grub(self),
                      configure_desktop_environment(self),
-                     configure_display_manager(self),
+                     configure_display_manager(self), configure_gdm(self),
+                     configure_lightdm(self), configure_sddm(self),
+                     configure_lxdm(self), configure_xdm(self),
                      set_user_privileges(self), install_aur_helper(self),
                      clean_pacman_cache(self)]
 

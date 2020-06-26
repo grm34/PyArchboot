@@ -247,8 +247,8 @@ def get_filesystem(self, arg):
         Boolean: True or False
     """
     msg = self.trad('No existing {arg} volume detected').format(arg=arg)
-    output = command_output('lsblk -f | grep {arg}'
-                            .format(arg=arg, error=msg))
+    output = command_output('lsblk -f | grep {arg}'.format(arg=arg),
+                            error=msg)
     if output is not False:
         output = True
 
