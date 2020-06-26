@@ -57,12 +57,12 @@ from modules.system_manager.settings import (get_drives, get_filesystem,
 from modules.system_manager.unix_command import dump_json_file, load_json_file
 
 # Create a StreamHandler wich write to sys.stderr
-pre = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
-msg = '{pre} %(message)s'.format(pre=pre)
+LEVEL = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
+MESSAGE = '{level} %(message)s'.format(level=LEVEL)
 logging.basicConfig(filename='logs/PyArchboot.log',
                     level=logging.DEBUG,
                     filemode='w',
-                    format=msg)
+                    format=MESSAGE)
 
 # Create a logger for terminal output
 console = logging.getLogger()
