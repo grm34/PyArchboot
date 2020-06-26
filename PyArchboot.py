@@ -33,7 +33,7 @@ from modules.installer import (clean_pacman_cache,
                                configure_grub, configure_lightdm,
                                configure_lxdm, configure_sddm,
                                configure_systemdboot, configure_xdm,
-                               create_user, create_fstab, install_aur_helper,
+                               create_fstab, create_user, install_aur_helper,
                                install_base_system, install_grub_bootloader,
                                install_network, install_optional_packages,
                                set_hostname_file, set_locales, set_mirrorlist,
@@ -53,8 +53,7 @@ from modules.system_manager.settings import (get_drives, get_filesystem,
                                              get_mirrorlist, get_mountpoints,
                                              get_partition_id, get_partitions,
                                              get_partuuid, get_processor,
-                                             get_swap, get_vga_controller,
-                                             get_volumes)
+                                             get_vga_controller, get_volumes)
 from modules.system_manager.unix_command import dump_json_file, load_json_file
 
 # Create a StreamHandler wich write to sys.stderr
@@ -153,8 +152,8 @@ class PyArchboot:
 
         # User parameters
         self.theme = themes['default']
-        self.ipinfo = get_ipinfo(self)
-        self.mirrorlist = get_mirrorlist(self)
+        self.ipinfo = get_ipinfo()
+        self.mirrorlist = get_mirrorlist()
         language = self.ipinfo['country'].lower()
         if options.lang:
             language = options.lang[0].strip()
@@ -163,13 +162,13 @@ class PyArchboot:
             self.theme = themes[options.theme[0].strip()]
 
         # Session parameters
-        self.cpu = get_processor(self)
-        self.efi, self.firmware = get_firmware(self)
-        self.controllers = get_vga_controller(self)
+        self.cpu = get_processor()
+        self.efi, self.firmware = get_firmware()
+        self.controllers = get_vga_controller()
         self.drives = get_drives(self)
-        self.partitions = get_partitions(self)
-        self.mountpoints = get_mountpoints(self)
-        self.volumes = get_volumes(self)
+        self.partitions = get_partitions()
+        self.mountpoints = get_mountpoints()
+        self.volumes = get_volumes()
         self.lvm = get_filesystem(self, 'lvm')
         self.luks = get_filesystem(self, 'luks')
         self.ntfs = get_filesystem(self, 'ntfs')
@@ -245,16 +244,16 @@ class PyArchboot:
                      clean_pacman_cache(self)]
 
         for function in functions:
-            cmd = function
+            function
 
         # Copy logs to system
-        logging.info(trad('installation successfull'))
+        logging.info(self.trad('installation successfull'))
         dump_json_file('{x}.log'.format(x=self.user['username']), self.user)
         copytree('logs', '/mnt/var/log/PyArchboot', copy_function=copy2)
 
         # Reboot the system
-        message = self.trad('Do you wish to reboot your computer now')
-        question = [inquirer.Confirm('reboot', message=message, default=True)]
+        msg = self.trad('Do you wish to reboot your computer now')
+        question = [inquirer.Confirm('reboot', message=msg, default=True)]
         confirm = inquirer.prompt(question,
                                   theme=load_theme_from_dict(self.theme))
 

@@ -44,20 +44,20 @@ def umount_partitions(self):
 
         # Deactivate swap
         if 'swap' in partition.lower():
-            mountpoint = get_swap(self)
+            mountpoint = get_swap()
             if mountpoint is not False:
                 logging.info(self.trad('deactivate swap partition [{id}]')
                              .format(id=mountpoint[0].split()[0]))
 
-                cmd = run_command('swapoff -a {swap}'
-                                  .format(swap=mountpoint[0].split()[0]))
+                run_command('swapoff -a {swap}'
+                            .format(swap=mountpoint[0].split()[0]))
 
         # Umount the partitions
         if ('archiso' not in partition.lower()) and \
                 ('swap' not in partition.lower()):
 
             logging.info(self.trad('umount {id}').format(id=partition))
-            cmd = run_command('umount -f -R -q {id}'.format(id=partition))
+            run_command('umount -f -R -q {id}'.format(id=partition))
             time.sleep(1)
 
 
@@ -79,7 +79,7 @@ def delete_partitions(self):
         if self.user['drive']['name'] in partition:
             partition = partition.split('//')[0].strip()
             logging.info(self.trad('delete {lv}').format(lv=partition))
-            cmd = run_command('lvremove -q -f -y {lv}'.format(lv=partition))
+            run_command('lvremove -q -f -y {lv}'.format(lv=partition))
             time.sleep(1)
 
     # Delete volume groups
@@ -87,7 +87,7 @@ def delete_partitions(self):
         if self.user['drive']['name'] in volume:
             volume = volume.split('/')[0].strip()
             logging.info(self.trad('delete {vg}').format(vg=volume))
-            cmd = run_command('vgremove -q -f -y {vg}'.format(vg=volume))
+            run_command('vgremove -q -f -y {vg}'.format(vg=volume))
             time.sleep(1)
 
     # Delete physical volumes
@@ -95,7 +95,7 @@ def delete_partitions(self):
         if self.user['drive']['name'] in volume:
             volume = volume.strip()
             logging.info(self.trad('delete {pv}').format(pv=volume))
-            cmd = run_command('pvremove -q -f -y {pv}'.format(pv=volume))
+            run_command('pvremove -q -f -y {pv}'.format(pv=volume))
             time.sleep(1)
 
     # Delete DOS partitions
@@ -105,7 +105,7 @@ def delete_partitions(self):
         pipe = ['/usr/bin/printf', 'd\n\nw']
         cmd = 'fdisk --wipe=always {drive}'.format(
             drive=self.user['drive']['name'])
-        cmd = run_command(cmd, args=pipe)
+        run_command(cmd, args=pipe)
         time.sleep(1)
 
 
@@ -128,13 +128,13 @@ def format_drive(self):
                  .format(drive=self.user['drive']['name'],
                          size=self.user['drive']['size']))
 
-    cmd = run_command('wipefs -f -a {drive}'
-                      .format(drive=self.user['drive']['name']))
+    run_command('wipefs -f -a {drive}'
+                .format(drive=self.user['drive']['name']))
 
     cmd = 'dd if=/dev/zero of={drive} bs=512 count=1 conv=notrunc'.format(
         drive=quote(self.user['drive']['name']))
 
-    cmd = command_output(cmd, exit_on_error=True)
+    command_output(cmd, exit_on_error=True)
     time.sleep(1)
 
 
@@ -161,7 +161,7 @@ def new_partition_table(self):
     cmd = 'sfdisk -f -q --wipe=always {drive}'.format(
         drive=self.user['drive']['name'])
 
-    cmd = run_command(cmd, args=pipe, exit_on_error=True)
+    run_command(cmd, args=pipe, exit_on_error=True)
     time.sleep(1)
 
 
@@ -200,7 +200,7 @@ def create_dos_partitions(self):
         cmd = 'sfdisk -f -q --no-reread -W always --append {drive}'.format(
             drive=self.user['drive']['name'])
 
-        cmd = run_command(cmd, args=pipe, exit_on_error=True)
+        run_command(cmd, args=pipe, exit_on_error=True)
         time.sleep(1)
 
 
@@ -233,7 +233,7 @@ def set_partition_types(self):
 
             pipe = ['/usr/bin/printf', gdisk_pipe]
             cmd = 'gdisk {drive}'.format(drive=self.user['drive']['name'])
-            cmd = run_command(cmd, args=pipe, exit_on_error=True)
+            run_command(cmd, args=pipe, exit_on_error=True)
 
             del gdisk_pipe
             time.sleep(1)
@@ -281,7 +281,7 @@ def create_lvm_partitions(self):
 
             # Create Volumes
             for cmd in cmd_list:
-                cmd = run_command(cmd, exit_on_error=True)
+                run_command(cmd, exit_on_error=True)
 
         # Create LVM partitions
         elif partition != 'boot':
@@ -295,9 +295,9 @@ def create_lvm_partitions(self):
             else:
                 size = '-L {size}'.format(size=size)
 
-            cmd = run_command('lvcreate -y {size} -n {name} lvm'
-                              .format(size=size, name=partition),
-                              exit_on_error=True)
+            run_command('lvcreate -y {size} -n {name} lvm'
+                        .format(size=size, name=partition),
+                        exit_on_error=True)
         time.sleep(1)
 
 
@@ -331,7 +331,7 @@ def format_partitions(self):
         else:
             cmd = 'yes | mkfs.{filesystem} {id}'.format(filesystem=filesystem,
                                                         id=drive_id)
-        cmd = command_output(cmd, exit_on_error=True)
+        command_output(cmd, exit_on_error=True)
 
 
 def mount_partitions(self):
@@ -365,9 +365,9 @@ def mount_partitions(self):
             if not os.path.exists(mountpoint):
                 os.makedirs(mountpoint)
 
-            cmd = run_command('mount {id} {mountpoint}'
-                              .format(id=drive_id, mountpoint=mountpoint),
-                              exit_on_error=True)
+            run_command('mount {id} {mountpoint}'
+                        .format(id=drive_id, mountpoint=mountpoint),
+                        exit_on_error=True)
         time.sleep(1)
 
 

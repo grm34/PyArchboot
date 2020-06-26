@@ -46,7 +46,7 @@ def get_drives(self):
     return output
 
 
-def get_partitions(self):
+def get_partitions():
     """
     Get user's available partitions.
 
@@ -114,7 +114,7 @@ def get_partuuid(self):
     return output
 
 
-def get_mountpoints(self):
+def get_mountpoints():
     """
     Get mountpoints of existing partitions.
 
@@ -134,7 +134,7 @@ def get_mountpoints(self):
     return output
 
 
-def get_volumes(self):
+def get_volumes():
     """
     Get existing LVM volumes.
 
@@ -160,7 +160,7 @@ def get_volumes(self):
     return volumes
 
 
-def get_swap(self):
+def get_swap():
     """
     Get existing mountpoints of swap volumes.
 
@@ -180,7 +180,7 @@ def get_swap(self):
     return output
 
 
-def get_processor(self):
+def get_processor():
     """
     Get user's processor.
 
@@ -205,7 +205,7 @@ def get_processor(self):
     return output
 
 
-def get_vga_controller(self):
+def get_vga_controller():
     """
     Get user's available VGA controllers.
 
@@ -255,7 +255,7 @@ def get_filesystem(self, arg):
     return output
 
 
-def get_firmware(self):
+def get_firmware():
     """Get user's system firmware.
 
     Modules
@@ -279,7 +279,7 @@ def get_firmware(self):
     return efi, firmware
 
 
-def get_ipinfo(self):
+def get_ipinfo():
     """
     Get user's IP address data.
 
@@ -298,7 +298,7 @@ def get_ipinfo(self):
     return output
 
 
-def get_mirrorlist(self, country):
+def get_mirrorlist():
     """
     Get user's fastest mirrors (corresponding to user's country).
 

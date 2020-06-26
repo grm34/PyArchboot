@@ -89,7 +89,7 @@ def question_manager(self):
             'boot_size',
             message=self.trad('Enter desired size for boot partition'),
             validate=lambda user, response:
-                size_validator(self, user, response),
+            size_validator(self, user, response),
             ignore=lambda user: user['drive'] is None),
 
         # Root freespace
@@ -107,7 +107,7 @@ def question_manager(self):
             message=self.trad('Enter desired size for root partition'),
             default=None,
             validate=lambda user, response:
-                size_validator(self, user, response),
+            size_validator(self, user, response),
             ignore=lambda user:
             user['drive'] is None or user['root_freespace'] is True),
 
@@ -117,7 +117,7 @@ def question_manager(self):
             message=self.trad('Enter desired size for swap partition'),
             default=None,
             validate=lambda user, response:
-                size_validator(self, user, response),
+            size_validator(self, user, response),
             ignore=lambda user:
             user['drive'] is None or
             'Swap' not in user['optional_partitions']),
@@ -136,7 +136,7 @@ def question_manager(self):
             'home_size',
             message=self.trad('Enter desired size for home partition'),
             validate=lambda user, response:
-                size_validator(self, user, response),
+            size_validator(self, user, response),
             ignore=lambda user:
             user['drive'] is None or
             'Home' not in user['optional_partitions'] or
@@ -194,44 +194,44 @@ def question_manager(self):
         inquirer.Text(
             'timezone',
             message=self.trad('Enter desired timezone'),
-            validate=lambda user, response:
-                timezone_validator(self, user, response),
+            validate=lambda _, response:
+            timezone_validator(self, response),
             ignore=lambda user: user['timezone'] is not None),
 
         # Language code
         inquirer.Text(
             'language',
             message=self.trad('Enter language code'),
-            validate=lambda user, response:
-            language_validator(self, user, response)),
+            validate=lambda _, response:
+            language_validator(self, response)),
 
         # Hostname
         inquirer.Text(
             'hostname',
             message=self.trad('Enter hostname'),
-            validate=lambda user, response:
-            hostname_validator(self, user, response)),
+            validate=lambda _, response:
+            hostname_validator(self, response)),
 
         # Root passwd
         inquirer.Password(
             'root_passwd',
             message=self.trad('Enter password for root'),
-            validate=lambda user, response:
-            passwd_validator(self, user, response)),
+            validate=lambda _, response:
+            passwd_validator(self, response)),
 
         # Username
         inquirer.Text(
             'username',
             message=self.trad('Enter username'),
-            validate=lambda user, response:
-            username_validator(self, user, response)),
+            validate=lambda _, response:
+            username_validator(self, response)),
 
         # User passwd
         inquirer.Password(
             'user_passwd',
             message=self.trad('Enter password for user {username}'),
-            validate=lambda user, response:
-            passwd_validator(self, user, response)),
+            validate=lambda _, response:
+            passwd_validator(self, response)),
 
         # Kernel
         inquirer.List(

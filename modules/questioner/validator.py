@@ -130,13 +130,12 @@ def size_validator(self, user, response):
     return True
 
 
-def timezone_validator(self, user, response):
+def timezone_validator(self, response):
     """
     Match timezone code in libraries/timezone.
 
     Arguments
     ---------
-        user: "Dictionary containing user's answers"
         response: "String containing current answer"
 
     Raises
@@ -158,13 +157,12 @@ def timezone_validator(self, user, response):
     return True
 
 
-def language_validator(self, user, response):
+def language_validator(self, response):
     """
     Match language code in libraries/locale.
 
     Arguments
     ---------
-        user: "Dictionary containing user's answers"
         response: "String containing current answer"
 
     Raises
@@ -186,13 +184,12 @@ def language_validator(self, user, response):
     return True
 
 
-def hostname_validator(self, user, response):
+def hostname_validator(self, response):
     """
     Match UNIX hostname regex.
 
     Arguments
     ---------
-        user: "Dictionary containing user's answers"
         response: "String containing current answer"
 
     Raises
@@ -212,13 +209,12 @@ def hostname_validator(self, user, response):
     return True
 
 
-def passwd_validator(self, user, response):
+def passwd_validator(self, response):
     """
     Match UNIX password regex.
 
     Arguments
     ---------
-        user: "Dictionary containing user's answers"
         response: "String containing current answer"
 
     Raises
@@ -238,13 +234,12 @@ def passwd_validator(self, user, response):
     return True
 
 
-def username_validator(self, user, response):
+def username_validator(self, response):
     """
     Match UNIX username regex.
 
     Arguments
     ---------
-        user: "Dictionary containing user's answers"
         response: "String containing current answer"
 
     Raises
