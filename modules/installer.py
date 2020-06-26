@@ -321,23 +321,23 @@ def install_optional_packages(self):
     """
     for choice, name in zip(
             [self.user['cpu']['microcode'],
-            self.user['drive']['lvm'],
-            self.user['ntfs'],
-            self.user['gpu']['driver'],
-            self.user['gpu']['hardvideo'],
-            self.user['desktop_environment']['requirements'],
-            self.user['desktop_environment']['packages'],
-            self.user['display_manager']['packages']],
+             self.user['drive']['lvm'],
+             self.user['ntfs'],
+             self.user['gpu']['driver'],
+             self.user['gpu']['hardvideo'],
+             self.user['desktop_environment']['requirements'],
+             self.user['desktop_environment']['packages'],
+             self.user['display_manager']['packages']],
             ['microcode updates',
-            'lvm support',
-            'ntfs support',
-            'GPU driver',
-            'hardware video acceleration',
-            'X window system',
-            '{desktop}'.format(
-                desktop=self.user['desktop_environment']['name']),
-            '{display}'.format(
-                display=self.user['display_manager']['name'])]):
+             'lvm support',
+             'ntfs support',
+             'GPU driver',
+             'hardware video acceleration',
+             'X window system',
+             '{desktop}'.format(
+                 desktop=self.user['desktop_environment']['name']),
+             '{display}'.format(
+                 display=self.user['display_manager']['name'])]):
 
         if (choice is not None) and (choice is not False):
 
