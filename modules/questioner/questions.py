@@ -68,7 +68,7 @@ def question_manager(self):
             message=self.trad(
                 'Do you wish to use Logical Volume Manager (LVM)'),
             ignore=lambda user:
-                user['drive'] is None or self.firmware == 'bios'),
+            user['drive'] is None or self.firmware == 'bios'),
 
         # Luks
         inquirer.Confirm(
@@ -98,8 +98,8 @@ def question_manager(self):
             message=self.trad(
                 'Do you wish use free space for root partition'),
             ignore=lambda user:
-                user['drive'] is None or
-                'Home' in user['optional_partitions']),
+            user['drive'] is None or
+            'Home' in user['optional_partitions']),
 
         # Root size
         inquirer.Text(
@@ -109,7 +109,7 @@ def question_manager(self):
             validate=lambda user, response:
                 size_validator(self, user, response),
             ignore=lambda user:
-                user['drive'] is None or user['root_freespace'] is True),
+            user['drive'] is None or user['root_freespace'] is True),
 
         # Swap size
         inquirer.Text(
@@ -119,8 +119,8 @@ def question_manager(self):
             validate=lambda user, response:
                 size_validator(self, user, response),
             ignore=lambda user:
-                user['drive'] is None or
-                'Swap' not in user['optional_partitions']),
+            user['drive'] is None or
+            'Swap' not in user['optional_partitions']),
 
         # Home freespace
         inquirer.Confirm(
@@ -128,8 +128,8 @@ def question_manager(self):
             message=self.trad(
                 'Do you wish use free space for home partition'),
             ignore=lambda user:
-                user['drive'] is None or
-                'Home' not in user['optional_partitions']),
+            user['drive'] is None or
+            'Home' not in user['optional_partitions']),
 
         # Home size
         inquirer.Text(
@@ -138,9 +138,9 @@ def question_manager(self):
             validate=lambda user, response:
                 size_validator(self, user, response),
             ignore=lambda user:
-                user['drive'] is None or
-                'Home' not in user['optional_partitions'] or
-                user['home_freespace'] is True),
+            user['drive'] is None or
+            'Home' not in user['optional_partitions'] or
+            user['home_freespace'] is True),
 
         # Boot drive ID
         inquirer.List(
@@ -149,7 +149,7 @@ def question_manager(self):
             choices=self.partitions,
             carousel=True,
             ignore=lambda user:
-                user['drive'] is not None or self.partitions is None),
+            user['drive'] is not None or self.partitions is None),
 
         # Root drive ID
         inquirer.List(
@@ -158,7 +158,7 @@ def question_manager(self):
             choices=lambda user: partitions_updater(self, user),
             carousel=True,
             ignore=lambda user:
-                user['drive'] is not None or self.partitions is None),
+            user['drive'] is not None or self.partitions is None),
 
         # Swap drive ID
         inquirer.List(
@@ -167,8 +167,8 @@ def question_manager(self):
             choices=lambda user: partitions_updater(self, user),
             carousel=True,
             ignore=lambda user:
-                user['drive'] is not None or
-                'Swap' not in user['optional_partitions']),
+            user['drive'] is not None or
+            'Swap' not in user['optional_partitions']),
 
         # Home drive ID
         inquirer.List(
@@ -177,8 +177,8 @@ def question_manager(self):
             choices=lambda user: partitions_updater(self, user),
             carousel=True,
             ignore=lambda user:
-                user['drive'] is not None or
-                'Home' not in user['optional_partitions']),
+            user['drive'] is not None or
+            'Home' not in user['optional_partitions']),
 
         # Timezone selection
         inquirer.List(
@@ -203,35 +203,35 @@ def question_manager(self):
             'language',
             message=self.trad('Enter language code'),
             validate=lambda user, response:
-                language_validator(self, user, response)),
+            language_validator(self, user, response)),
 
         # Hostname
         inquirer.Text(
             'hostname',
             message=self.trad('Enter hostname'),
             validate=lambda user, response:
-                hostname_validator(self, user, response)),
+            hostname_validator(self, user, response)),
 
         # Root passwd
         inquirer.Password(
             'root_passwd',
             message=self.trad('Enter password for root'),
             validate=lambda user, response:
-                passwd_validator(self, user, response)),
+            passwd_validator(self, user, response)),
 
         # Username
         inquirer.Text(
             'username',
             message=self.trad('Enter username'),
             validate=lambda user, response:
-                username_validator(self, user, response)),
+            username_validator(self, user, response)),
 
         # User passwd
         inquirer.Password(
             'user_passwd',
             message=self.trad('Enter password for user {username}'),
             validate=lambda user, response:
-                passwd_validator(self, user, response)),
+            passwd_validator(self, user, response)),
 
         # Kernel
         inquirer.List(
@@ -274,8 +274,8 @@ def question_manager(self):
             'desktop_extra',
             message=lambda user: desktop_extra_assigner(self, user),
             ignore=lambda user:
-                user['desktop'] is None or
-                user['desktop'] not in [0, 1, 2, 3, 4]),
+            user['desktop'] is None or
+            user['desktop'] not in [0, 1, 2, 3, 4]),
 
         # Display manager
         inquirer.List(
@@ -300,16 +300,16 @@ def question_manager(self):
                      ('Litarvan', 4)],
             carousel=True,
             ignore=lambda user:
-                user['desktop'] is None or user['display'] != 1),
+            user['desktop'] is None or user['display'] != 1),
 
         # GPU Driver
         inquirer.Confirm(
             'gpu_driver',
             message=self.trad('Do you wish to install GPU driver'),
             ignore=lambda user:
-                user['desktop'] is None or
-                self.controllers == [''] or
-                self.controllers is False),
+            user['desktop'] is None or
+            self.controllers == [''] or
+            self.controllers is False),
 
         # VGA Controller selection
         inquirer.List(
@@ -331,8 +331,8 @@ def question_manager(self):
             'gpu_proprietary',
             message=self.trad('Do you wish to install proprietary drivers'),
             ignore=lambda user:
-                user['gpu_driver'] is False or
-                'nvidia' not in user['vga_controller'].lower()),
+            user['gpu_driver'] is False or
+            'nvidia' not in user['vga_controller'].lower()),
 
         # AUR Helper
         inquirer.List(

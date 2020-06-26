@@ -394,7 +394,8 @@ def configure_systemdboot(self):
                                     ' keyboard keymap lvm2 filesystems')
 
                 if self.user['drive']['luks'] is not False:
-                    line = line.replace(' filesystems', ' encrypt filesystems')
+                    line = line.replace(' filesystems',
+                                        ' encrypt filesystems')
 
             mkinitcpio.append(line)
 
