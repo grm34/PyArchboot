@@ -134,21 +134,6 @@ class PyArchboot:
         self.system = {}
         self.user = {}
 
-    def run(self):
-        """
-        Start the application.
-
-        Actions
-        -------
-            1) Get system settings.
-            2) Ask questions to the user.
-            3) Set parameters of the current session.
-            4) Partition the disk (optional).
-            5) Mount the partitions.
-            6) Install Arch Linux.
-        """
-        app_banner(self)
-
         # Get system settings
         self.system['ipinfo'] = get_ipinfo()
         options = app_helper(self)
@@ -172,6 +157,20 @@ class PyArchboot:
         self.system['lvm'] = get_filesystem(self, 'lvm')
         self.system['luks'] = get_filesystem(self, 'luks')
         self.system['ntfs'] = get_filesystem(self, 'ntfs')
+
+    def run(self):
+        """
+        Start the application.
+
+        Actions
+        -------
+            1) Ask questions to the user.
+            2) Set parameters of the current session.
+            3) Partition the disk (optional).
+            4) Mount the partitions.
+            5) Install Arch Linux.
+        """
+        app_banner(self)
 
         # Ask questions to the user
         self.user = inquirer.prompt(
