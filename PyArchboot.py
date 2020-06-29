@@ -160,7 +160,7 @@ class PyArchboot:
 
     def __str__(self):
         """
-        Add extra method to the the class.
+        Add extra method to the class.
 
         Returns:
             Class name
