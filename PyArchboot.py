@@ -236,7 +236,7 @@ class PyArchboot:
 
         Returns
         -------
-            Class name
+            Current class name
         """
         return self.__class__.__name__
 
