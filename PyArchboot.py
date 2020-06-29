@@ -121,14 +121,15 @@ class PyArchboot:
         Initialize
         ----------
             self.app: "Dictionary containing application settings"
-            self.themes: "Dictionary containing application themes"
+            self.theme: "Dictionary containing application theme"
             self.packages: "Dictionary containing Arch Linux packages"
             self.trad: "Function to translate strings"
             self.user: "Dictionary to store system settings"
             self.user: "Dictionary to store user's session parameters"
         """
         self.app = load_json_file('app.json')
-        self.themes = load_json_file('themes.json')
+        themes = load_json_file('themes.json')
+        self.theme = themes['default']
         self.packages = load_json_file('packages.json')
         self.trad = ''
         self.system = {}
@@ -141,9 +142,8 @@ class PyArchboot:
         if options.lang:
             language = options.lang[0].strip()
         self.trad = app_translator(language)
-        self.themes = self.themes['default']
         if options.theme:
-            self.themes = self.themes[options.theme[0].strip()]
+            self.theme = themes[options.theme[0].strip()]
         if options.keyboard:
             self.system['keymap'] = options.keyboard[0].strip()
         self.system['mirrorlist'] = get_mirrorlist(self)
@@ -174,7 +174,7 @@ class PyArchboot:
 
         # Ask questions to the user
         self.user = inquirer.prompt(
-            question_manager(self), theme=load_theme_from_dict(self.themes))
+            question_manager(self), theme=load_theme_from_dict(self.theme))
 
         if self.user['confirm'] is False:
             del self
@@ -245,7 +245,7 @@ class PyArchboot:
         msg = self.trad('Do you wish to reboot your computer now')
         question = [inquirer.Confirm('reboot', message=msg, default=True)]
         confirm = inquirer.prompt(question,
-                                  theme=load_theme_from_dict(self.themes))
+                                  theme=load_theme_from_dict(self.theme))
 
         if confirm['reboot'] is True:
             app_reboot()
