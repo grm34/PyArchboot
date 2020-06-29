@@ -316,7 +316,7 @@ def get_mirrorlist(self):
     """
     url_base = 'https://www.archlinux.org/mirrorlist/?country='
     url_args = '{code}&use_mirror_status=on'.format(
-        code=self.ipinfo['country'].upper())
+        code=self.system['ipinfo']['country'].upper())
 
     url = '{base}{args}'.format(base=url_base, args=url_args)
     output = command_output('curl -s {url}'.format(url=quote(url)))

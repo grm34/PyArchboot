@@ -41,8 +41,8 @@ def drive_session(self):
     else:
 
         # Get boot drive
-        boot = str(self.drives[0]).split()[0]
-        for drive in self.drives:
+        boot = str(self.system['drives'][0]).split()[0]
+        for drive in self.system['drives']:
             if str(drive).split()[0] in self.user['boot_id'].split()[0]:
                 boot = str(drive).split()[0]
                 break
@@ -54,11 +54,11 @@ def drive_session(self):
                               'luks': self.luks}
 
     # Append LVM packages
-    if (self.user['lvm'] is True) or (self.lvm is True):
+    if (self.user['lvm'] is True) or (self.system['lvm'] is True):
         self.user['drive']['lvm'] = self.packages['lvm']
 
     # Set partition table
-    if self.firmware == 'uefi':
+    if self.system['firmware'] == 'uefi':
         self.user['drive']['table'] = 'gpt'
     else:
         self.user['drive']['table'] = 'mbr'
@@ -282,10 +282,10 @@ def system_session(self):
     self.user['kernel'] = self.packages['kernel'][self.user['kernel']]
 
     # Set cpu parameters
-    if 'intel' in self.cpu.lower():
+    if 'intel' in self.system['cpu'].lower():
         self.user['cpu'] = {'name': self.cpu,
                             'microcode': self.packages['microcode'][0]}
-    elif 'AMD' in self.cpu:
+    elif 'AMD' in self.system['cpu']:
         self.user['cpu'] = {'name': self.cpu,
                             'microcode': self.packages['microcode'][1]}
     else:
@@ -297,17 +297,19 @@ def system_session(self):
     self.user['passwords'] = {'root': rootpasswd, 'user': userpasswd}
 
     # Set keymap
-    if 'keymap' not in locals():
+    if 'keymap' not in self.system:
         self.user['keymap'] = self.user['language'].split('_')[0]
+    else:
+        self.user['keymap'] = self.system['keymap']
 
     # Append NTFS packages
-    self.user['ntfs'] = self.ntfs
-    if self.ntfs is True:
+    self.user['ntfs'] = self.system['ntfs']
+    if self.system['ntfs'] is True:
         self.user['ntfs'] = self.packages['ntfs']
 
     # Set system firmware
-    self.user['firmware'] = {'type': self.firmware,
-                             'version': self.efi,
+    self.user['firmware'] = {'type': self.system['firmware'],
+                             'version': self.system['efi'],
                              'driver': self.user['firmware']}
 
     # Append firmware packages
@@ -315,7 +317,7 @@ def system_session(self):
         self.user['firmware']['driver'] = self.packages['firmware']
 
     # Set mirrorlist
-    self.user['mirrorlist'] = self.mirrorlist
+    self.user['mirrorlist'] = self.system['mirrorlist']
 
     return self.user
 

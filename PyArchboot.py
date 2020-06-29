@@ -91,27 +91,6 @@ class PyArchboot:
     required packages will be installed. According to desired configuration
     and in order to get complete support additional packages may be required.
 
-    Parameters
-    ----------
-        self.app: "Application information" > dict()
-        self.packages: "Arch Linux packages" > dict()
-        self.theme: "Application theme" > dict()
-        self.ipinfo: "User's IP address data" > dict()
-        self.mirrorlist: "User's country mirrorlist" > str()
-        self.trad: "Application language" > func()
-        self.cpu: "User's processor" > str()
-        self.efi: "User's firmware version" > str()
-        self.firmware: "User's firmware type" > str()
-        self.gpu: "Available VGA controllers" > array()
-        self.drives: "Available drives" > array()
-        self.partitions: "Available partitions" > array()
-        self.mountpoints: "Mountpoints of mounted partitions" > array()
-        self.volumes: "Existing LVM volumes" > array()
-        self.lvm: "Support for LVM volumes" > bool()
-        self.luks: "Support for encrypted drives" > bool()
-        self.ntfs: "Support for NTFS partitions" > bool()
-        self.user: "User's session parameters" > dict()
-
     Project structure
     -----------------
         " PyArchboot.py
@@ -141,38 +120,19 @@ class PyArchboot:
 
         Initialize
         ----------
-            Accessible attributes of the class
+            self.app: "Dictionary containing application settings"
+            self.themes: "Dictionary containing application themes"
+            self.packages: "Dictionary containing Arch Linux packages"
+            self.trad: "Function to translate strings"
+            self.user: "Dictionary to store system settings"
+            self.user: "Dictionary to store user's session parameters"
         """
-        # Application parameters
         self.app = load_json_file('app.json')
-        app_banner(self)
-        options = app_helper(self)
+        self.themes = load_json_file('themes.json')
         self.packages = load_json_file('packages.json')
-        themes = load_json_file('themes.json')
-
-        # User parameters
-        self.theme = themes['default']
-        self.ipinfo = get_ipinfo()
-        self.mirrorlist = get_mirrorlist(self)
-        language = self.ipinfo['country'].lower()
-        if options.lang:
-            language = options.lang[0].strip()
-        self.trad = app_translator(language)
-        if options.theme:
-            self.theme = themes[options.theme[0].strip()]
-
-        # Session parameters
-        self.cpu = get_processor()
-        self.efi, self.firmware = get_firmware()
-        self.controllers = get_vga_controller()
-        self.drives = get_drives(self)
-        self.partitions = get_partitions()
-        self.mountpoints = get_mountpoints()
-        self.volumes = get_volumes()
-        self.lvm = get_filesystem(self, 'lvm')
-        self.luks = get_filesystem(self, 'luks')
-        self.ntfs = get_filesystem(self, 'ntfs')
-        self.user = {}
+        self.trad = function()
+        self.system = dict()
+        self.user = dict()
 
     def run(self):
         """
@@ -180,17 +140,44 @@ class PyArchboot:
 
         Actions
         -------
-            1) Ask questions to the user.
-            2) Set parameters of the current session.
-            3) Partition the disk (optional).
-            4) Mount the partitions.
-            5) Install Arch Linux.
+            1) Get system settings.
+            2) Ask questions to the user.
+            3) Set parameters of the current session.
+            4) Partition the disk (optional).
+            5) Mount the partitions.
+            6) Install Arch Linux.
         """
-        # Ask questions to the user by running questioner module
-        self.user = inquirer.prompt(question_manager(self),
-                                    theme=load_theme_from_dict(self.theme))
+        app_banner(self)
 
-        if self.user['confirm'] is False:
+        # Get system settings
+        self.system['ipinfo'] = get_ipinfo()
+        options = app_helper(self)
+        language = self.system['ipinfo']['country'].lower()
+        if options.lang:
+            language = options.lang[0].strip()
+        self.trad = app_translator(language)
+        self.themes = self.themes['default']
+        if options.theme:
+            self.themes = self.themes[options.theme[0].strip()]
+        if options.keyboard:
+            self.system['keymap'] = options.keyboard[0].strip()
+        self.system['mirrorlist'] = get_mirrorlist(self)
+        self.system['cpu'] = get_processor()
+        self.system['firmware'], self.system['efi'] = get_firmware()
+        self.system['controllers'] = get_vga_controller()
+        self.system['drives'] = get_drives(self)
+        self.system['partitions'] = get_partitions()
+        self.system['mountpoints'] = get_mountpoints()
+        self.system['volumes'] = get_volumes()
+        self.system['lvm'] = get_filesystem(self, 'lvm')
+        self.system['luks'] = get_filesystem(self, 'luks')
+        self.system['ntfs'] = get_filesystem(self, 'ntfs')
+
+        # Ask questions to the user
+        self.user = inquirer.prompt(
+            question_manager(self), theme=load_theme_from_dict(self.themes))
+
+        if self.user['answers']['confirm'] is False:
             del self
             os.execl(sys.executable, sys.executable, * sys.argv)
 
@@ -262,7 +249,7 @@ class PyArchboot:
         msg = self.trad('Do you wish to reboot your computer now')
         question = [inquirer.Confirm('reboot', message=msg, default=True)]
         confirm = inquirer.prompt(question,
-                                  theme=load_theme_from_dict(self.theme))
+                                  theme=load_theme_from_dict(self.themes))
 
         if confirm['reboot'] is True:
             app_reboot()

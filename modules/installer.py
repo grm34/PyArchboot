@@ -36,7 +36,7 @@ def set_mirrorlist(self):
     -------
         "Write {mirrorlist}:" /etc/pacman.d/mirrorlist
     """
-    if self.user['mirrorlist'] is False:
+    if self.user['mirrorlist'] is not False:
         logging.info(self.trad('update mirrorlist'))
 
         with open('/etc/pacman.d/mirrorlist', 'w+') as mirrorlist:
@@ -293,8 +293,9 @@ def install_grub_bootloader(self):
     -------
         arch-chroot /mnt pacman "--noconfirm --needed" -S {grub}
     """
-    if (self.firmware == 'bios') or \
-            ((self.firmware == 'uefi') and (self.efi == 'x86')):
+    if (self.user['firmware']['type'] == 'bios') or \
+            ((self.user['firmware']['type'] == 'uefi') and
+             (self.user['firmware']['version'] == 'x86')):
 
         if self.user['ntfs'] is not False:
             self.packages['grub']['packages'] += ' {extras}'.format(
@@ -370,7 +371,8 @@ def configure_systemdboot(self):
         "Write {entry}:" /mnt/boot/loader/entries/arch.conf
         arch-chroot /mnt bootctl "--path=/boot" update
     """
-    if (self.firmware == 'uefi') and (self.efi == 'x84'):
+    if (self.user['firmware']['type'] == 'uefi') and \
+            (self.user['firmware']['version'] == 'x64'):
         logging.info(self.trad('configure systemd-boot bootloader'))
 
         # Update the HOOKS
@@ -467,8 +469,9 @@ def configure_grub(self):
         "Write {config}:" /mnt/etc/default/grub
         arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
     """
-    if (self.firmware == 'bios') or \
-            ((self.firmware == 'uefi') and (self.efi == 'x86')):
+    if (self.user['firmware']['type'] == 'bios') or \
+            ((self.user['firmware']['type'] == 'uefi') and
+             (self.user['firmware']['version'] == 'x86')):
         logging.info(self.trad('configure grub bootloader'))
 
         # Run grub-install

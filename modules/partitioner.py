@@ -40,7 +40,7 @@ def umount_partitions(self):
     ----------
         `run_command`: "Subprocess Popen with console output"
     """
-    for partition in self.mountpoints:
+    for partition in self.system['mountpoints']:
 
         # Deactivate swap
         if 'swap' in partition.lower():
@@ -75,7 +75,7 @@ def delete_partitions(self):
         `run_command`: "Subprocess Popen with console output"
     """
     # Delete lvm partitions
-    for partition in list(set(self.volumes[0])):
+    for partition in list(set(self.system['volumes'][0])):
         if self.user['drive']['name'] in partition:
             partition = partition.split('//')[0].strip()
             logging.info(self.trad('delete {lv}').format(lv=partition))
@@ -83,7 +83,7 @@ def delete_partitions(self):
             time.sleep(1)
 
     # Delete volume groups
-    for volume in list(set(self.volumes[1])):
+    for volume in list(set(self.system['volumes'][1])):
         if self.user['drive']['name'] in volume:
             volume = volume.split('/')[0].strip()
             logging.info(self.trad('delete {vg}').format(vg=volume))
@@ -91,7 +91,7 @@ def delete_partitions(self):
             time.sleep(1)
 
     # Delete physical volumes
-    for volume in list(set(self.volumes[0])):
+    for volume in list(set(self.system['volumes'][0])):
         if self.user['drive']['name'] in volume:
             volume = volume.strip()
             logging.info(self.trad('delete {pv}').format(pv=volume))
@@ -220,7 +220,7 @@ def set_partition_types(self):
     for partition, drive_id in zip(self.user['partitions']['name'],
                                    self.user['partitions']['drive_id']):
 
-        if (self.firmware == 'uefi') and (partition == 'boot'):
+        if (self.system['firmware'] == 'uefi') and (partition == 'boot'):
             gdisk_pipe = 't\nef00\nw'
 
         elif (self.user['drive']['lvm'] is True) and (partition == 'root'):

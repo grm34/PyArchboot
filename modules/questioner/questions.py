@@ -59,7 +59,7 @@ def question_manager(self):
         inquirer.List(
             'drive',
             message=self.trad('Select the drive to use'),
-            choices=self.drives,
+            choices=self.system['drives'],
             carousel=True),
 
         # Lvm
@@ -68,7 +68,7 @@ def question_manager(self):
             message=self.trad(
                 'Do you wish to use Logical Volume Manager (LVM)'),
             ignore=lambda user:
-            user['drive'] is None or self.firmware == 'bios'),
+            user['drive'] is None or self.system['firmware']['type'] == 'bios'),
 
         # Luks
         inquirer.Confirm(
@@ -146,10 +146,10 @@ def question_manager(self):
         inquirer.List(
             'boot_id',
             message=self.trad('Select boot partition'),
-            choices=self.partitions,
+            choices=self.system['partitions'],
             carousel=True,
             ignore=lambda user:
-            user['drive'] is not None or self.partitions is None),
+            user['drive'] is not None or self.system['partitions'] is None),
 
         # Root drive ID
         inquirer.List(
@@ -184,10 +184,10 @@ def question_manager(self):
         inquirer.List(
             'timezone',
             message=self.trad('Select timezone'),
-            choices=[self.ipinfo['timezone'],
+            choices=[self.system['ipinfo']['timezone'],
                      (self.trad('Custom timezone'),
                       None)],
-            default=self.ipinfo['timezone'],
+            default=self.system['ipinfo']['timezone'],
             carousel=True),
 
         # Custom timezone
@@ -308,14 +308,14 @@ def question_manager(self):
             message=self.trad('Do you wish to install GPU driver'),
             ignore=lambda user:
             user['desktop'] is None or
-            self.controllers == [''] or
-            self.controllers is False),
+            self.system['controllers'] == [''] or
+            self.system['controllers'] is False),
 
         # VGA Controller selection
         inquirer.List(
             'vga_controller',
             message=self.trad('Select GPU Controller'),
-            choices=self.controllers,
+            choices=self.system['controllers'],
             carousel=True,
             ignore=lambda user: user['gpu_driver'] is False),
 
