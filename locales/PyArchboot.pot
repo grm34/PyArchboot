@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-25 15:03+0200\n"
+"POT-Creation-Date: 2020-06-29 14:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,82 +17,82 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: PyArchboot.py:243
+#: PyArchboot.py:240
 msgid "installation successfull"
 msgstr ""
 
-#: PyArchboot.py:250
+#: PyArchboot.py:245
 msgid "Do you wish to reboot your computer now"
 msgstr ""
 
-#: modules/installer.py:37
+#: modules/installer.py:40
 msgid "update mirrorlist"
 msgstr ""
 
-#: modules/installer.py:59
+#: modules/installer.py:63
 msgid "install Arch Linux base system"
 msgstr ""
 
-#: modules/installer.py:88
+#: modules/installer.py:93
 msgid "create file system table"
 msgstr ""
 
-#: modules/installer.py:111
+#: modules/installer.py:117
 #, python-brace-format
 msgid "set timezone [{timezone}]"
 msgstr ""
 
-#: modules/installer.py:133
+#: modules/installer.py:140
 #, python-brace-format
 msgid "set locale [{locale}]"
 msgstr ""
 
-#: modules/installer.py:159
+#: modules/installer.py:167
 #, python-brace-format
 msgid "set virtual console [{keymap}]"
 msgstr ""
 
-#: modules/installer.py:177
+#: modules/installer.py:186
 #, python-brace-format
 msgid "set hostname [{hostname}]"
 msgstr ""
 
-#: modules/installer.py:199
+#: modules/installer.py:209
 msgid "set root password"
 msgstr ""
 
-#: modules/installer.py:224
+#: modules/installer.py:235
 #, python-brace-format
 msgid "create user {user}"
 msgstr ""
 
-#: modules/installer.py:232
+#: modules/installer.py:243
 #, python-brace-format
 msgid "set password for user {user}"
 msgstr ""
 
-#: modules/installer.py:258
+#: modules/installer.py:270
 msgid "install network"
 msgstr ""
 
-#: modules/installer.py:290
+#: modules/installer.py:304
 msgid "install grub bootloader"
 msgstr ""
 
-#: modules/installer.py:328
+#: modules/installer.py:345
 #, python-brace-format
 msgid "install {name}"
 msgstr ""
 
-#: modules/installer.py:357
+#: modules/installer.py:376
 msgid "configure systemd-boot bootloader"
 msgstr ""
 
-#: modules/installer.py:453
+#: modules/installer.py:475
 msgid "configure grub bootloader"
 msgstr ""
 
-#: modules/installer.py:512
+#: modules/installer.py:535
 #, python-brace-format
 msgid "configure {desktop}"
 msgstr ""
@@ -102,298 +102,298 @@ msgstr ""
 msgid "configure {dm}"
 msgstr ""
 
-#: modules/installer.py:727
+#: modules/installer.py:794
 #, python-brace-format
 msgid "give root privilege to the user {user}"
 msgstr ""
 
-#: modules/installer.py:736
+#: modules/installer.py:803
 #, python-brace-format
 msgid "add user {user} to all groups"
 msgstr ""
 
-#: modules/installer.py:775
+#: modules/installer.py:843
 #, python-brace-format
 msgid "install {aur} AUR Helper"
 msgstr ""
 
-#: modules/installer.py:869
+#: modules/installer.py:936
 msgid "clean pacman cache and delete unused dependencies"
 msgstr ""
 
-#: modules/partitioner.py:47
+#: modules/partitioner.py:49
 #, python-brace-format
 msgid "deactivate swap partition [{id}]"
 msgstr ""
 
-#: modules/partitioner.py:57
+#: modules/partitioner.py:59
 #, python-brace-format
 msgid "umount {id}"
 msgstr ""
 
-#: modules/partitioner.py:79
+#: modules/partitioner.py:81
 #, python-brace-format
 msgid "delete {lv}"
 msgstr ""
 
-#: modules/partitioner.py:87
+#: modules/partitioner.py:89
 #, python-brace-format
 msgid "delete {vg}"
 msgstr ""
 
-#: modules/partitioner.py:95
+#: modules/partitioner.py:97
 #, python-brace-format
 msgid "delete {pv}"
 msgstr ""
 
-#: modules/partitioner.py:103
+#: modules/partitioner.py:104
 #, python-brace-format
 msgid "delete {dos}"
 msgstr ""
 
-#: modules/partitioner.py:125
+#: modules/partitioner.py:127
 #, python-brace-format
 msgid "format {drive} [{size}]"
 msgstr ""
 
-#: modules/partitioner.py:151
+#: modules/partitioner.py:154
 #, python-brace-format
 msgid "create new {table} partition table on {drive}"
 msgstr ""
 
-#: modules/partitioner.py:182
+#: modules/partitioner.py:186
 #, python-brace-format
 msgid "create {partition} partition [{size}] on {drive}"
 msgstr ""
 
-#: modules/partitioner.py:226
+#: modules/partitioner.py:231
 #, python-brace-format
 msgid "set LVM partition type for {name} partition [{id}]"
 msgstr ""
 
-#: modules/partitioner.py:259
+#: modules/partitioner.py:265
 #, python-brace-format
 msgid "create LVM on LUKS [{id}]"
 msgstr ""
 
-#: modules/partitioner.py:270
+#: modules/partitioner.py:276
 #, python-brace-format
 msgid "create LVM Volume [{id}]"
 msgstr ""
 
-#: modules/partitioner.py:284
+#: modules/partitioner.py:290
 #, python-brace-format
 msgid "create {partition} LVM partition [{size}]"
 msgstr ""
 
-#: modules/partitioner.py:316
+#: modules/partitioner.py:323
 #, python-brace-format
 msgid "format {partition} partition [{filesystem} - {size}]"
 msgstr ""
 
-#: modules/partitioner.py:350
+#: modules/partitioner.py:358
 #, python-brace-format
 msgid "mount {partition} partition [{id}] on {mountpoint}"
 msgstr ""
 
-#: modules/questioner/questions.py:50
+#: modules/questioner/questions.py:53
 msgid "use arrow keys to select an option"
 msgstr ""
 
-#: modules/questioner/questions.py:51
+#: modules/questioner/questions.py:54
 msgid "all data will be lost !"
 msgstr ""
 
-#: modules/questioner/questions.py:58
+#: modules/questioner/questions.py:61
 msgid "Select the drive to use"
 msgstr ""
 
-#: modules/questioner/questions.py:66
+#: modules/questioner/questions.py:69
 msgid "Do you wish to use Logical Volume Manager (LVM)"
 msgstr ""
 
-#: modules/questioner/questions.py:74
+#: modules/questioner/questions.py:77
 msgid "Do you wish to encrypt the drive (LVM on LUKS)"
 msgstr ""
 
-#: modules/questioner/questions.py:80
+#: modules/questioner/questions.py:83
 msgid "Select optional partitions"
 msgstr ""
 
-#: modules/questioner/questions.py:87
+#: modules/questioner/questions.py:90
 msgid "Enter desired size for boot partition"
 msgstr ""
 
-#: modules/questioner/questions.py:96
+#: modules/questioner/questions.py:99
 msgid "Do you wish use free space for root partition"
 msgstr ""
 
-#: modules/questioner/questions.py:104
+#: modules/questioner/questions.py:107
 msgid "Enter desired size for root partition"
 msgstr ""
 
-#: modules/questioner/questions.py:114
+#: modules/questioner/questions.py:117
 msgid "Enter desired size for swap partition"
 msgstr ""
 
-#: modules/questioner/questions.py:126
+#: modules/questioner/questions.py:129
 msgid "Do you wish use free space for home partition"
 msgstr ""
 
-#: modules/questioner/questions.py:134
+#: modules/questioner/questions.py:137
 msgid "Enter desired size for home partition"
 msgstr ""
 
-#: modules/questioner/questions.py:145
+#: modules/questioner/questions.py:148
 msgid "Select boot partition"
 msgstr ""
 
-#: modules/questioner/questions.py:154
+#: modules/questioner/questions.py:157
 msgid "Select root partition"
 msgstr ""
 
-#: modules/questioner/questions.py:163
+#: modules/questioner/questions.py:166
 msgid "Select swap partition"
 msgstr ""
 
-#: modules/questioner/questions.py:173
+#: modules/questioner/questions.py:176
 msgid "Select home partition"
 msgstr ""
 
-#: modules/questioner/questions.py:183
+#: modules/questioner/questions.py:186
 msgid "Select timezone"
 msgstr ""
 
-#: modules/questioner/questions.py:185
+#: modules/questioner/questions.py:188
 msgid "Custom timezone"
 msgstr ""
 
-#: modules/questioner/questions.py:193
+#: modules/questioner/questions.py:196
 msgid "Enter desired timezone"
 msgstr ""
 
-#: modules/questioner/questions.py:201
+#: modules/questioner/questions.py:204
 msgid "Enter language code"
 msgstr ""
 
-#: modules/questioner/questions.py:208
+#: modules/questioner/questions.py:211
 msgid "Enter hostname"
 msgstr ""
 
-#: modules/questioner/questions.py:215
+#: modules/questioner/questions.py:218
 msgid "Enter password for root"
 msgstr ""
 
-#: modules/questioner/questions.py:222
+#: modules/questioner/questions.py:225
 msgid "Enter username"
 msgstr ""
 
-#: modules/questioner/questions.py:229
+#: modules/questioner/questions.py:232
 #, python-brace-format
 msgid "Enter password for user {username}"
 msgstr ""
 
-#: modules/questioner/questions.py:236
+#: modules/questioner/questions.py:239
 msgid "Select Linux Kernel"
 msgstr ""
 
-#: modules/questioner/questions.py:246
+#: modules/questioner/questions.py:249
 msgid "Do you wish to install Linux Firmware"
 msgstr ""
 
-#: modules/questioner/questions.py:252
+#: modules/questioner/questions.py:255
 msgid "Select Desktop Environment"
 msgstr ""
 
-#: modules/questioner/questions.py:280
+#: modules/questioner/questions.py:283
 msgid "Select Display Manager"
 msgstr ""
 
-#: modules/questioner/questions.py:292
+#: modules/questioner/questions.py:295
 msgid "Select LightDM Greeter"
 msgstr ""
 
-#: modules/questioner/questions.py:305
+#: modules/questioner/questions.py:308
 msgid "Do you wish to install GPU driver"
 msgstr ""
 
-#: modules/questioner/questions.py:314
+#: modules/questioner/questions.py:317
 msgid "Select GPU Controller"
 msgstr ""
 
-#: modules/questioner/questions.py:323
+#: modules/questioner/questions.py:326
 msgid "Do you wish to install Hardware video acceleration"
 msgstr ""
 
-#: modules/questioner/questions.py:329
+#: modules/questioner/questions.py:332
 msgid "Do you wish to install proprietary drivers"
 msgstr ""
 
-#: modules/questioner/questions.py:337
+#: modules/questioner/questions.py:340
 msgid "Select AUR Helper"
 msgstr ""
 
-#: modules/questioner/questions.py:351
+#: modules/questioner/questions.py:354
 #, python-brace-format
 msgid "Do you wish add to all groups user {username}"
 msgstr ""
 
-#: modules/questioner/questions.py:357
+#: modules/questioner/questions.py:360
 msgid "This action can not be cancelled"
 msgstr ""
 
-#: modules/questioner/updater.py:54
+#: modules/questioner/updater.py:58
 #, python-brace-format
 msgid "Do you wish to install {extra}"
 msgstr ""
 
-#: modules/questioner/validator.py:103
+#: modules/questioner/validator.py:107
 #, python-brace-format
 msgid "Invalid size for {name}: {response} (e.q., {eq})"
 msgstr ""
 
-#: modules/questioner/validator.py:105
+#: modules/questioner/validator.py:109
 #, python-brace-format
 msgid "Minimum [{min}] Maximum [{max}] Remaining [{free}]"
 msgstr ""
 
-#: modules/questioner/validator.py:156
+#: modules/questioner/validator.py:154
 #, python-brace-format
 msgid "Invalid timezone: {response} (e.q., Europe/Paris)"
 msgstr ""
 
-#: modules/questioner/validator.py:185
+#: modules/questioner/validator.py:181
 #, python-brace-format
 msgid "Invalid language code: {response} (e.q., fr_FR)"
 msgstr ""
 
-#: modules/questioner/validator.py:210
+#: modules/questioner/validator.py:206
 #, python-brace-format
 msgid "Invalid hostname: {response} (e.q., my-computer)"
 msgstr ""
 
-#: modules/questioner/validator.py:232
+#: modules/questioner/validator.py:228
 msgid "Password should be at least"
 msgstr ""
 
-#: modules/questioner/validator.py:233
+#: modules/questioner/validator.py:229
 msgid "8 chars long with one letter and one digit !"
 msgstr ""
 
-#: modules/questioner/validator.py:260
+#: modules/questioner/validator.py:256
 #, python-brace-format
 msgid "Invalid username: {response} (e.q., JohnDoe)"
 msgstr ""
 
-#: modules/system_manager/settings.py:62
+#: modules/system_manager/settings.py:41
 msgid "No drive detected !"
 msgstr ""
 
-#: modules/system_manager/settings.py:65
+#: modules/system_manager/settings.py:44
 msgid "Use already formatted partitions"
 msgstr ""
 
-#: modules/system_manager/settings.py:260
+#: modules/system_manager/settings.py:249
 #, python-brace-format
 msgid "No existing {arg} volume detected"
 msgstr ""

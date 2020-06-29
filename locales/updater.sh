@@ -11,7 +11,7 @@ if [[ ! -f "${APP}.pot" ]]; then
 else
     # Get translatable strings and update POT
     cd ..
-    xgettext -d ${APP} -o ${POT} ${APP}.py "${FOLDERS}" --keyword=trad
+    xgettext -d ${APP} -o ${POT} ${APP}.py ${FOLDERS} --keyword=trad
 
     # Update PO files
     for LANGUAGE in "${LANGUAGES[@]}"; do
