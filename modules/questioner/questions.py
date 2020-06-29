@@ -68,7 +68,7 @@ def question_manager(self):
             message=self.trad(
                 'Do you wish to use Logical Volume Manager (LVM)'),
             ignore=lambda user:
-            user['drive'] is None or self.system['firmware']['type'] == 'bios'),
+            user['drive'] is None or self.system['firmware'] == 'bios'),
 
         # Luks
         inquirer.Confirm(

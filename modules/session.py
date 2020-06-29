@@ -283,13 +283,13 @@ def system_session(self):
 
     # Set cpu parameters
     if 'intel' in self.system['cpu'].lower():
-        self.user['cpu'] = {'name': self.cpu,
+        self.user['cpu'] = {'name': self.system['cpu'],
                             'microcode': self.packages['microcode'][0]}
     elif 'AMD' in self.system['cpu']:
-        self.user['cpu'] = {'name': self.cpu,
+        self.user['cpu'] = {'name': self.system['cpu'],
                             'microcode': self.packages['microcode'][1]}
     else:
-        self.user['cpu'] = {'name': self.cpu, 'microcode': None}
+        self.user['cpu'] = {'name': self.system['cpu'], 'microcode': None}
 
     # Crypt and append passwords
     rootpasswd = crypt(self.user['root_passwd'], mksalt(METHOD_SHA512))

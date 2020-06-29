@@ -130,9 +130,9 @@ class PyArchboot:
         self.app = load_json_file('app.json')
         self.themes = load_json_file('themes.json')
         self.packages = load_json_file('packages.json')
-        self.trad = function()
-        self.system = dict()
-        self.user = dict()
+        self.trad = ''
+        self.system = {}
+        self.user = {}
 
     def run(self):
         """
@@ -163,7 +163,7 @@ class PyArchboot:
             self.system['keymap'] = options.keyboard[0].strip()
         self.system['mirrorlist'] = get_mirrorlist(self)
         self.system['cpu'] = get_processor()
-        self.system['firmware'], self.system['efi'] = get_firmware()
+        self.system['efi'], self.system['firmware'] = get_firmware()
         self.system['controllers'] = get_vga_controller()
         self.system['drives'] = get_drives(self)
         self.system['partitions'] = get_partitions()
@@ -177,21 +177,18 @@ class PyArchboot:
         self.user = inquirer.prompt(
             question_manager(self), theme=load_theme_from_dict(self.themes))
 
-        if self.user['answers']['confirm'] is False:
+        if self.user['confirm'] is False:
             del self
             os.execl(sys.executable, sys.executable, * sys.argv)
 
         # Set parameters of the current session
-        session_manager = [drive_session(self),
-                           partition_session(self),
-                           vga_session(self),
-                           desktop_session(self),
-                           display_session(self),
-                           system_session(self),
-                           clean_session(self)]
-
-        for session in session_manager:
-            self.user = session
+        drive_session(self)
+        partition_session(self)
+        vga_session(self)
+        desktop_session(self)
+        display_session(self)
+        system_session(self)
+        clean_session(self)
 
         # Umount user's partitions
         umount_partitions(self)
