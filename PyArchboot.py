@@ -162,7 +162,8 @@ class PyArchboot:
         """
         Add extra method to the class.
 
-        Returns:
+        Returns
+        -------
             Class name
         """
         return self.__class__.__name__
