@@ -81,6 +81,78 @@ coloredlogs.install(level='INFO',
                         'asctime': {'color': 'yellow'}})
 
 
+def session_parameters(self):
+    """Set parameters of the current session.
+
+    Submodules
+    ----------
+        session: modules/session.py
+    """
+    drive_session(self)
+    partition_session(self)
+    vga_session(self)
+    desktop_session(self)
+    display_session(self)
+    system_session(self)
+    clean_session(self)
+
+
+def run_partitioner(self):
+    """Partition the disk.
+
+    Submodules
+    ----------
+        partitioner: modules/partitioner.py
+    """
+    umount_partitions(self)
+    if self.user['drive']['name'] is not None:
+        delete_partitions(self)
+        format_drive(self)
+        new_partition_table(self)
+        create_dos_partitions(self)
+        self.user['partitions']['drive_id'] = get_partition_id(self)
+        self.user['partitions']['partuuid'] = get_partuuid(self)
+        set_partition_types(self)
+        if self.user['drive']['lvm'] is True:
+            create_lvm_partitions(self)
+            self.user['partitions']['drive_id'] = get_partition_id(self)
+            self.user['partitions']['partuuid'] = get_partuuid(self)
+        format_partitions(self)
+
+
+def run_installer(self):
+    """Install Arch Linux.
+
+    Submodules
+    ----------
+        installer: modules/installer.py
+    """
+    set_mirrorlist(self)
+    install_base_system(self)
+    create_fstab(self)
+    set_timezone(self)
+    set_locales(self)
+    set_virtual_console(self)
+    set_hostname_file(self)
+    set_root_passwd(self)
+    create_user(self)
+    install_network(self)
+    install_grub_bootloader(self)
+    install_optional_packages(self)
+    configure_systemdboot(self)
+    configure_grub(self)
+    configure_desktop_environment(self)
+    configure_display_manager(self)
+    configure_gdm(self)
+    configure_lightdm(self)
+    configure_sddm(self)
+    configure_lxdm(self)
+    configure_xdm(self)
+    set_user_privileges(self)
+    install_aur_helper(self)
+    clean_pacman_cache(self)
+
+
 class PyArchboot:
     """
     Application main object.
@@ -191,60 +263,21 @@ class PyArchboot:
             os.execl(sys.executable, sys.executable, * sys.argv)
 
         # Set parameters of the current session
-        drive_session(self)
-        partition_session(self)
-        vga_session(self)
-        desktop_session(self)
-        display_session(self)
-        system_session(self)
-        clean_session(self)
+        session_parameters(self)
 
-        # Umount user's partitions
-        umount_partitions(self)
+        # DEBUG: uncomment those lines for running tests
+        from pprint import pprint
+        pprint(self.user)
+        sys.exit(0)
 
         # Partition the disk (optional)
-        if self.user['drive']['name'] is not None:
-            delete_partitions(self)
-            format_drive(self)
-            new_partition_table(self)
-            create_dos_partitions(self)
-            self.user['partitions']['drive_id'] = get_partition_id(self)
-            self.user['partitions']['partuuid'] = get_partuuid(self)
-            set_partition_types(self)
-            if self.user['drive']['lvm'] is True:
-                create_lvm_partitions(self)
-                self.user['partitions']['drive_id'] = get_partition_id(self)
-                self.user['partitions']['partuuid'] = get_partuuid(self)
-            format_partitions(self)
+        run_partitioner(self)
 
         # Mount the partitions
         mount_partitions(self)
 
         # Install Arch Linux
-        set_mirrorlist(self)
-        install_base_system(self)
-        create_fstab(self)
-        set_timezone(self)
-        set_locales(self)
-        set_virtual_console(self)
-        set_hostname_file(self)
-        set_root_passwd(self)
-        create_user(self)
-        install_network(self)
-        install_grub_bootloader(self)
-        install_optional_packages(self)
-        configure_systemdboot(self)
-        configure_grub(self)
-        configure_desktop_environment(self)
-        configure_display_manager(self)
-        configure_gdm(self)
-        configure_lightdm(self)
-        configure_sddm(self)
-        configure_lxdm(self)
-        configure_xdm(self)
-        set_user_privileges(self)
-        install_aur_helper(self)
-        clean_pacman_cache(self)
+        run_installer(self)
 
         # Copy logs to system
         logging.info(self.trad('installation successfull'))

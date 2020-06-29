@@ -20,14 +20,7 @@ from crypt import METHOD_SHA512, crypt, mksalt
 
 
 def drive_session(self):
-    """
-    Set drive parameters of the current session.
-
-    Returns
-    -------
-        self.user: "Dictionary containing user's options"
-    """
-    # Dedicated drive
+    """Set drive parameters of the current session."""
     if self.user['drive'] is not None:
 
         # Set drive parameters
@@ -63,18 +56,9 @@ def drive_session(self):
     else:
         self.user['drive']['table'] = 'mbr'
 
-    return self.user
-
 
 def partition_session(self):
-    """
-    Set partition parameters of the current session.
-
-    Returns
-    -------
-        self.user: "Dictionary containing user's options"
-    """
-    # Dedicated drive
+    """Set partition parameters of the current session."""
     if self.user['drive']['name'] is not None:
 
         # Set root size
@@ -136,17 +120,9 @@ def partition_session(self):
         self.user['partitions']['mountpoint'].append('/mnt/home')
         self.user['partitions']['mountorder'].append(3)
 
-    return self.user
-
 
 def vga_session(self):
-    """
-    Set VGA controller parameters of the current session.
-
-    Returns
-    -------
-        self.user: "Dictionary containing user's options"
-    """
+    """Set VGA controller parameters of the current session."""
     gpu_driver = None
     if self.user['gpu_driver'] is True:
 
@@ -195,17 +171,9 @@ def vga_session(self):
     if self.user['hardvideo'] is True:
         self.user['gpu']['hardvideo'] = hardvideo
 
-    return self.user
-
 
 def desktop_session(self):
-    """
-    Set desktop environment parameters of the current session.
-
-    Returns
-    -------
-        self.user: "Dictionary containing user's options"
-    """
+    """Set desktop environment parameters of the current session."""
     self.user['desktop_environment'] = {'name': self.user['desktop']}
     if self.user['desktop'] is not None:
 
@@ -238,17 +206,9 @@ def desktop_session(self):
         self.user['desktop_environment']['startcmd'] = \
             self.packages['desktop']['startcmd'][self.user['desktop']]
 
-    return self.user
-
 
 def display_session(self):
-    """
-    Set display manager parameters of the current session.
-
-    Returns
-    -------
-        self.user: "Dictionary containing user's options"
-    """
+    """Set display manager parameters of the current session."""
     self.user['display_manager'] = {'name': self.user['display']}
     if self.user['display'] is not None:
 
@@ -268,17 +228,9 @@ def display_session(self):
             self.user['display_manager']['session'] = \
                 self.packages['greeter']['session'][self.user['greeter']]
 
-    return self.user
-
 
 def system_session(self):
-    """
-    Set system parameters of the current session.
-
-    Returns
-    -------
-        self.user: "Dictionary containing user's options"
-    """
+    """Set system parameters of the current session."""
     self.user['kernel'] = self.packages['kernel'][self.user['kernel']]
 
     # Set cpu parameters
@@ -319,17 +271,9 @@ def system_session(self):
     # Set mirrorlist
     self.user['mirrorlist'] = self.system['mirrorlist']
 
-    return self.user
-
 
 def clean_session(self):
-    """
-    Delete unused parameters of the current session.
-
-    Returns
-    -------
-        self.user: "Dictionary containing user's options"
-    """
+    """Delete unused parameters of the current session."""
     unused_entries = ['root_freespace', 'home_freespace', 'hardvideo',
                       'optional_partitions', 'boot_id', 'greeter', 'display',
                       'boot_size', 'root_size', 'swap_size', 'home_size',
@@ -339,8 +283,6 @@ def clean_session(self):
 
     for unused in unused_entries:
         del self.user[unused]
-
-    return self.user
 
 
 # PyArchboot - Python Arch Linux Installer by grm34 under Apache License 2.0
