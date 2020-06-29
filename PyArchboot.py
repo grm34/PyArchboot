@@ -158,6 +158,15 @@ class PyArchboot:
         self.system['luks'] = get_filesystem(self, 'luks')
         self.system['ntfs'] = get_filesystem(self, 'ntfs')
 
+    def __str__(self):
+        """
+        Add extra method to the the class.
+
+        Returns:
+            Class name
+        """
+        return self.__class__.__name__
+
     def run(self):
         """
         Start the application.
