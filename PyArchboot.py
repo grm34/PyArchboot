@@ -266,9 +266,9 @@ class PyArchboot:
         session_parameters(self)
 
         # DEBUG: uncomment those lines for running tests
-        from pprint import pprint
-        pprint(self.user)
-        sys.exit(0)
+        # from pprint import pprint
+        # pprint(self.user)
+        # sys.exit(0)
 
         # Partition the disk (optional)
         run_partitioner(self)
