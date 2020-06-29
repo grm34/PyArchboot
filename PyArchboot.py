@@ -238,7 +238,7 @@ class PyArchboot:
 
         # Copy logs to system
         logging.info(self.trad('installation successfull'))
-        dump_json_file('{x}.log'.format(x=self.user['username']), self.user)
+        dump_json_file('{x}.json'.format(x=self.user['username']), self.user)
         copytree('logs', '/mnt/var/log/PyArchboot', copy_function=copy2)
 
         # Reboot the system
