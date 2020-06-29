@@ -158,7 +158,7 @@ def question_manager(self):
             choices=lambda user: partitions_updater(self, user),
             carousel=True,
             ignore=lambda user:
-            user['drive'] is not None or self.partitions is None),
+            user['drive'] is not None or self.system['partitions'] is None),
 
         # Swap drive ID
         inquirer.List(
