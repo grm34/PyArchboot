@@ -32,23 +32,6 @@ The only thing you need is one USB bootable device of [Arch Linux](https://mir.a
 
 > _See help and usage for additional options `python PyArchboot.py --help`_
 
-## Project stats
-
-File|blank|comment|code
-:-------|-------:|-------:|-------:
-modules/installer.py|218|335|401
-modules/questioner/questions.py|50|69|251
-modules/partitioner.py|85|119|170
-PyArchboot.py|43|100|165
-modules/session.py|65|59|165
-modules/system_manager/settings.py|80|142|111
-modules/questioner/validator.py|64|118|81
-modules/system_manager/unix_command.py|47|92|75
-modules/app.py|46|76|74
-modules/questioner/updater.py|17|33|15
---------|--------|--------|--------
-SUM:|715|1143|1508
-
 ---
 
 [![footer](https://forthebadge.com/images/badges/built-with-love.svg)](https://github.com/grm34/PyArchboot#project-stats)
