@@ -12,9 +12,9 @@
     "title": "  Python Arch Linux Installer v0.0.1 - Script made with love by @grm34",
     "description0": "",
     "description1": "    Arch Linux is a light and fast distribution, whose concept is to",
-    "description2": "    remain as simple as possible... In the same purpose and in order",
-    "description3": "    to give free choice to the users, this script performs a minimal",
-    "description4": "    arch installation, and only required packages will be installed.",
+    "description2": "    remain as simple as possible. In the same purpose or in order to",
+    "description3": "    give free choice to the user, PyArchboot performs a minimal arch",
+    "description4": "    installation, only base with required packages will be installed",
     "description5": "    According to desired configuration, and in order to get complete",
     "description6": "    support, additional packages may be required. Apache License 2.0",
     "separator": "    ----------------------------------------------------------------\n"
