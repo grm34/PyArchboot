@@ -26,7 +26,7 @@ The only thing you need is one USB bootable device of [Arch Linux](https://mir.a
 
 > _Use **loadkeys** to set keyboard layout if needed (e.q., for azerty run `loqdkeys fr`)._
 
-**3.** Install PyArchboot _`wget tiny.cc/pysetup && sh pysetup`_
+**3.** Install PyArchboot _`curl -O tiny.cc/pyarchboot && sh pyarchboot`_
 
 **4.** Start the installer _`cd PyArchboot && python PyArchboot.py`_
 
