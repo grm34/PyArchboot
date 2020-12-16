@@ -71,7 +71,7 @@ def install_base_system(self):
 
 
 def create_fstab(self):
-    """Generate Filsystem Table.
+    """Generate Filesystem Table.
 
     Modules
     -------
@@ -94,7 +94,7 @@ def create_fstab(self):
 
 
 def set_timezone(self):
-    """Set the user's time zone.
+    """Set the user's timezone.
 
     Modules
     -------
