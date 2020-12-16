@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-"""
-Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
+"""Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,8 +22,7 @@ from inquirer.errors import ValidationError
 
 
 def size_counter(user):
-    """
-    Calculate remaining available disk space.
+    """Calculate remaining available disk space.
 
     Arguments
     ---------
@@ -49,8 +47,7 @@ def size_counter(user):
 
 
 def size_index(user):
-    """
-    Set the index of the current partition.
+    """Set the index of the current partition.
 
     Arguments
     ---------
@@ -72,8 +69,7 @@ def size_index(user):
 
 
 def size_validator(self, user, response):
-    """
-    Match regex, current partition min/max size and remaining disk space.
+    """Match regex, current partition min/max size and remaining disk space.
 
     Arguments
     ---------
@@ -131,8 +127,7 @@ def size_validator(self, user, response):
 
 
 def timezone_validator(self, response):
-    """
-    Match timezone code in libraries/timezone.
+    """Match timezone code in libraries/timezone.
 
     Arguments
     ---------
@@ -158,8 +153,7 @@ def timezone_validator(self, response):
 
 
 def language_validator(self, response):
-    """
-    Match language code in libraries/locale.
+    """Match language code in libraries/locale.
 
     Arguments
     ---------
@@ -185,8 +179,7 @@ def language_validator(self, response):
 
 
 def hostname_validator(self, response):
-    """
-    Match UNIX hostname regex.
+    """Match UNIX hostname regex.
 
     Arguments
     ---------
@@ -210,8 +203,7 @@ def hostname_validator(self, response):
 
 
 def passwd_validator(self, response):
-    """
-    Match UNIX password regex.
+    """Match UNIX password regex.
 
     Arguments
     ---------
@@ -235,8 +227,7 @@ def passwd_validator(self, response):
 
 
 def username_validator(self, response):
-    """
-    Match UNIX username regex.
+    """Match UNIX username regex.
 
     Arguments
     ---------

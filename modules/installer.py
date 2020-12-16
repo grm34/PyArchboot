@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-"""
-Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
+"""Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,8 +24,7 @@ from .system_manager.unix_command import command_output, run_command
 
 
 def set_mirrorlist(self):
-    """
-    Update pacman mirrorlist.
+    """Update pacman mirrorlist.
 
     Modules
     -------
@@ -45,8 +43,7 @@ def set_mirrorlist(self):
 
 
 def install_base_system(self):
-    """
-    Install Arch Linux base system.
+    """Install Arch Linux base system.
 
     Modules
     -------
@@ -74,8 +71,7 @@ def install_base_system(self):
 
 
 def create_fstab(self):
-    """
-    Generate Filsystem Table.
+    """Generate Filsystem Table.
 
     Modules
     -------
@@ -98,8 +94,7 @@ def create_fstab(self):
 
 
 def set_timezone(self):
-    """
-    Set the user's time zone.
+    """Set the user's time zone.
 
     Modules
     -------
@@ -125,8 +120,7 @@ def set_timezone(self):
 
 
 def set_locales(self):
-    """
-    Generate the user's locales.
+    """Generate the user's locales.
 
     Submodules
     ----------
@@ -153,8 +147,7 @@ def set_locales(self):
 
 
 def set_virtual_console(self):
-    """
-    Set the user's virtual console file.
+    """Set the user's virtual console file.
 
     Modules
     -------
@@ -172,8 +165,7 @@ def set_virtual_console(self):
 
 
 def set_hostname_file(self):
-    """
-    Set the user's hostname file.
+    """Set the user's hostname file.
 
     Modules
     -------
@@ -191,8 +183,7 @@ def set_hostname_file(self):
 
 
 def set_root_passwd(self):
-    """
-    Set the password for root.
+    """Set the password for root.
 
     Modules
     -------
@@ -214,8 +205,7 @@ def set_root_passwd(self):
 
 
 def create_user(self):
-    """
-    Create new user.
+    """Create new UNIX user.
 
     Modules
     -------
@@ -251,8 +241,7 @@ def create_user(self):
 
 
 def install_network(self):
-    """
-    Install the network.
+    """Install the network.
 
     Modules
     -------
@@ -278,8 +267,7 @@ def install_network(self):
 
 
 def install_grub_bootloader(self):
-    """
-    Install grub bootloader.
+    """Install grub bootloader.
 
     Modules
     -------
@@ -309,8 +297,7 @@ def install_grub_bootloader(self):
 
 
 def install_optional_packages(self):
-    """
-    Install optional packages.
+    """Install optional packages.
 
     Submodules
     ----------
@@ -350,8 +337,7 @@ def install_optional_packages(self):
 
 
 def configure_systemdboot(self):
-    """
-    Configure systemd-boot bootloader.
+    """Configure systemd-boot bootloader.
 
     Modules
     -------
@@ -449,8 +435,7 @@ def configure_systemdboot(self):
 
 
 def configure_grub(self):
-    """
-    Configure grub bootlader.
+    """Configure grub bootlader.
 
     Modules
     -------
@@ -512,8 +497,7 @@ def configure_grub(self):
 
 
 def configure_desktop_environment(self):
-    """
-    Configure the desktop environment.
+    """Configure the desktop environment.
 
     Modules
     -------
@@ -571,8 +555,7 @@ def configure_desktop_environment(self):
 
 
 def configure_display_manager(self):
-    """
-    Configure the display manager.
+    """Configure the display manager.
 
     Modules
     -------
@@ -602,8 +585,7 @@ def configure_display_manager(self):
 
 
 def configure_gdm(self):
-    """
-    Confgure GDM display manager.
+    """Confgure GDM display manager.
 
     Modules
     -------
@@ -620,8 +602,7 @@ def configure_gdm(self):
 
 
 def configure_lightdm(self):
-    """
-    Confgure LightDM display manager.
+    """Confgure LightDM display manager.
 
     Modules
     -------
@@ -659,8 +640,7 @@ def configure_lightdm(self):
 
 
 def configure_sddm(self):
-    """
-    Confgure SDDM display manager.
+    """Confgure SDDM display manager.
 
     Modules
     -------
@@ -700,8 +680,7 @@ def configure_sddm(self):
 
 
 def configure_lxdm(self):
-    """
-    Confgure LXDM display manager.
+    """Confgure LXDM display manager.
 
     Modules
     -------
@@ -741,8 +720,7 @@ def configure_lxdm(self):
 
 
 def configure_xdm(self):
-    """
-    Confgure XDM display manager.
+    """Confgure XDM display manager.
 
     Submodules
     ----------
@@ -769,8 +747,7 @@ def configure_xdm(self):
 
 
 def set_user_privileges(self):
-    """
-    Set user's privileges.
+    """Set user's privileges.
 
     Modules
     -------
@@ -819,8 +796,7 @@ def set_user_privileges(self):
 
 
 def install_aur_helper(self):
-    """
-    Install AUR Helper.
+    """Install AUR Helper.
 
     Modules
     -------
@@ -912,8 +888,7 @@ def install_aur_helper(self):
 
 
 def clean_pacman_cache(self):
-    """
-    Clean pacman cache and remove unused dependencies.
+    """Clean pacman cache and remove unused dependencies.
 
     Modules
     -------

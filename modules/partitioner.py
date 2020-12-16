@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-"""
-Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
+"""Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,8 +27,7 @@ from .system_manager.unix_command import command_output, run_command
 
 
 def umount_partitions(self):
-    """
-    Umount user's existing partitions.
+    """Umount user's existing partitions.
 
     Modules
     -------
@@ -62,8 +60,7 @@ def umount_partitions(self):
 
 
 def delete_partitions(self):
-    """
-    Delete existing partitions of the user's selected drive.
+    """Delete existing partitions of the user's selected drive.
 
     Modules
     -------
@@ -110,8 +107,7 @@ def delete_partitions(self):
 
 
 def format_drive(self):
-    """
-    Wipe and format drive.
+    """Wipe and format drive.
 
     Modules
     -------
@@ -139,8 +135,7 @@ def format_drive(self):
 
 
 def new_partition_table(self):
-    """
-    Create new partition table on user's selected drive.
+    """Create new partition table on user's selected drive.
 
     Modules
     -------
@@ -166,8 +161,7 @@ def new_partition_table(self):
 
 
 def create_dos_partitions(self):
-    """
-    Create dos partition on user's selected drive.
+    """Create dos partition on user's selected drive.
 
     Modules
     -------
@@ -205,8 +199,7 @@ def create_dos_partitions(self):
 
 
 def set_partition_types(self):
-    """
-    Set type of user's dos partitions.
+    """Set type of user's dos partitions.
 
     Modules
     -------
@@ -240,8 +233,7 @@ def set_partition_types(self):
 
 
 def create_lvm_partitions(self):
-    """
-    Create LVM partitions on user's selected drive.
+    """Create LVM partitions on user's selected drive.
 
     Modules
     -------
@@ -302,8 +294,7 @@ def create_lvm_partitions(self):
 
 
 def format_partitions(self):
-    """
-    Format created partitions of user's selected drive.
+    """Format created partitions of user's selected drive.
 
     Modules
     -------
@@ -335,8 +326,7 @@ def format_partitions(self):
 
 
 def mount_partitions(self):
-    """
-    Mount the partitions and activate SWAP.
+    """Mount the partitions and activate SWAP.
 
     Modules
     -------

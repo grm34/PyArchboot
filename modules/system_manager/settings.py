@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-"""
-Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
+"""Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,8 +23,7 @@ from .unix_command import api_json_ouput, command_output
 
 
 def get_drives(self):
-    """
-    Get user's available drives.
+    """Get user's available drives.
 
     Submodules
     ----------
@@ -47,8 +45,7 @@ def get_drives(self):
 
 
 def get_partitions():
-    """
-    Get user's available partitions.
+    """Get user's available partitions.
 
     Submodules
     ----------
@@ -69,8 +66,7 @@ def get_partitions():
 
 
 def get_partition_id(self):
-    """
-    Get the partition drive id of the user's selected drive.
+    """Get the partition drive id of the user's selected drive.
 
     Submodules
     ----------
@@ -92,8 +88,7 @@ def get_partition_id(self):
 
 
 def get_partuuid(self):
-    """
-    Get partitions PARTUUID.
+    """Get partitions PARTUUID.
 
     Submodules
     ----------
@@ -115,8 +110,7 @@ def get_partuuid(self):
 
 
 def get_mountpoints():
-    """
-    Get mountpoints of existing partitions.
+    """Get mountpoints of existing partitions.
 
     Submodules
     ----------
@@ -135,8 +129,7 @@ def get_mountpoints():
 
 
 def get_volumes():
-    """
-    Get existing LVM volumes.
+    """Get existing LVM volumes.
 
     Submodules
     ----------
@@ -161,8 +154,7 @@ def get_volumes():
 
 
 def get_swap():
-    """
-    Get existing mountpoints of swap volumes.
+    """Get existing mountpoints of swap volumes.
 
     Submodules
     ----------
@@ -181,8 +173,7 @@ def get_swap():
 
 
 def get_processor():
-    """
-    Get user's processor.
+    """Get user's processor.
 
     Modules
     -------
@@ -206,8 +197,7 @@ def get_processor():
 
 
 def get_vga_controller():
-    """
-    Get user's available VGA controllers.
+    """Get user's available VGA controllers.
 
     Submodules
     ----------
@@ -228,8 +218,7 @@ def get_vga_controller():
 
 
 def get_filesystem(self, arg):
-    """
-    Check if a filesystem is used by a volume or a partition.
+    """Check if a filesystem is used by a volume or a partition.
 
     Used to check if user as ntfs, lvm or encrypted volumes to get thoses
     volumes supported by the system (by installing the required packages)
@@ -280,8 +269,7 @@ def get_firmware():
 
 
 def get_ipinfo():
-    """
-    Get user's IP address data.
+    """Get user's IP address data.
 
     Submodules
     ----------
@@ -299,8 +287,7 @@ def get_ipinfo():
 
 
 def get_mirrorlist(self):
-    """
-    Get user's fastest mirrors (corresponding to user's country).
+    """Get user's fastest mirrors (corresponding to user's country).
 
     Modules
     -------

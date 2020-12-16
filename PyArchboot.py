@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-"""
-Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
+"""Copyright 2020 Jeremy Pardo @grm34 https://github.com/grm34.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -159,14 +158,7 @@ def run_installer(self):
 
 
 class PyArchboot:
-    """
-    Application main object.
-
-    Arch Linux is a light and fast distribution whose concept is to remain as
-    simple as possible. In the same purpose and in order to give free choice
-    to the users, this script performs a minimal arch installation, and only
-    required packages will be installed. According to desired configuration
-    and in order to get complete support additional packages may be required.
+    """Application main object.
 
     Project structure
     -----------------
@@ -192,8 +184,7 @@ class PyArchboot:
     """
 
     def __init__(self):
-        """
-        Set main class instance.
+        """Set main class instance.
 
         Initialize
         ----------
@@ -236,8 +227,7 @@ class PyArchboot:
         self.system['ntfs'] = get_filesystem(self, 'ntfs')
 
     def __str__(self):
-        """
-        Add extra method to the class.
+        """Add extra method to the class.
 
         Returns
         -------
