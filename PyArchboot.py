@@ -292,12 +292,15 @@ class PyArchboot:
 
 
 if __name__ == '__main__':
+
+    # Prevent non root user
     if not os.geteuid() == 0:
         sys.exit(colored(
             'ERROR: This script must be run as root !',
             'red',
             attrs=['bold']))
 
+    # Prevent wrong path
     elif os.path.isdir('modules') is False:
         sys.exit(colored(
             'ERROR: This script must be run from /PyArchboot folder !',
