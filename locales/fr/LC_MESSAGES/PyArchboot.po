@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyArchboot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-29 14:15+0200\n"
+"POT-Creation-Date: 2020-12-16 14:38+0100\n"
 "PO-Revision-Date: 2020-06-25 15:09+0200\n"
 "Last-Translator: Jeremy Pardo jerem.pardo@tutanota.com\n"
 "Language-Team: PyArchboot\n"
@@ -26,11 +26,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.3\n"
 
-#: PyArchboot.py:240
-msgid "installation successfull"
+#: PyArchboot.py:288
+#, fuzzy
+msgid "installation successful"
 msgstr "installation réussie"
 
-#: PyArchboot.py:245
+#: PyArchboot.py:293
 msgid "Do you wish to reboot your computer now"
 msgstr "Voulez-vous redémarrer l'ordinateur maintenant"
 

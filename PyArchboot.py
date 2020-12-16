@@ -201,7 +201,7 @@ class PyArchboot:
             self.theme: "Dictionary containing application theme"
             self.packages: "Dictionary containing Arch Linux packages"
             self.trad: "Function to translate strings"
-            self.user: "Dictionary to store system settings"
+            self.system: "Dictionary to store system settings"
             self.user: "Dictionary to store user's session parameters"
         """
         self.app = load_json_file('app.json')
@@ -285,7 +285,7 @@ class PyArchboot:
         run_installer(self)
 
         # Copy logs to system
-        logging.info(self.trad('installation successfull'))
+        logging.info(self.trad('installation successful'))
         dump_json_file('{x}.json'.format(x=self.user['username']), self.user)
         copytree('logs', '/mnt/var/log/PyArchboot', copy_function=copy2)
 
