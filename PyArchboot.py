@@ -54,7 +54,12 @@ from modules.system_manager.settings import (get_drives, get_filesystem,
                                              get_partition_id, get_partitions,
                                              get_partuuid, get_processor,
                                              get_vga_controller, get_volumes)
-from modules.system_manager.unix_command import dump_json_file, load_json_file
+from modules.system_manager.unix_command import (run_command, dump_json_file,
+                                                 load_json_file)
+
+# Create logs folder
+if os.path.isdir('logs') is False:
+    run_command('mkdir logs')
 
 # Create a StreamHandler wich write to sys.stderr
 LEVEL = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
