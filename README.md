@@ -20,7 +20,7 @@ The only thing you need is one USB bootable device of [Arch Linux](https://mir.a
 
 ## Help and usage
 
-🚨 PyArchboot is now public but still debugging !
+🚨 **PyArchboot is now public but still debugging !**
 
 **1.** Reboot computer, open Boot Selection Menu and boot on the USB device
 
