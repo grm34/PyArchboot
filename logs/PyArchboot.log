@@ -1,7 +1,7 @@
-2020-12-16 00:14:44,850 [DEBUG] /usr/lib/python3.9/site-packages/urllib3/connectionpool.py:939 [_new_conn] Starting new HTTPS connection (1): ipinfo.io:443
-2020-12-16 00:14:45,296 [DEBUG] /usr/lib/python3.9/site-packages/urllib3/connectionpool.py:433 [_make_request] https://ipinfo.io:443 "GET /?token=26d03faada92e8 HTTP/1.1" 200 None
-2020-12-16 00:14:46,264 [DEBUG] /home/luna/git/PyArchboot/modules/system_manager/unix_command.py:133 [command_output] No existing lvm volume detected
-2020-12-16 00:14:46,293 [DEBUG] /home/luna/git/PyArchboot/modules/system_manager/unix_command.py:133 [command_output] No existing luks volume detected
-2020-12-16 00:14:46,326 [DEBUG] /home/luna/git/PyArchboot/modules/system_manager/unix_command.py:133 [command_output] No existing ntfs volume detected
-2020-12-16 00:14:46,334 [INFO] /home/luna/git/PyArchboot/modules/questioner/questions.py:53 [question_manager] use arrow keys to select an option
-2020-12-16 00:14:46,337 [WARNING] /home/luna/git/PyArchboot/modules/questioner/questions.py:54 [question_manager] all data will be lost !
+2020-12-16 14:11:24,301 [DEBUG] /usr/lib/python3.9/site-packages/urllib3/connectionpool.py:939 [_new_conn] Starting new HTTPS connection (1): ipinfo.io:443
+2020-12-16 14:11:24,786 [DEBUG] /usr/lib/python3.9/site-packages/urllib3/connectionpool.py:433 [_make_request] https://ipinfo.io:443 "GET /?token=26d03faada92e8 HTTP/1.1" 200 None
+2020-12-16 14:11:26,018 [DEBUG] /home/luna/git/PyArchboot/modules/system_manager/unix_command.py:133 [command_output] Aucun volume lvm existant détecté
+2020-12-16 14:11:26,048 [DEBUG] /home/luna/git/PyArchboot/modules/system_manager/unix_command.py:133 [command_output] Aucun volume luks existant détecté
+2020-12-16 14:11:26,080 [DEBUG] /home/luna/git/PyArchboot/modules/system_manager/unix_command.py:133 [command_output] Aucun volume ntfs existant détecté
+2020-12-16 14:11:26,088 [INFO] /home/luna/git/PyArchboot/modules/questioner/questions.py:53 [question_manager] utilisez les flèches du clavier pour sélectionner une option
+2020-12-16 14:11:26,091 [WARNING] /home/luna/git/PyArchboot/modules/questioner/questions.py:54 [question_manager] toutes les données seront perdues !
