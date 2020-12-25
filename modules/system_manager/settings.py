@@ -301,7 +301,7 @@ def get_mirrorlist(self):
     -------
         "String containing the list of the mirrors"
     """
-    url_base = 'https://www.archlinux.org/mirrorlist/?country='
+    url_base = 'https://archlinux.org/mirrorlist/?country='
     url_args = '{code}&use_mirror_status=on'.format(
         code=self.system['ipinfo']['country'].upper())
 
