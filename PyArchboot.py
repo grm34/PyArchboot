@@ -56,34 +56,6 @@ from modules.system_manager.settings import (get_drives, get_filesystem,
 from modules.system_manager.unix_command import (run_command, dump_json_file,
                                                  load_json_file)
 
-# Create logs folder
-if os.path.isdir('logs') is False:
-    run_command('mkdir logs')
-
-# Create a StreamHandler wich write to sys.stderr
-LEVEL = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
-MESSAGE = '{level} %(message)s'.format(level=LEVEL)
-logging.basicConfig(filename='logs/PyArchboot.log',
-                    level=logging.DEBUG,
-                    filemode='w',
-                    format=MESSAGE)
-
-# Create a logger for terminal output
-console = logging.getLogger()
-coloredlogs.install(level='INFO',
-                    logger=console,
-                    datefmt='%H:%M:%S',
-                    fmt='[%(asctime)s] %(levelname)s > %(message)s',
-                    level_styles={
-                        'critical': {'bold': True, 'color': 'red'},
-                        'debug': {'color': 'green'},
-                        'error': {'color': 'red'},
-                        'info': {'color': 'cyan'},
-                        'warning': {'color': 'yellow', 'bold': True}},
-                    field_styles={
-                        'levelname': {'bold': True, 'color': 'green'},
-                        'asctime': {'color': 'yellow'}})
-
 
 def session_parameters(self):
     """Set parameters of the current session.
@@ -301,10 +273,38 @@ if __name__ == '__main__':
             attrs=['bold']))
 
     # Prevent wrong path
-    elif os.path.isdir('modules') is False:
+    if os.path.isdir('modules') is False:
         sys.exit(colored(
             'ERROR: This script must be run from /PyArchboot folder !',
             'red', attrs=['bold']))
+
+    # Create logs folder
+    if os.path.isdir('logs') is False:
+        run_command('mkdir logs')
+
+    # Create a StreamHandler wich write to sys.stderr
+    LVL = '%(asctime)s [%(levelname)s] %(pathname)s:%(lineno)d [%(funcName)s]'
+    MESSAGE = '{level} %(message)s'.format(level=LVL)
+    logging.basicConfig(filename='logs/PyArchboot.log',
+                        level=logging.DEBUG,
+                        filemode='w',
+                        format=MESSAGE)
+
+    # Create a logger for terminal output
+    console = logging.getLogger()
+    coloredlogs.install(level='INFO',
+                        logger=console,
+                        datefmt='%H:%M:%S',
+                        fmt='[%(asctime)s] %(levelname)s > %(message)s',
+                        level_styles={
+                            'critical': {'bold': True, 'color': 'red'},
+                            'debug': {'color': 'green'},
+                            'error': {'color': 'red'},
+                            'info': {'color': 'cyan'},
+                            'warning': {'color': 'yellow', 'bold': True}},
+                        field_styles={
+                            'levelname': {'bold': True, 'color': 'green'},
+                            'asctime': {'color': 'yellow'}})
 
     PyArchboot().run()
 
