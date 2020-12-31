@@ -22,6 +22,8 @@ The only thing you need is one USB bootable device of [Arch Linux](https://mir.a
 
 🚨 **PyArchboot is now public but still debugging !**
 
+🚨 **Comment DEBUG lines in PyArchboot.py to test**
+
 **1.** Reboot computer, open Boot Selection Menu and boot on the USB device
 
 **2.** Select _**Boot Arch Linux (x86_64)**_ on the install menu of Arch Linux
