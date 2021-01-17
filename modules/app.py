@@ -76,8 +76,9 @@ def app_helper(self):
     """
     parser = argparse.ArgumentParser(
         prog=colored(self.app['name'], 'green', attrs=['bold']),
-        description=colored(self.app['title'], 'white', attrs=['bold']),
-        usage=colored(self.app['usage'], 'grey', 'on_cyan'),
+        description=colored(
+            self.app['title'].split(' - ')[0], 'cyan', attrs=['bold']),
+        usage=colored(self.app['usage'], 'red', 'on_white', attrs=['blink']),
         epilog=colored(
             'More information at {url}'
             .format(url=colored(self.app['url'], 'cyan', attrs=['bold'])),
