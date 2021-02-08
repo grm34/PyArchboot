@@ -42,8 +42,8 @@ def drive_session(self):
         # Set drive parameters
         self.user['drive'] = {'name': None,
                               'boot': boot,
-                              'lvm': self.lvm,
-                              'luks': self.luks}
+                              'lvm': self.system['lvm'],
+                              'luks': self.system['luks']}
 
     # Append LVM packages
     if (self.user['lvm'] is True) or (self.system['lvm'] is True):
